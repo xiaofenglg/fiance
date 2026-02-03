@@ -36,7 +36,10 @@ from openpyxl.utils import get_column_letter
 import logging
 import warnings
 import ctypes
-from nav_db_excel import NavDBReader
+
+from aifinance_lib.database import Database
+from aifinance_lib.strategy.data_loader import load_prepared_data
+
 # V13: 使用统一费率引擎 (Single Source of Truth)
 import fee_engine
 from fee_engine import (
@@ -701,63 +704,6 @@ class ForwardPredictor:
         return False, None
 
 
-def 智能合并数据(df, date_cols, bank_name):
-    """合并有代码行和无代码行的数据"""
-    有代码df = df[df['产品代码'].notna()].copy()
-    无代码df = df[df['产品代码'].isna()].copy()
-
-    if len(无代码df) == 0:
-        return 有代码df
-
-    有代码净值 = 有代码df[date_cols].apply(pd.to_numeric, errors='coerce')
-    无代码净值 = 无代码df[date_cols].apply(pd.to_numeric, errors='coerce')
-
-    重叠日期 = [d for d in date_cols
-               if 有代码净值[d].notna().sum() > 0 and 无代码净值[d].notna().sum() > 0]
-
-    if len(重叠日期) < 3:
-        return 有代码df
-
-    匹配日期 = 重叠日期[-20:] if len(重叠日期) > 20 else 重叠日期
-    匹配索引 = {}
-
-    for idx, row in 有代码df.iterrows():
-        key_vals = []
-        for d in 匹配日期:
-            val = row.get(d)
-            if pd.notna(val):
-                try:
-                    key_vals.append(str(round(float(val), 4)))
-                except:
-                    pass
-        if len(key_vals) >= 3:
-            匹配索引['|'.join(key_vals)] = idx
-
-    结果字典 = {idx: row.to_dict() for idx, row in 有代码df.iterrows()}
-    matched = 0
-
-    for idx, row in 无代码df.iterrows():
-        key_vals = []
-        for d in 匹配日期:
-            val = row.get(d)
-            if pd.notna(val):
-                try:
-                    key_vals.append(str(round(float(val), 4)))
-                except:
-                    pass
-        if len(key_vals) >= 3:
-            key = '|'.join(key_vals)
-            if key in 匹配索引:
-                orig_idx = 匹配索引[key]
-                for d in date_cols:
-                    if pd.notna(row.get(d)):
-                        结果字典[orig_idx][d] = row[d]
-                matched += 1
-
-    logger.info(f"    数据合并: {matched}行")
-    return pd.DataFrame(list(结果字典.values()))
-
-
 # ============================================================
 # 高成功率产品库（带缓存）
 # ============================================================
@@ -966,24 +912,24 @@ def 构建高成功率产品库(强制刷新=False):
 
     logger.info("开始构建高成功率产品库...")
 
-    db_reader = NavDBReader()
+    with Database() as db:
+        bank_names = db.get_bank_names()
+    
     产品库 = []
     潜力观察池 = []
 
-    for sheet in db_reader.sheet_names:
-        logger.info(f"  分析 [{sheet}]...")
-
-        df = db_reader.read_sheet(sheet)
-        df.columns = [str(c).strip() for c in df.columns]
-
-        if 'level_0' in df.columns:
-            df = df.rename(columns={'level_0': '产品代码', 'level_1': '产品名称'})
-
+    for bank_name in bank_names:
+        logger.info(f"  分析 [{bank_name}]...")
+        
+        df = load_prepared_data(bank_name)
+        
+        if df.empty:
+            continue
+            
         date_cols = sorted([c for c in df.columns if is_date_col(c)])
         if len(date_cols) < 10:
             continue
 
-        df = 智能合并数据(df, date_cols, sheet)
         if len(df) == 0:
             continue
 
@@ -1169,7 +1115,6 @@ def 扫描实时机会(产品库, 潜力观察池=None, 释放规律=None):
     """在高成功率产品和潜力观察池中扫描实时交易机会"""
     logger.info("扫描实时交易机会...")
 
-    db_reader = NavDBReader()
     实时机会 = []
 
     # 按银行分组处理（合并正式库和观察池）
@@ -1192,24 +1137,20 @@ def 扫描实时机会(产品库, 潜力观察池=None, 释放规律=None):
                 产品库_by_bank[bank][p['产品代码']] = p
                 观察池代码集.add(p['产品代码'])
 
-    for sheet in db_reader.sheet_names:
-        if sheet not in 产品库_by_bank:
-            continue
-
-        bank_products = 产品库_by_bank[sheet]
+    for bank_name in 产品库_by_bank.keys():
+        bank_products = 产品库_by_bank[bank_name]
         正式数 = sum(1 for c in bank_products if c not in 观察池代码集)
         观察数 = sum(1 for c in bank_products if c in 观察池代码集)
-        logger.info(f"  扫描 [{sheet}] ({正式数}个正式+{观察数}个观察池产品)...")
+        logger.info(f"  扫描 [{bank_name}] ({正式数}个正式+{观察数}个观察池产品)...")
 
-        df = db_reader.read_sheet(sheet)
-        df.columns = [str(c).strip() for c in df.columns]
-
-        if 'level_0' in df.columns:
-            df = df.rename(columns={'level_0': '产品代码', 'level_1': '产品名称'})
+        df = load_prepared_data(bank_name)
+        if df.empty:
+            continue
 
         date_cols = sorted([c for c in df.columns if is_date_col(c)])
-        df = 智能合并数据(df, date_cols, sheet)
-
+        if not date_cols:
+            continue
+            
         最新日期 = date_cols[-1]
 
         for idx, row in df.iterrows():
@@ -1418,16 +1359,16 @@ def 学习释放规律并预测(产品库):
     learner = PatternLearner()
     predictor = ForwardPredictor()
 
-    # 读取数据并学习规律 — 扫描全部产品(非仅产品库)
-    db_reader = NavDBReader()
     all_dates_set = set()
     patterns = {}
 
-    for sheet in db_reader.sheet_names:
-        df = db_reader.read_sheet(sheet)
-        df.columns = [str(c).strip() for c in df.columns]
-        if 'level_0' in df.columns:
-            df = df.rename(columns={'level_0': '产品代码', 'level_1': '产品名称'})
+    with Database() as db:
+        bank_names = db.get_bank_names()
+
+    for bank_name in bank_names:
+        df = load_prepared_data(bank_name)
+        if df.empty:
+            continue
 
         date_cols = sorted([c for c in df.columns if is_date_col(c)])
         if len(date_cols) < 10:
@@ -1446,7 +1387,7 @@ def 学习释放规律并预测(产品库):
                 continue
 
             ret_dates = sorted(rets.keys())
-            key = (sheet, code)
+            key = (bank_name, code)
 
             # as_of_date 需在最新数据之后 (learn 内部用 d < as_of_date 过滤)
             latest = max(ret_dates) if ret_dates else datetime.now().strftime('%Y-%m-%d')
@@ -2019,28 +1960,8 @@ def 分析持仓(当前持仓, 产品库, 实时机会, 预测数据=None):
     库索引 = {p['产品代码']: p for p in 产品库}
     机会索引 = {o['产品代码']: o for o in 实时机会}
 
-    db_reader = NavDBReader()
-    # 预加载各银行收益率数据
-    银行收益 = {}
-    for sheet in db_reader.sheet_names:
-        if '银行' not in sheet:
-            continue
-        df = db_reader.read_sheet(sheet)
-        df.columns = [str(c).strip() for c in df.columns]
-        if 'level_0' in df.columns:
-            df = df.rename(columns={'level_0': '产品代码', 'level_1': '产品名称'})
-        date_cols = sorted([c for c in df.columns if is_date_col(c)])
-        df_code = df[df['产品代码'].notna()].copy()
-        nav_matrix = df_code[date_cols].apply(pd.to_numeric, errors='coerce')
-        with warnings.catch_warnings():
-            warnings.simplefilter('ignore')
-            ret_matrix = nav_matrix.pct_change(axis=1) * 365 * 100
-        银行收益[sheet] = {
-            'df': df_code,
-            'date_cols': date_cols,
-            'ret_matrix': ret_matrix
-        }
-
+    # 银行数据缓存（懒加载）
+    银行数据缓存 = {}
     持仓分析 = []
 
     for p in 当前持仓:
@@ -2066,48 +1987,64 @@ def 分析持仓(当前持仓, 产品库, 实时机会, 预测数据=None):
             '智持标记': '',
         }
 
-        # 查找该产品在净值数据库中的收益率
-        if bank in 银行收益:
-            data = 银行收益[bank]
-            df_code = data['df']
-            date_cols = data['date_cols']
-            ret_matrix = data['ret_matrix']
+        # 懒加载银行数据
+        if bank not in 银行数据缓存:
+            logger.info(f"分析持仓: 首次遇到银行 '{bank}'，从数据库加载数据...")
+            df = load_prepared_data(bank)
+            if not df.empty:
+                date_cols = sorted([c for c in df.columns if is_date_col(c)])
+                nav_matrix = df[date_cols].apply(pd.to_numeric, errors='coerce')
+                with warnings.catch_warnings():
+                    warnings.simplefilter('ignore')
+                    ret_matrix = nav_matrix.pct_change(axis=1) * 365 * 100
+                银行数据缓存[bank] = {
+                    'df': df,
+                    'date_cols': date_cols,
+                    'ret_matrix': ret_matrix
+                }
+            else:
+                银行数据缓存[bank] = None # 标记为已尝试加载但无数据
+        
+        data = 银行数据缓存.get(bank)
+        if not data:
+            持仓分析.append(分析)
+            continue
 
-            mask = df_code['产品代码'] == code
-            if mask.sum() > 0:
-                idx = df_code[mask].index[0]
+        df_code = data['df']
+        date_cols = data['date_cols']
+        ret_matrix = data['ret_matrix']
+        
+        mask = df_code['产品代码'] == code
+        if mask.sum() > 0:
+            idx = df_code[mask].index[0]
 
-                # 最新有效收益率
-                最新收益 = 0
-                for d in reversed(date_cols):
-                    v = ret_matrix.loc[idx, d] if d in ret_matrix.columns else np.nan
-                    if pd.notna(v) and v != 0:
-                        最新收益 = v
-                        break
-                分析['最新年化收益%'] = round(最新收益, 2)
+            # 最新有效收益率
+            最新收益 = 0
+            for d in reversed(date_cols):
+                v = ret_matrix.loc[idx, d] if d in ret_matrix.columns else np.nan
+                if pd.notna(v) and v != 0:
+                    最新收益 = v
+                    break
+            分析['最新年化收益%'] = round(最新收益, 2)
 
-                # 买入以来的平均收益
-                买入日str = p['首次买入日'].strftime('%Y-%m-%d')
-                买入后日期 = [d for d in date_cols if d >= 买入日str]
-                if 买入后日期:
-                    买入后收益 = []
-                    for d in 买入后日期:
-                        if d in ret_matrix.columns:
-                            v = ret_matrix.loc[idx, d]
-                            if pd.notna(v) and v != 0:
-                                买入后收益.append(v)
-                    if 买入后收益:
-                        分析['买入以来平均收益%'] = round(np.mean(买入后收益), 2)
+            # 买入以来的平均收益
+            买入日str = p['首次买入日'].strftime('%Y-%m-%d')
+            买入后日期 = [d for d in date_cols if d >= 买入日str]
+            if 买入后日期:
+                买入后收益 = []
+                for d in 买入后日期:
+                    if d in ret_matrix.columns:
+                        v = ret_matrix.loc[idx, d]
+                        if pd.notna(v) and v != 0:
+                            买入后收益.append(v)
+                if 买入后收益:
+                    分析['买入以来平均收益%'] = round(np.mean(买入后收益), 2)
 
-                分析['持仓天数'] = (datetime.now() - p['首次买入日']).days
+            分析['持仓天数'] = (datetime.now() - p['首次买入日']).days
 
         # V8.1: 闪跌止损检测 (Dynamic Trailing Stop)
         _flash_drop = False
-        if bank in 银行收益 and p['持仓状态'] == '持有中':
-            data = 银行收益[bank]
-            df_code = data['df']
-            date_cols = data['date_cols']
-            ret_matrix = data['ret_matrix']
+        if p['持仓状态'] == '持有中':
             mask = df_code['产品代码'] == code
             if mask.sum() > 0:
                 idx = df_code[mask].index[0]
