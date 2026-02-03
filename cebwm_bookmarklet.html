@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>光大理财数据提取工具</title>
+    <style>
+        body { font-family: 'Microsoft YaHei', sans-serif; max-width: 900px; margin: 50px auto; padding: 20px; }
+        h1 { color: #51225a; }
+        .step { background: #f5f5f5; padding: 15px; margin: 15px 0; border-radius: 5px; }
+        .step h3 { margin-top: 0; color: #333; }
+        .bookmarklet { display: inline-block; padding: 10px 20px; background: #51225a; color: white;
+                       text-decoration: none; border-radius: 5px; font-size: 16px; margin: 10px 0; }
+        .bookmarklet:hover { background: #6b2d75; }
+        code { background: #eee; padding: 2px 6px; border-radius: 3px; }
+        .note { color: #666; font-size: 14px; }
+        #result { background: #f0f0f0; padding: 15px; margin-top: 20px; max-height: 400px; overflow: auto; }
+        button { padding: 10px 20px; margin: 5px; cursor: pointer; }
+        .success { color: green; }
+        .error { color: red; }
+    </style>
+</head>
+<body>
+    <h1>🏦 光大理财数据提取工具</h1>
+
+    <div class="step">
+        <h3>步骤1: 添加书签</h3>
+        <p>将下面的按钮<strong>拖动</strong>到浏览器书签栏：</p>
+
+        <a class="bookmarklet" href="javascript:(function(){var s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js';document.body.appendChild(s);var d={products:[],navHistory:{}};function extractProducts(){var tables=document.querySelectorAll('table');for(var t of tables){var rows=t.querySelectorAll('tr');if(rows.length>5){for(var i=1;i<rows.length;i++){var cells=rows[i].querySelectorAll('td');if(cells.length>=10){var code=cells[1]?.textContent?.trim();if(code&&code.startsWith('EB')){d.products.push({name:cells[0]?.textContent?.trim(),code:code,startAmount:cells[2]?.textContent?.trim(),unitNav:cells[3]?.textContent?.trim(),totalNav:cells[4]?.textContent?.trim(),assetNav:cells[5]?.textContent?.trim(),monthChange:cells[6]?.textContent?.trim(),yearChange:cells[7]?.textContent?.trim(),totalChange:cells[8]?.textContent?.trim(),risk:cells[9]?.textContent?.trim()});}}}}}return d.products.length;}function extractNav(){var code=document.querySelector('title')?.textContent?.match(/EB\\d+/)?.[0]||'unknown';var navs=[];var text=document.body.innerText;var matches=text.matchAll(/(\\d{4}-\\d{2}-\\d{2})\\s+([\\d.]+)\\s+([\\d.]+)/g);for(var m of matches){navs.push({date:m[1],unitNav:m[2],totalNav:m[3]});}if(navs.length>0){d.navHistory[code]=navs;}return navs.length;}var count=0;if(location.href.includes('grlc/index')){count=extractProducts();alert('提取了 '+count+' 个产品!\\n\\n请点击每个产品进入详情页，再次点击书签提取净值。');}else if(location.href.includes('lcxx/lccp')){count=extractNav();alert('提取了 '+count+' 条净值记录!');}var existing=localStorage.getItem('cebwm_data');if(existing){try{var old=JSON.parse(existing);d.products=[...old.products,...d.products];d.navHistory={...old.navHistory,...d.navHistory};}catch(e){}}localStorage.setItem('cebwm_data',JSON.stringify(d));console.log('数据已保存',d);})();">📊 提取光大数据</a>
+
+        <p class="note">如果无法拖动，请右键点击 → 添加到书签</p>
+    </div>
+
+    <div class="step">
+        <h3>步骤2: 提取产品列表</h3>
+        <ol>
+            <li>打开 <a href="https://www.cebwm.com/wealth/grlc/index.html" target="_blank">光大理财产品列表页</a></li>
+            <li>等待页面完全加载</li>
+            <li>点击书签栏的 <code>📊 提取光大数据</code></li>
+            <li>翻页后再次点击书签提取更多产品</li>
+        </ol>
+    </div>
+
+    <div class="step">
+        <h3>步骤3: 提取历史净值</h3>
+        <ol>
+            <li>点击产品名称进入详情页</li>
+            <li>等待页面加载完成（看到底部的净值表格）</li>
+            <li>点击书签 <code>📊 提取光大数据</code> 提取净值</li>
+            <li>重复以上步骤提取更多产品的净值</li>
+        </ol>
+    </div>
+
+    <div class="step">
+        <h3>步骤4: 导出数据</h3>
+        <p>将下面的按钮拖到书签栏，用于导出已收集的数据：</p>
+
+        <a class="bookmarklet" href="javascript:(function(){var d=localStorage.getItem('cebwm_data');if(!d){alert('没有数据!请先使用提取书签。');return;}var data=JSON.parse(d);var csv='银行,产品名称,产品代码,起点金额,单位净值,累计净值,资产净值,近一月涨跌幅,近一年涨跌幅,成立以来涨跌幅,风险等级\\n';for(var p of data.products){csv+=['光大理财',p.name,p.code,p.startAmount,p.unitNav,p.totalNav,p.assetNav,p.monthChange,p.yearChange,p.totalChange,p.risk].join(',')+'\n';}var blob=new Blob([csv],{type:'text/csv;charset=utf-8'});var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='光大理财_产品列表.csv';a.click();var navCsv='产品代码,日期,单位净值,累计净值\\n';for(var code in data.navHistory){for(var n of data.navHistory[code]){navCsv+=[code,n.date,n.unitNav,n.totalNav].join(',')+'\n';}}var blob2=new Blob([navCsv],{type:'text/csv;charset=utf-8'});var a2=document.createElement('a');a2.href=URL.createObjectURL(blob2);a2.download='光大理财_净值历史.csv';a2.click();alert('已导出 '+data.products.length+' 个产品和 '+Object.keys(data.navHistory).length+' 个产品的净值历史!');})();">💾 导出CSV数据</a>
+
+        <a class="bookmarklet" href="javascript:(function(){localStorage.removeItem('cebwm_data');alert('数据已清空!');})();" style="background:#999;">🗑️ 清空数据</a>
+    </div>
+
+    <div class="step">
+        <h3>当前已收集的数据</h3>
+        <button onclick="showData()">查看数据</button>
+        <button onclick="clearData()">清空数据</button>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        function showData() {
+            var d = localStorage.getItem('cebwm_data');
+            var result = document.getElementById('result');
+            if (!d) {
+                result.innerHTML = '<p class="error">暂无数据。请先使用书签提取数据。</p>';
+                return;
+            }
+            var data = JSON.parse(d);
+            var html = '<p class="success">产品数: ' + data.products.length + '</p>';
+            html += '<p class="success">有净值历史的产品: ' + Object.keys(data.navHistory).length + '</p>';
+
+            html += '<h4>产品列表:</h4><ul>';
+            for (var p of data.products.slice(0, 20)) {
+                html += '<li>' + p.code + ': ' + p.name + ' (净值: ' + p.unitNav + ')</li>';
+            }
+            if (data.products.length > 20) {
+                html += '<li>... 还有 ' + (data.products.length - 20) + ' 个产品</li>';
+            }
+            html += '</ul>';
+
+            html += '<h4>净值历史:</h4><ul>';
+            for (var code in data.navHistory) {
+                html += '<li>' + code + ': ' + data.navHistory[code].length + ' 条记录</li>';
+            }
+            html += '</ul>';
+
+            result.innerHTML = html;
+        }
+
+        function clearData() {
+            if (confirm('确定要清空所有数据吗?')) {
+                localStorage.removeItem('cebwm_data');
+                document.getElementById('result').innerHTML = '<p>数据已清空</p>';
+            }
+        }
+
+        // 页面加载时显示数据
+        showData();
+    </script>
+</body>
+</html>

@@ -1,0 +1,498 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>çè´¢è¯¦æ</title>
+  <!-- START Public CSS -->
+  <link rel="stylesheet" type="text/css" href="https://www.spdb-wm.com/images/global.css">
+  <!-- END Public CSS -->
+  <!-- START Plugin CSS -->
+  <link rel="stylesheet" type="text/css" href="https://www.spdb-wm.com/images/fiancialDetails.css" />
+  <link rel="stylesheet" type="text/css" id="swiperCss" href="https://www.spdb-wm.com/images/swiper-3.4.2.min.css" />
+  <!-- END Plugin CSS -->
+  <style>
+    #page a {
+      display: inline-block;
+      padding: 5px 10px;
+      margin: 0px 3px;
+      border: 1px solid;
+    }
+
+        .calculation_rule{
+            margin-top: 8px;
+        }
+        .calculation_rule p{
+            font-size: 16px;
+            color: #a4abb5;
+            text-align: left;
+            line-height: 30px;
+        }
+        .calculation_rule div{
+            font-size: 16px;
+            color: #a4abb5;
+            text-align: left;
+            line-height: 30px;
+        }
+        .text_center{
+            text-align: center;
+        }
+        .text_bg{
+            background-color: #eee;
+        }
+        .pack_up_more{
+            transform: rotate(-90deg) !important;
+        }
+  </style>
+  <!-- START head CSS -->
+  <meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<meta name="format-detection" content="telephone=no" />
+<!--[if lt IE 9]>
+<script src="html5shiv.min.js"></script>
+<script src="respond.min.js"></script>
+<!-- [endif]-->
+</head>
+
+<body>
+  <div class="control" id="container_fian">
+    <!-- START header -->
+    <div class="container">
+    <div class="main_body">
+        <div class="main_content">
+            <div class="header">
+                <img class="logo" style="width:220px;" src="https://www.spdb-wm.com/images/logo.png" alt="logo" />
+                <div class="phone_number">
+                    <p class="phone">
+                        <img src="https://www.spdb-wm.com/images/ic-phone.png" alt="phone" />
+                        <a href="../../index/customer/" style="color:#003CC8">400-9933-331</a>
+                    </p>
+                    <p class="time">å®¢ææ¶é´&nbsp;&nbsp;&nbsp;&nbsp;9:00-11:00/13:00-17:00</p>
+                </div>
+                <div class="container_fluid">
+                    <div class="navbar">
+                        <ul>
+			 
+			 
+                            <li class="navbar_item">
+                                <a href="https://www.spdb-wm.com/">
+                                    é¦é¡µ
+                                </a>
+                                <img src="https://www.spdb-wm.com/images/ic-sel.png" alt="line" />
+                            </li>
+                           
+			
+			 
+			
+			 
+                            <li class="navbar_item">
+                                <a href="https://www.spdb-wm.com/financialProducts/">
+                                    äº§åä¿¡æ¯æ¥è¯¢
+                                </a>
+                                <img src="https://www.spdb-wm.com/images/ic-sel.png" alt="line" />
+                            </li>
+                           
+			
+			 
+			
+			 
+                            <li class="navbar_item">
+                                <a href="https://www.spdb-wm.com/xxpl/">
+                                    ä¿¡æ¯æ«é²
+                                </a>
+                                <img src="https://www.spdb-wm.com/images/ic-sel.png" alt="line" />
+                            </li>
+                           
+			
+			 
+                            <li class="navbar_item">
+                                <a href="https://www.spdb-wm.com/investorAccompany/">
+                                    æèµéªä¼´
+                                </a>
+                                <img src="https://www.spdb-wm.com/images/ic-sel.png" alt="line" />
+                            </li>
+                           
+			
+			 
+                            <li class="navbar_item">
+                                <a href="https://www.spdb-wm.com/aboutUs/">
+                                    å³äºæä»¬
+                                </a>
+                                <img src="https://www.spdb-wm.com/images/ic-sel.png" alt="line" />
+                            </li>
+                           
+			
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="kv financialProducts_kv" style="height: 280px;">
+      <div class="banner_conrnt" v-if="titleData">
+        <p class="ba_code" v-if="titleData[2] && titleData[2].value">{{titleData[2].value}}</p>
+        <p class="na_title" v-if="titleData[1] && titleData[1].value">{{titleData[1].value}}</p>
+        <div>
+          <span class="ba_tipsone" v-if="prodTableData[2] && prodTableData[2].value">{{prodTableData[2].value}}</span>
+          <span class="ba_tipstwo" v-if="titleData[0] && titleData[0].value">{{titleData[0].value}}</span>
+        </div>
+      </div>
+    </div>
+    <!-- END header -->
+    <!-- START body -->
+    <div class="container_fian">
+      <div class="navigation">
+       <a href="../" title="é¦é¡µ">é¦é¡µ</a>   ã  <span><a href="./">äº§åä¿¡æ¯æ¥è¯¢</a></span>   ã  <span
+          class="pointer">äº§åè¯¦æ</span>
+      </div>
+      <div class="main_body">
+        <div class="main_left">
+          <div :class="{active: tabActive == 1}" @click="returnHref(1,'return1')">äº§åæ¦è§</div>
+          <div :class="{active: tabActive == 2}" @click="returnHref(2,'return2')">äº§ååå¼</div>
+          <div :class="{active: tabActive == 3}" @click="returnHref(3,'return3')">å®æ´ä¼è®¡å¹´åº¦æ¶çç</div>
+          <div :class="{active: tabActive == 4}" @click="returnHref(4,'return4')">ä¿¡æ¯æ«é²</div>
+          <div :class="{active: tabActive == 5}" @click="returnHref(5,'return5')">è¿å¾ä¸ç»©è¯´æ</div>
+        </div>
+        <div class="main_right">
+          <div class="product_overview" href="return1" ref="return1">
+            <div class="main_title">äº§åæ¦è§</div>
+            <div class="product_profit">
+              <img src="https://www.spdb-wm.com/images/ico_shouyilv.png" alt="" />
+              <span class="fit_title">æç«ä»¥æ¥å¹´åæ¶çç</span>
+              <span class="fit_number" v-if="getDStartInfo.DSTART">{{parseFloat(getDStartInfo.DSTART).toFixed(2) +
+                "%"}}</span>
+              <span class="fit_time"
+                v-if="getDStartInfo.STARTDATE || getDStartInfo.END_DATE">ï¼{{getDStartInfo.STARTDATE}}è³{{getDStartInfo.END_DATE}}ï¼</span>
+            </div>
+            <el-table :data="prodTableData" border class="custom-table" style="width: 100%; margin-top: 20px;"
+              :header-cell-style="headFirst">
+              <el-table-column prop="type" :label="productName">
+              </el-table-column>
+              <el-table-column prop="value" label="å§å">
+              </el-table-column>
+            </el-table>
+          </div>
+          <div class="unit_worth" id="unit_worth" href="return2" ref="return2">
+            <div class="main_title">äº§ååå¼</div>
+            <el-table :data="detailsData" stripe style="width: 100%; margin-top: 28px"  v-if="detailsData.length!=0">
+                            <template>
+                                <el-table-column prop="index" label="åºå·">
+                                    <template slot-scope="scope">
+                                        {{ scope.$index+1 }}
+                                    </template>
+                                </el-table-column>
+                                <el-table-column prop="ACCT_DT" label="ç»è®¡æ¥æ">
+                                </el-table-column>
+                                <el-table-column prop="YLD_7" label="ä¸æ¥æåå¹´åæ¶çç">
+                                </el-table-column>
+                                <el-table-column prop="TDY_MLLN_CPS_PRFT" label="æ¯ä¸ä»½æ¶ç">
+                                </el-table-column>
+                            </template>
+                        </el-table>
+                        <el-table :data="worthTableData" stripe style="width: 100%; margin-top: 28px" v-if="detailsData.length==0 && !isShowAll" >
+                                <el-table-column prop="index" label="åºå·">
+                                    <template slot-scope="scope">
+                                        {{ scope.$index+1 }}
+                                    </template>
+                                </el-table-column>
+                                <el-table-column prop="ISS_DATE" label="åå¼æ¥æ">
+                                </el-table-column>
+                                <el-table-column prop="NAV" label="ä»½é¢åå¼">
+                                </el-table-column>
+                                <el-table-column prop="TOT_NAV" label="ä»½é¢ç´¯è®¡åå¼">
+                                </el-table-column>
+                        </el-table>
+                        <template v-if="detailsData.length==0 && isShowAll">
+                          <el-table :data="worthTableData" stripe style="width: 100%; margin-top: 28px"  v-loading="loading">
+                                <el-table-column prop="index" label="åºå·">
+                                    <template slot-scope="scope">
+                                        {{ scope.$index+1 }}
+                                    </template>
+                                </el-table-column>
+                                <el-table-column prop="ISS_DATE" label="åå¼æ¥æ">
+                                </el-table-column>
+                                <el-table-column prop="NAV" label="ä»½é¢åå¼">
+                                </el-table-column>
+                                <el-table-column prop="TOT_NAV" label="ä»½é¢ç´¯è®¡åå¼">
+                                </el-table-column>
+                          </el-table>
+                        </template>
+ 
+            <div class="pagination"  v-if="detailsData.length!=0">
+              <el-pagination @current-change="handleCurrentChange" :current-page.sync="currentPage" :page-size="1"
+                layout="total, prev, pager, next" :total="1">
+              </el-pagination>
+            </div>
+            <div class="pagination" v-if="detailsData.length==0 && !isShowAll">
+              <el-pagination @current-change="handleCurrentChange" :current-page.sync="currentPage" :page-size="4"
+                layout="prev, pager, slot, next" :total="totalNum">
+                   <div key="1" style="display: inline-block;cursor: pointer;" @click="lookMoreData" v-if="totalNum >= 8 " >...</div>
+              </el-pagination>
+            </div>
+            <div class="pagination" v-if="detailsData.length==0 && isShowAll">
+              <el-pagination @current-change="handleCurrentChange1" :current-page.sync="currentPage" :page-size="4"
+                layout="total, prev, pager, next" :total="totalNum">
+              </el-pagination>
+            </div>
+          </div>
+          <div class="annual_income" id="annual_income" href="return3" ref="return3">
+            <div class="main_title">å®æ´ä¼è®¡å¹´åº¦æ¶çç</div>
+            <div class="echarts_conents" id="echarts_conents" style="width: 100%; height: 343px"></div>
+          </div>
+          <div class="information_disclosure" href="return4" ref="return4">
+            <div class="main_title">ä¿¡æ¯æ«é²</div>
+            <el-tabs v-model="activeName" @tab-click="handleClick">
+              <el-tab-pane label="äº§åè¯´æä¹¦" name="0101"></el-tab-pane>
+              <el-tab-pane label="é£é©æ­ç¤ºä¹¦" name="0102"></el-tab-pane>
+              <el-tab-pane label="éå®åè®®ä¹¦" name="0103"></el-tab-pane>
+              <el-tab-pane label="æèµåè®®ä¹¦" name="0104"></el-tab-pane>
+              <el-tab-pane label="æèµèæçé¡»ç¥" name="0105"></el-tab-pane>
+            </el-tabs>
+            <div class="node_list">
+              <template v-if="infoDisclosureList.length!=0 && ( activeName == '0101'  || activeName == '0102' ) ">
+                <div :class="getIndex==item ? 'active_list_info' : ''" @click="openFile(item)"
+                  v-for="(item,index) in infoDisclosureList" :key="index">
+                    <div v-if="index==0"  class="node_list_info" >
+                      <div class="node_list_info_file_name">{{item.FILENAME}}</div>
+                      <div class="node_list_info_date_time">{{formatDate(item.PUBDATE)}}</div>
+                    </div>
+                </div>
+              </template>
+              <template v-if="activeName == '0103'  || activeName == '0104'  || activeName == '0105' ">
+                <div v-if="activeName == '0103'"  >
+                    <a class="node_list_info" href="
+                          https://www.spdb-wm.com/financialProducts/cpsms/202507/P020250701623598035337.pdf
+                        " target="_BLANK">
+                      <div class="node_list_info_file_name">
+                        
+                          æµ¦é¶çè´¢æéè´£ä»»å¬å¸çè´¢äº§åéå®åè®®ä¹¦ï¼ç´éæ¸ éï¼ï¼2025å¹´3æçï¼.pdf
+                        
+                      </div>
+                      <div class="node_list_info_date_time">
+                        
+                          2025-06-30
+                        
+                      </div>
+                    </a>
+                </div>
+                <div v-if="activeName == '0104'"  >
+                    <a class="node_list_info" href="
+                          https://www.spdb-wm.com/financialProducts/XSTZ/pdf/202601/P020260112549009552918.pdf
+                        " target="_BLANK">
+                      <div class="node_list_info_file_name">
+                        
+                          æµ¦é¶çè´¢æéè´£ä»»å¬å¸çè´¢äº§åæèµåè®®ä¹¦ï¼2026å¹´1æçï¼ï¼ä¸å¼ä¸¤ä»½åæ¹ç¨å°ï¼ï¼2026å¹´1æçï¼.pdf
+                        
+                      </div>
+                      <div class="node_list_info_date_time">
+                        
+                          2025-06-30
+                        
+                      </div>
+                    </a>
+                </div>
+                <div v-if="activeName == '0105'" >
+                    <a class="node_list_info"  href="
+                          https://www.spdb-wm.com/financialProducts/XSTZ/pdf/202512/P020251231495041392459.docx
+                        " target="_BLANK">
+                      <div class="node_list_info_file_name">
+                        
+                          æµ¦é¶çè´¢æéè´£ä»»å¬å¸æèµèæçé¡»ç¥ï¼ç´éæºææèµèï¼ï¼2025å¹´7æçï¼.docx
+                        
+                      </div>
+                      <div class="node_list_info_date_time">
+                        
+                          2025-06-30
+                        
+                      </div>
+                    </a>
+                </div>
+              </template>
+              <template v-if="infoDisclosureList.length==0 && ( activeName == '0101'  || activeName == '0102' )">
+                 <div class="node_list_empty_info"><span>ææ æ°æ®</span></div>
+              </template>
+            </div>
+             <div class="pagination">
+                <el-pagination @current-change="handleCurrentXxplChange" :current-page.sync="xxplCurrentPage" :page-size="6"
+                  layout="total, prev, pager, next" :total="1">
+                </el-pagination>
+             </div>
+          </div>
+         
+          <div class="information_disclosure" href="return5" ref="return5">
+               <div class="main_title">è¿å¾ä¸ç»©è¯´æ</div>
+               <!-- è¿å¾ä¸ç»©è¯´æ -->
+                  <div class="calculation_rule">
+                        <div>1.è¿å¾ä¸ç»©è®¡ç®æ¹æ³åè¿å¾ä¸ç»©ç¸å³æ°æ®ç±æµ¦é¶çè´¢æéè´£ä»»å¬å¸æä¾ã<br/>2.çè´¢äº§åè¿å¾ä¸ç»©ä¸ä»£è¡¨å¶æªæ¥è¡¨ç°ï¼ä¸ç­äºçè´¢äº§åå®éæ¶çï¼æèµéè°¨æã</div>
+                        <div>3.ææ è®¡ç®å¬å¼è¯´æï¼</div>
+                        <div>(1)<strong>éç°äº§å</strong>çè¿1æå¹´å/è¿3æå¹´å/è¿6æå¹´å/è¿1å¹´å¹´åæ¶çç</div>
+                        <p>æææ°åå¼æ¥æï¼å³ç»è®¡ææ«ï¼åå¯¹åºæ¶é´ï¼å³ç»è®¡æåï¼åçåºé´å¹´åæ¶ççï¼èµåè´¹ï¼å¦æï¼æªè®¡å¥ã<br/>åºé´å¹´åæ¶çç(%)=ï¼ææ«ä»½é¢ç´¯è®¡åå¼-æåä»½é¢ç´¯è®¡åå¼ï¼/æååä½åå¼/åºé´å¤©æ°*365*100%ã
+                            <br/>æ³¨ï¼<br/>
+                                &nbsp;&nbsp;&nbsp;&nbsp;â  è¿1æå¹´å/è¿3æå¹´å/è¿6æå¹´å/è¿1å¹´å¹´åçç»è®¡æåæææ°åå¼æ¥æç1æå/3æå/6æå/1å¹´åæ¥æï¼å¦å½æ¥ä¸ºéä¼°å¼æ¥ãäº§åæ åå¼æ°æ®ï¼åé¡ºå»¶è³åä¸ä¸ªæåå¼æ°æ®çæ¥æã<br/>
+                                &nbsp;&nbsp;&nbsp;&nbsp;â¡ åºé´å¤©æ°ä¸ºäº§åä»ç»è®¡æåï¼ä¸å«ï¼è³ç»è®¡ææ«ï¼å«ï¼çç´¯è®¡è¿ä½å¤©æ°ã
+                            </p>
+                            <div>(2)<strong>éç°äº§å</strong>çè¿1æå¹´å/è¿3æå¹´å/è¿6æå¹´å/è¿1å¹´æ¶¨è·å¹</div>
+                            <p>æææ°åå¼æ¥æï¼å³ç»è®¡ææ«ï¼åå¯¹åºæ¶é´ï¼å³ç»è®¡æåï¼åçåºé´åå¼æ¶¨è·å¹ï¼èµåè´¹ï¼å¦æï¼æªè®¡å¥ã<br/>åºé´åå¼æ¶¨è·å¹(%)=ï¼ææ«ä»½é¢ç´¯è®¡åå¼-æåä»½é¢ç´¯è®¡åå¼ï¼/æååä½åå¼*100%ã<br/>
+                                æ³¨ï¼<br/>
+                                &nbsp;&nbsp;&nbsp;&nbsp;è¿1æå¹´å/è¿3æå¹´å/è¿6æå¹´å/è¿1å¹´åå¼æ¶¨è·å¹çç»è®¡æåæææ°åå¼æ¥æç1æå/3æå/6æå/1å¹´åæ¥æï¼å¦å½æ¥ä¸ºéä¼°å¼æ¥ãäº§åæ åå¼æ°æ®ï¼åé¡ºå»¶è³åä¸ä¸ªæåå¼æ°æ®çæ¥æã
+                            </p>
+                            <div v-if="isShowDetails">
+                                <div>(3)<strong>éç°äº§å</strong>çæç«ä»¥æ¥å¹´åæ¶çç</div>
+                                <p>æä»äº§åæç«æ¥ï¼å«ï¼å°ææ°åå¼æ¥æï¼å«ï¼ä¹é´çåºé´å¹´åæ¶ççï¼èµåè´¹ï¼å¦æï¼æªè®¡å¥ã<br/>
+                                    æ³¨ï¼<br/>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;äº§åå­ç»­æåæ°å¢æäº§åä»½é¢ç±»åçï¼ä¸ºå±ç¤ºç®çï¼è¯¥ä»½é¢ç±»åæç«ä»¥æ¥å¹´åæ¶çççè®¡ç®èµ·å§æ¶é´ä¸ºé¦ä¸ªææèµèç³è´­ä»½é¢ç¡®è®¤æåçæ¥æã
+                                </p>
+                                <div>(4)<strong>éç°äº§å</strong>çæç«ä»¥æ¥æ¶¨è·å¹</div>
+                                <p>æä»äº§åæç«æ¥ï¼å«ï¼å°ææ°åå¼æ¥æï¼å«ï¼ä¹é´çåºé´åå¼æ¶¨è·å¹ï¼èµåè´¹ï¼å¦æï¼æªè®¡å¥ã<br/>
+                                    æ³¨ï¼<br/>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;äº§åå­ç»­æåæ°å¢æäº§åä»½é¢ç±»åçï¼ä¸ºå±ç¤ºç®çï¼è¯¥ä»½é¢ç±»åæç«ä»¥æ¥åå¼æ¶¨è·å¹çè®¡ç®èµ·å§æ¶é´ä¸ºé¦ä¸ªææèµèç³è´­ä»½é¢ç¡®è®¤æåçæ¥æã
+                                </p>
+                                <div>(5)<strong>éç°äº§å</strong>çå®æ´ä¼è®¡å¹´åº¦ä¸ç»©</div>
+                                <p>æä»æå¹´åº¦1æ1æ¥ï¼å«ï¼å°å½å¹´12æ31æ¥ï¼å«ï¼ä¹é´çåºé´åå¼æ¶¨è·å¹ã</p>
+                                <div>(6)<strong>å®å¼äº§å</strong>çå¨æåä¸ç»©ï¼å¹´åæ¶ççï¼</div>
+                                <p>æä»äº§åå°é­æé¦æ¥ï¼å«ï¼å°ä¸ä¸ä¸ªå¼æ¾ææ«æ¥ï¼å«ï¼ä¹é´çåºé´å¹´åæ¶ççã<br/>
+                                    æ³¨ï¼<br/>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;â  å¯¹äºå®æå¼æ¾å¼äº§åçé¦ä¸ªå¨æï¼å°é­æé¦æ¥æäº§åæç«æ¥ï¼å¯¹äºå®æå¼æ¾å¼äº§åçéé¦ä¸ªå¨æï¼å°é­æé¦æ¥æä¸ä¸ªå¼æ¾ææ«æ¥çä¸ä¸èªç¶æ¥ã<br/>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;â¡ å¦å½åæ­£å¤äºå°é­æåï¼åå½åå¨æåºé´æä»å°é­æé¦æ¥ï¼å«ï¼å°ææ°åå¼æ¥æï¼å«ï¼ã
+                                </p>
+                                <div>(7)<strong>ç°éäº§å</strong>çä¸æ¥å¹´åæ¶çç</div>
+                                <p>æäº§åæè¿ä¸æ¥ï¼å«èåæ¥ï¼æ¶ççæç§å¤å©æ¹å¼ææç®çäº§åå¹´åæ¶ççãäº§åæç«ä¸æ»¡ä¸æ¥æ¶ä»¥å®éæ¥æ¶ççæç®å¹´æ¶ççã<br/>
+                                    æ³¨ï¼<br/>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;äº§åå­ç»­æåæ°å¢æäº§åä»½é¢ç±»åçï¼ä¸ºå±ç¤ºç®çï¼è¯¥ä»½é¢ç±»åä¸æ¥å¹´åæ¶ççä»é¦ä¸ªææèµèç³è´­ä»½é¢ç¡®è®¤æåçæ¥æï¼å«è¯¥æ¥ï¼èµ·ç®ã
+                                <div class="text_center"><img src="../images/pic_001.png" alt="" /></div>
+                                <div class="text_bg">å¶ä¸­ï¼Riä¸ºæè¿ç¬¬iä¸ªèªç¶æ¥(åæ¬è®¡ç®å½æ¥)çæ¯ä¸ä»½çè´¢è®¡åå·²å®ç°æ¶çã</div>
+                                </p>
+                                <div>(7)<strong>ç°éäº§å</strong>çæç«ä»¥æ¥å¹´åæ¶çç</div>
+                                <p>æäº§åæç«ä»¥æ¥çæ¯æ¥ï¼å«èåæ¥ï¼æ¶ççæç§å¤å©æ¹å¼ææç®çäº§åå¹´åæ¶ççã<br/>
+                                    æ³¨ï¼<br/>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;äº§åå­ç»­æåæ°å¢æäº§åä»½é¢ç±»åçï¼ä¸ºå±ç¤ºç®çï¼è¯¥ä»½é¢ç±»åæç«ä»¥æ¥å¹´åæ¶çççè®¡ç®èµ·å§æ¶é´ä¸ºé¦ä¸ªææèµèç³è´­ä»½é¢ç¡®è®¤æåçæ¥æã
+                                <div class="text_center"><img src="../images/pic_002.png" alt="" /></div>
+                                <div class="text_bg">å¶ä¸­ï¼äº§åæç«æ¥ææäº§åä»½é¢ç±»åé¦ä¸ªææèµèä»½é¢ç¡®è®¤æåçæ¥æè®°ä¸ºç¬¬1æ¥ï¼ææ è®¡ç®æ¥å½æ¥è®°ä¸ºç¬¬næ¥ãRiä¸ºç¬¬iä¸ªèªç¶æ¥çæ¯ä¸ä»½çè´¢è®¡åå·²å®ç°æ¶çã</div>
+                                </p>
+                                <div>(7)<strong>ç°éäº§å</strong>çå®æ´ä¼è®¡å¹´åº¦ä¸ç»©</div>
+                                <p>æä»æå¹´åº¦1æ1æ¥ï¼å«ï¼å°å½å¹´12æ31æ¥ï¼å«ï¼ä¹é´æ¯æ¥ï¼å«èåæ¥ï¼æ¶ççæç§å¤å©æ¹å¼ææç®çæ¶ççã
+                                <div class="text_center"><img src="../images/pic_003.png" alt="" /></div>
+                                <div class="text_bg">å¶ä¸­ï¼1æ1æ¥è®°ä¸ºç¬¬1æ¥ï¼12æ31æ¥è®°ä¸ºç¬¬næ¥ãRiä¸ºç¬¬iä¸ªèªç¶æ¥çæ¯ä¸ä»½çè´¢è®¡åå·²å®ç°æ¶çã</div>
+                                </p>
+                                <div>(8)<strong>ç°éäº§å</strong>çä¸ä»½æ¶ç</div>
+                                <p>ææ¯ä¸ä»½å·²å®ç°æ¶çï¼æ¯ä¸ä»½å·²å®ç°æ¶ç=å½æ¥çè´¢äº§åä»½é¢å·²å®ç°æ¶ç/å½æ¥çè´¢äº§åä»½é¢*10000ãç²¾ç¡®è³å°æ°ç¹åç¬¬4ä½ï¼å°æ°ç¹åç¬¬5ä½æªä½ã
+                                </p>
+                                <div>(9)<strong>éç°äº§å</strong>çä»å¹´ä»¥æ¥å¹´åæ¶çç</div>
+                                <p>æä»ä»å¹´1æ1æ¥ï¼å«ï¼å°ææ°åå¼æ¥æï¼å«ï¼ä¹é´çåºé´å¹´åæ¶ççï¼èµåè´¹ï¼å¦æï¼æªè®¡å¥ã
+                                </p>
+                                <div>(10)<strong>éç°äº§å</strong>çä»å¹´ä»¥æ¥æ¶¨è·å¹</div>
+                                <p>æä»ä»å¹´1æ1æ¥ï¼å«ï¼å°ææ°åå¼æ¥æï¼å«ï¼ä¹é´çåºé´åå¼æ¶¨è·å¹ï¼èµåè´¹ï¼å¦æï¼æªè®¡å¥ã</p>
+                            </div>
+                            <div @click="isShowDetails=!isShowDetails" style="text-align: center;color: rgb(0, 0, 0);cursor: pointer;display: flex;justify-content: center;align-items: center;font-size: 20px;">
+                                <span style="margin-right: 10px;">{{isShowDetails?'æ¶èµ·':'å±å¼æ´å¤'}}</span>
+                                <img style="height: 20px;width: 20px;transform: rotate(90deg);" :class="isShowDetails?'pack_up_more':''" src="../images/more_list.png" alt="" />
+                            </div>
+                            <!-- <div>ï¼äºï¼å¶ä»ææ¬</div> -->
+                        </div>
+                    </div>
+        </div>
+      </div>
+    </div>
+    <!-- END body -->
+    <!-- START footer -->
+    <div class="fixed_width">
+	<div class="main_footer">
+		<div class="footer_top">
+			<div class="content">
+				<div class="hot_logo">
+					<img src="https://www.spdb-wm.com/images/bot-logo.png" alt="hot-logo" style="width: 483px;" />
+				</div>
+				<div class="navbar_bottom">
+					<ul>
+					 
+					 
+						<li class="navbar_item">
+							<a href="https://www.spdb-wm.com/">
+								é¦é¡µ
+							</a>
+						</li>
+                     
+			         
+					 
+			         
+					 
+						<li class="navbar_item">
+							<a href="https://www.spdb-wm.com/financialProducts/">
+								äº§åä¿¡æ¯æ¥è¯¢
+							</a>
+						</li>
+                     
+			         
+					 
+			         
+					 
+						<li class="navbar_item">
+							<a href="https://www.spdb-wm.com/xxpl/">
+								ä¿¡æ¯æ«é²
+							</a>
+						</li>
+                     
+			         
+					 
+						<li class="navbar_item">
+							<a href="https://www.spdb-wm.com/investorAccompany/">
+								æèµéªä¼´
+							</a>
+						</li>
+                     
+			         
+					 
+						<li class="navbar_item">
+							<a href="https://www.spdb-wm.com/aboutUs/">
+								å³äºæä»¬
+							</a>
+						</li>
+                     
+			         
+					</ul>
+				</div>
+				<div class="ewm">
+					<img src="https://www.spdb-wm.com/images/ewm1.png" alt="äºç»´ç " />
+					<span>å³æ³¨å¬ä¼å·</span>
+				</div>
+			</div>
+		</div>
+		<div class="footer_bottom">
+			<div class="content">
+				<p class="left">
+					<img src="https://www.spdb-wm.com/images/registerSystemInfo.png" alt="icon" />
+					<span><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=31011502019342" style="color: #FFFFFF;">æ²ªå¬ç½å®å¤ 31011502019342</a></span>
+					<span><a href="https://beian.miit.gov.cn" style="color: #FFFFFF;">æ²ªICPå¤2022026330å·-1</a></span>
+					<span>çæææï¼æµ¦é¶çè´¢</span>
+					<span>Copyright SPDB Wealth Management Co., Ltd.</span>
+				</p>
+				<p class="right">
+					<span>å¬å¸å°åï¼ä¸æµ·å¸æµ¦ä¸æ°åºé¶åè·¯88å·</span>
+					<span>é®ç¼ï¼200120</span>
+				</p>
+			</div>
+		</div>
+	</div>
+</div>
+    <!-- END footer -->
+  </div>
+  <!-- START Public JS -->
+  <script src="https://www.spdb-wm.com/images/jquery.min.js"></script>
+<script src="https://www.spdb-wm.com/images/global.js">
+  <!-- END Public JS -->
+  <!-- START Plugin JS -->
+  <script type="text/javascript" charset="utf-8" src="https://www.spdb-wm.com/images/jquery.min.js"></script>
+  <script type="text/javascript" charset="utf-8" src="https://www.spdb-wm.com/images/jquery-1.8.3.min.js"></script>
+  <link rel="stylesheet" href="https://www.spdb-wm.com/images/element-ui/theme-chalk/index.css">
+  <script type="text/javascript" charset="utf-8" src="https://www.spdb-wm.com/images/laypage.js"></script>
+  <script type="text/javascript" charset="utf-8" src="https://www.spdb-wm.com/images/vue.min.js"></script>
+  <script src="https://www.spdb-wm.com/images/element-ui/index.js"></script>
+  <script src="https://www.spdb-wm.com/images/echarts.min.js"></script>
+  <script type="text/javascript" charset="utf-8" src="https://www.spdb-wm.com/images/fiancialDetails.js"></script>
+  <!-- END Plugin JS -->
+</body>
+
+</html>

@@ -1,0 +1,764 @@
+<html><head><link href="https://www.cebwm.com/wealth/uiFramework/huilan-jquery-ui/js/skins/default.css" rel="stylesheet" id="lhgdialoglink">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>个人理财-光大理财</title>
+<meta name="version" content="7.9.12.safe_15">
+<meta name="createDate" content="2025-11-28 17:13:34">
+<meta name="cacheclearDate" content="2025-11-27 18:14:05">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="keywords" content="">
+<meta name="description" content="个人理财">
+<link rel="stylesheet" type="text/css" href="/wealth/uiFramework/huilan-jquery-ui/css/huilan-jquery-ui.css">
+
+<!--[if lt IE 9]><script r='m'>document.createElement("section")</script><![endif]--><script type="text/javascript" src="/wealth/uiFramework/huilan-jquery-ui/js/huilan-jquery-ui.js?self=true&amp;skin=default&amp;zlNaXnal=2a9521"></script><link rel="stylesheet" href="https://www.cebwm.com/wealth/uiFramework/huilan-jquery-ui/js/skin/layer.css" id="layui_layer_skinlayercss" style="">
+  <link rel="stylesheet" type="text/css" href="/wealth/template/wealth.css?timestamp=1573090553000">
+  <script type="text/javascript" src="/wealth/template/wealth.js?timestamp=1573090554000&amp;zlNaXnal=2a9521"></script>
+ </head>
+ <body><div style="left: 0px; top: 0px; visibility: hidden; position: absolute;" class=""><table class="ui_border"><tbody><tr><td class="ui_lt"></td><td class="ui_t"></td><td class="ui_rt"></td></tr><tr><td class="ui_l"></td><td class="ui_c"><div class="ui_inner"><table class="ui_dialog"><tbody><tr><td colspan="2"><div class="ui_title_bar"><div class="ui_title" unselectable="on" style="cursor: move;"></div><div class="ui_title_buttons"><a class="ui_min" href="javascript:void(0);" title="最小化" datas-ts="=UK{TO" style="display: inline-block;"><b class="ui_min_b"></b></a><a class="ui_max" href="javascript:void(0);" title="最大化" datas-ts="=tC!0T" style="display: inline-block;"><b class="ui_max_b"></b></a><a class="ui_res" href="javascript:void(0);" title="还原" datas-ts="=a38L}"><b class="ui_res_b"></b><b class="ui_res_t"></b></a><a class="ui_close" href="javascript:void(0);" title="关闭(esc键)" datas-ts="=ce%(N" style="display: inline-block;">×</a></div></div></td></tr><tr><td class="ui_icon" style="display: none;"></td><td class="ui_main" style="width: auto; height: auto;"><div class="ui_content" style="padding: 10px;"></div></td></tr><tr><td colspan="2"><div class="ui_buttons" style="display: none;"></div></td></tr></tbody></table></div></td><td class="ui_r"></td></tr><tr><td class="ui_lb"></td><td class="ui_b"></td><td class="ui_rb" style="cursor: se-resize;"></td></tr></tbody></table></div>
+  <link rel="stylesheet" type="text/css" href="/wealth/template/page/finance/skin.css?timestamp=1573090554000"><div style="display:none" easysite="easysiteHiddenDiv">
+	<input id="contextPath" value="/eportal" type="hidden">
+	<input id="isOnlyUseCkeditorSourceMode" value="$isOnlyUseCkeditorSourceMode" type="hidden">
+	<input id="eprotalCurrentPageId" value="107232499" type="hidden">
+	<input id="eprotalCurrentSiteId" value="107232463" type="hidden">
+	<input id="eprotalCurrentSiteName" value="资管子门户" type="hidden">
+	<input id="eprotalCurrentSiteEnname" value="wealth" type="hidden">
+	<input id="eprotalCurrentSiteType" value="WEB" type="hidden">
+	<input id="eprotalCurrentSiteHideMaskLayer" value="no" type="hidden">
+	<input id="eprotalCurrentArticleKey" value="" type="hidden">
+	<input id="eprotalCurrentColumnId" value="" type="hidden">
+	<input id="isStaticRequest" value="yes" type="hidden">
+	<input id="isOpenStaticPageList" value="" type="hidden">
+	<input id="defaultPublishPage" value="3" type="hidden">
+	<input type="hidden" id="eportalappPortletId" value="3">
+	<input type="hidden" id="epsPortletId" value="1">
+	<input type="hidden" id="portaltoolsPortletId" value="2">
+	<script type="text/javascript" src="/wealth/uiFramework/js/counting/chanelCounting.js?zlNaXnal=2a9521"></script>
+	<input type="hidden" id="currentLoginMemberId" value="">
+	<input type="hidden" id="currentLoginMemberName" value="">
+	<input type="hidden" id="behaviourAnalysisSiteId" value=""> 
+			<input type="hidden" id="portalLastRequestUrl" value="">
+	<input type="hidden" id="easysiteParamKey" value="1764238445088">
+    <input type="hidden" id="isOpenEasysiteToken" value="true">
+</div>  <div class="wrapper"> 
+   <div class="header">
+<style>
+/*公共样式*/
+body, object, iframe, h1, h2, h3, h4, h5, h6, blockquote, a, code, em, img, q, small, strong, dd, dl, dt, li, ol, ul, fieldset, form, label, table, tbody, tr, th, td, input, textarea{font-family: 'Microsoft YaHei'; font-size:14px;}
+*{margin: 0; padding: 0;}
+h1,h2,h3,h4,h5,h6,b{font-size:100%; font-weight: normal;}
+button,input,select,textarea{font-size: 100%; outline:none;}
+a{text-decoration: none;}
+ul,ol{list-style: none;}    
+img{border: 0;}
+.fl{
+       float: left;
+}           
+.fr{
+       float: right;
+}
+.clear{
+        clear:both;
+}
+
+
+/*头部样式*/
+.body{
+     background:#fff;
+}
+.header {
+    height: 161px;
+    margin: auto;
+}
+.head_top{
+       height: 43px;
+       line-height: 43px;
+       border-bottom: 1px solid #e5e5e5;
+       margin-bottom: 20px;
+}
+.head_top_first{
+      position:relative;
+}
+.head_top_first,.head_logo_nav{
+       width:1200px;
+       margin:auto;
+}
+
+
+.lc_service{
+       overflow:hidden;
+}
+.lc_service li{
+        float:left;
+        margin:0 5px;
+        color:#888;
+}
+.lc_service a{
+        font-size: 16px;
+        color: #888;
+        padding-left:16px;
+        padding-right:18px;
+        background: url(/static/cebbank/wealth/dh_icon7.png) no-repeat right 9px;
+}
+
+.gotocebbank{
+        display: block;
+        font-size: 16px;
+        color: #888;
+}
+
+.logo img{
+        
+        height: 54px;
+}
+.head_nav{
+        overflow: hidden;
+        height: 54px;
+        line-height: 54px;
+}
+ .head_nav li{
+        float: left;
+        margin-right: 55px;
+}
+ .head_nav li:last-child{
+        margin-right: 0;
+}
+ .head_nav li a{
+        font-size: 20px;
+        color: #333;
+}
+.head_nav .nav_active a{
+        color: #51225a;
+        font-weight: bold;
+}
+
+.lc_service .ydlc{
+      background:url(/static/cebbank/wealth/pic_icon.png) no-repeat left -74px;
+}
+.lc_service .ydlc a{
+     margin-right:4px;
+}
+.lc_service .khfw{
+      background:url(/static/cebbank/wealth/pic_icon.png) no-repeat left -125px;
+      padding-left:5px;
+      margin-right:0;
+ 
+}
+.phoneApp{
+    width: 198px;
+    height: 102px;
+    border-left: 1px solid #e5e5e5;
+    border-right: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
+    border-top:1px solid #f5f5f5;
+    position: absolute;
+    right: 32px;
+    top: 43px;
+    background: #f5f5f5;
+    display:none;
+}
+.phoneApp img:first-child{
+     margin-left:15px;
+}
+.phoneApp img:last-child{
+     margin-left:5px;
+}
+.serverphone{
+    width: 92px;
+    height: 41px;
+    border-left: 1px solid #e5e5e5;
+    border-right: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
+    border-top:1px solid #f5f5f5;
+    position: absolute;
+    top: 43px;
+    right: 0px;
+    display: none;
+    background:#f5f5f5;
+}
+.serverphone span{
+    color:#333;
+    font-size: 12px;
+    background: url(/static/cebbank/wealth/pic_icon.png) no-repeat left -235px;
+    padding-left: 20px;
+    margin-left: 13px;
+    line-height:normal;
+}
+.serverphone b{
+    color: #ffae00;
+    font-size: 12px;
+    margin-left:6px;
+    
+}
+.top_search {
+        float: right;
+        height: 43px;
+        display: flex;
+        align-items: center;
+        margin-right: 8px;
+        line-height: 1;
+    }
+
+    .top_search .search_box {
+        width: 200px;
+        display: flex;
+        align-items: center;
+        box-sizing: border-box;
+        padding: 2px 5px;
+        padding-left: 20px;
+        border-radius: 20px;
+        font-size: 14px;
+        color: #888;
+        text-decoration: none;
+        background-color: #FFF;
+        border: 1px solid #e7e7e7;
+    }
+
+    .search_box .text {
+        flex: 1;
+    }
+
+    .search_box .icon {
+        display: inline-block;
+        width: 25px;
+        height: 25px;
+        border-radius: 50%;
+        background: url(/static/cebbank/wealth/search-icon.png) center no-repeat #51225a;
+        background-size: 16px;
+    }
+
+    .head_right {
+        display: flex;
+        align-items: center;
+
+    }
+
+    .head_search {
+        margin-left: 30px;
+    }
+
+    .head_search a {
+        display: block;
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        background: url(/static/cebbank/wealth/search-icon.png) center no-repeat #51225a;
+        background-size: 20px;
+    }
+</style>
+
+
+
+        <div class="head_top">
+          <div class="head_top_first">
+              <div class="fl head_left">
+                <a class="gotocebbank" href="http://www.cebbank.com" datas-ts="=QS_~C">光大银行官网</a>
+             </div>  
+             <ul class="fr lc_service">
+                <li class="ydlc">
+                <a datas-ts="=W|uc*">移动理财</a> | 
+                <div class="phoneApp">
+                    <img src="/static/cebbank/wealth/top_app.png" alt="子公司直销app">
+                    <img src="/static/cebbank/wealth/top_wechat.png" alt="光大资管微信公众号">
+                </div>
+                </li>
+                <li class="khfw">
+                    <a datas-ts="=PRPiU">客户服务</a>
+                    <div class="serverphone">
+                        <span>客服电话<br><b>400-889-5595</b></span>                       
+                    </div>
+                </li>
+             </ul>
+             <div class="top_search">
+            <a class="search_box" href="javascript: void(0);" target="_blank" datas-ts="Txan">
+                <span class="text">输入关键字搜索</span>
+                <span class="icon"></span>
+            </a>
+        </div>
+             <div class="clear"></div>
+         </div>
+       </div>
+        <div class="head_logo_nav">
+            <div class="logo fl">
+                <a href="javascript: void(0);" datas-ts="Atqv"><img src="/static/cebbank/wealth/logo_gdlc.png" alt="光大理财"></a>
+            </div>
+        
+            <div class="fr head_right">
+                <ul class="head_nav">
+                <li>
+                    <a href="javascript: void(0);" target="_parent" datas-ts="5tAs">首页</a>
+                </li>
+                <li class="nav_active">
+                    <a href="javascript: void(0);" target="_parent" datas-ts="CtG1">个人理财</a>
+                </li>
+                <li>
+                    <a href="javascript: void(0);" target="_parent" datas-ts="ftad">机构理财</a>
+                </li>
+                <li>
+                    <a href="javascript: void(0);" target="_parent" datas-ts="nhq8">资管研究院</a>
+                </li>
+                <li>
+                    <a href="javascript: void(0);" target="_parent" datas-ts="ehAj">关于我们</a>
+                </li>
+                </ul>
+            </div>
+            <div class="clear"></div>
+        </div>
+
+
+<script>$(_$k4('ghv29MDW')).hover(function(){$(this).find(_$k4('shvrLMCy2AUra')).stop().slideToggle(300);});$(_$k4('uhbzLRvQ')).hover(function(){$(this).find(_$k4('7hvJ2QvR2QvrLMCy2')).stop().slideToggle(300);});</script>   </div> 
+   <div class="banner column" id="bannerfirst" runat="server" name="通栏广告">
+ <div class="portlet" id="7f78860e137241268a707b2d80b30bfb" pagemoduleid="878dededed494aa3865c9564852c5e7f">
+ <div align="left" class="portlet-header" style="display: none;"> 
+  <span id="menu">
+  </span> 
+  <div id="submenu7f78860e137241268a707b2d80b30bfb" class="shadow dn"> 
+   <ul class="float_list_ul">
+   </ul> 
+  </div> 
+ </div> 
+ <div>
+   
+
+
+<div class="banner_turn" opentype="page"> 
+ <ul class="pics"> 
+  <li><a target="_blank" datas-ts="=tlQGs"><img src="/wealth/resource/cms/2019/11/img_pc_site/2019110714034317286.png" border="0"></a></li> 
+ </ul> 
+</div>
+ 
+ </div> 
+</div>    </div> 
+   <div class="nav_brd_box column" id="nav_brd" runat="server" name="面包屑">
+ <div class="portlet" id="402f34d837414b16804489561471a4cf" pagemoduleid="a57978059c2343e3b312ff5227db1ee5">
+ <div align="left" class="portlet-header" style="display: none;"> 
+  <span id="menu">
+  </span> 
+  <div id="submenu402f34d837414b16804489561471a4cf" class="shadow dn"> 
+   <ul class="float_list_ul">
+   </ul> 
+  </div> 
+ </div> 
+ <div>
+   <div class="nav_brd"><span>当前位置：<a href="javascript: void(0);" target="_blank" datas-ts="ghGd">首页</a> &gt; 个人理财 &gt; <a style="color:#51225a;" datas-ts="=M_uZ=">产品体系介绍</a></span></div>
+
+ 
+ </div> 
+</div>    </div> 
+   <div class="product_box" id="product_box" name="产品体系介绍"> 
+    <div class="product_left column" id="product_left" runat="server" name="产品体系">
+ <div class="portlet" id="f6fce34018bb47c592f8175b04ac569a" pagemoduleid="1e66a14a12e440d0880963eb89e48344">
+ <div align="left" class="portlet-header" style="display: none;"> 
+  <span id="menu">
+  </span> 
+  <div id="submenuf6fce34018bb47c592f8175b04ac569a" class="shadow dn"> 
+   <ul class="float_list_ul">
+   </ul> 
+  </div> 
+ </div> 
+ <div>
+   <div class="product_wrap"><span>产品体系介绍</span><div class="product_div"><ul class="product_one" id="product_ul">
+<li class="product_li"><a href="javascript:void(0)" onclick="queryWealthlccp('1')" datas-ts="==%s|t">阳光红权益系列</a></li>
+<li><a href="javascript:void(0)" onclick="queryWealthlccp('2')" datas-ts="=bDh^g">阳光橙混合系列</a></li>
+<li><a href="javascript:void(0)" onclick="queryWealthlccp('3')" datas-ts="=_d#=x">阳光金固收系列</a></li>
+<li><a href="javascript:void(0)" onclick="queryWealthlccp('4')" datas-ts="=ZHwJ-">阳光碧现金管理系列</a></li>
+<li><a href="javascript:void(0)" onclick="queryWealthlccp('5')" datas-ts="=c8%g{">阳光青另类及衍生品系列</a></li>
+<li><a href="javascript:void(0)" onclick="queryWealthlccp('6')" datas-ts="=g4G]|">阳光蓝私募股权系列</a></li>
+<li><a href="javascript:void(0)" onclick="queryWealthlccp('7')" datas-ts="=FaJ6N">阳光紫结构化融资系列</a></li>
+</ul>
+</div>
+</div>
+<script>var pageKeyStr=_$k4('5MDJOQkl0');var mjbzArr=[];var xsqdjeArr=[];var cpfxdjArr=[];var sfkfsArr=[];var currentPage=1;var totalPageNum=0;var inputQueryStr="";var qclx="";function queryWealthlccp(_$ie){qclx=_$ie;currentPage=1;currentPage2=1;if(cpFlbs=="0"){doSubmit1();}else{doSubmit2();}}$(_$k4('aE6rnMCpT36pIwKaGhvrnMCpT36pI3CeXwDYXwq')).hide();$(_$k4('IE6rnMCpT36pIwKaGMD9')).click(function(){var _$gh=$(this).index();$(this).siblings().find('a').removeClass(_$k4('BQCY7RKJ0RKA'));$(_$k4('VE6rnMCpT36pIwKaGhvrnMCpT36pI3CeXwDYXwq')).hide();$(this).find('a').addClass(_$k4('MQCY7RKJ0RKA'));$(_$k4('AE6rnMCpT36pIwKaGhvrnMCpT36pI3CeXwDYXwq')).eq(_$gh).show();});function urlShowcontent(){var _$dJ=decodeURI(_$_y(location,_$k4('qFox2RG')));var _$lZ=$(_$k4('ghvrnMCpT36pIMCy2EDSNEDl'));var _$hV=$(_$k4('7hvrnMCpT36pI3CeXwDYXwq'));if(_$dJ.indexOf('?')> -1){var _$h3=_$dJ.split("?");_$h3=_$h3[1].split("&");for(var _$ia=0;_$ia<_$h3.length;_$ia++ ){if(_$h3[_$ia].indexOf(_$k4('7QKJ78q'))> -1){var _$kv=_$h3[_$ia].split("=");for(var _$es=1;_$es<=7;_$es++ ){if(_$kv[1]==_$es){$(_$lZ[_$es-1]).addClass(_$k4("kQCY7RKJ0RKA"));$(_$hV).hide();$(_$hV[_$es-1]).show();}}}}}}function FunValue(_$_4){if(_$_4!=null){_$_4=_$_4.trim();_$_4=_$_4.replace(/>/g,">").replace(/</g,"<");_$_4=_$_4.replace("\\)",")").replace("\\(","(");_$_4=_$_4.replace(/'/g,"");_$_4=_$_4.replace(/\(/g,"");_$_4=_$_4.replace(/\)/g,"");_$_4=_$_4.replace(/\"/g,"");_$_4=_$_4.replace(/\\r/g,"");_$_4=_$_4.replace(/\\t/g,"");_$_4=_$_4.replace(/\\r/g,"");_$_4=_$_4.replace(/\\n/g,"");_$_4=_$_4.replace(/\\v/g,"");_$_4=_$_4.replace(/\\f/g,"");_$_4=_$_4.replace(/\'/g,"");_$_4=_$_4.replace(/#/g,"");_$_4=_$_4.replace(/|/g,"");_$_4=_$_4.replace(/\;/g,"");_$_4=_$_4.replace(/\$/g,"");_$_4=_$_4.replace(/\?/g,"");_$_4=_$_4.replace(/%/g,"");_$_4=_$_4.replace(/eval((.*))/g,"");_$_4=_$_4.replace(/[\"'][\\s]*javascript:(.*)[\"']/g,"");_$_4=_$_4.replace(/script/g,"");_$_4=_$_4.replace(_$k4("2QoxBMUr0"),"");_$_4=_$_4.replace(_$k4("e3KS2QvA"),"");_$_4=_$_4.replace(_$k4("X3CezRb2nMA"),"");_$_4=_$_4.replace(_$k4("Q3CeXQCe7RA"),"");return _$_4;}}function trim(_$gv){if(typeof(_$gv)!=_$k4("lwKy9RKRNMbY9")){return _$gv.replace(/^\s*/,"").replace(/\s*$/,"");}}function isIllegal(_$is){var _$dO=true;var _$jB=new RegExp(/^[\w\u4e00-\u9fa5-\(\)\（\）]+$/i);if(_$is!=""&&_$is!="请输入关键字"){_$dO=_$jB.test(_$is);}return _$dO;}function getCpfxdjStr(_$fj){var _$eM="";if(_$fj=="1"){_$eM="低";}else if(_$fj=="2"){_$eM="较低";}else if(_$fj=="3"){_$eM="中";}else if(_$fj=="4"){_$eM="较高";}else if(_$fj=="5"){_$eM="高";}return _$eM;}</script>
+ 
+ </div> 
+</div>     </div> 
+    <div class="product_right column" id="product_right" runat="server" name="产品简介">
+ <div class="portlet" id="391d390aeb9b47cea6cbcabaf144214a" pagemoduleid="3f8ed395ca9b4510822d0a0a8d4cc9dc">
+ <div align="left" class="portlet-header" style="display: none;"> 
+  <span id="menu">
+  </span> 
+  <div id="submenu391d390aeb9b47cea6cbcabaf144214a" class="shadow dn"> 
+   <ul class="float_list_ul">
+   </ul> 
+  </div> 
+ </div> 
+ <div>
+   
+
+
+<div class="tab1" id="product_ul" opentype="page"> 
+ <div class="product_content"> 
+  <p style="text-align: center;font-size:28px;font-weight:bold;margin-bottom:20px;">阳光红权益系列产品简介</p> 
+  <span><p>　　“阳光红”系列产品为光大理财“标准化权益类和中高比例混合类”产品线，主要定位于“相对收益”策略。本系列产品通过主动管理、多元投资、特色主题、指数增强等投资策略，提供多维度发掘权益市场的收益机会，适合中等及以上风险偏好的投资者。<br>&nbsp;&nbsp;&nbsp;&nbsp; （以上产品体系介绍仅为概括性表述，具体理财产品投资时需满足投资者适当性要求。）</p></span> 
+ </div> 
+</div>
+ 
+ </div> 
+</div>  <div class="portlet" id="01aa8e6309504655bde6826e70e3f228" pagemoduleid="de999077d5f3405388fcfe0e3c83b8ed">
+ <div align="left" class="portlet-header" style="display: none;"> 
+  <span id="menu">
+  </span> 
+  <div id="submenu01aa8e6309504655bde6826e70e3f228" class="shadow dn"> 
+   <ul class="float_list_ul">
+   </ul> 
+  </div> 
+ </div> 
+ <div>
+   
+
+
+<div class="tab1" id="product_ul" opentype="page"> 
+ <div class="product_content"> 
+  <p style="text-align: center;font-size:28px;font-weight:bold;margin-bottom:20px;">阳光橙混合系列产品简介</p> 
+  <span><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; “阳光橙”系列产品为光大理财“大类资产配置”产品线，主要定位于“弹性收益”策略。该系列产品以固定收益类、权益类资产、商品及金融衍生品类资产为主要投资标的，通过有效运用多资产多策略投资方式，综合平衡收益性、风险性与流动性。在承担一定风险基础之上，主打“积极固收+和低比例混合类”策略，努力为投资者提供更具弹性的收益机会，适合较低、中等及以上风险偏好的投资者。<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; （以上产品体系介绍仅为概括性表述，具体理财产品投资时需满足投资者适当性要求。）</p></span> 
+ </div> 
+</div>
+ 
+ </div> 
+</div>  <div class="portlet" id="b692e913970b4cb78331ea51a816affe" pagemoduleid="596ba71bfcf24e3b8ac03c7426ed75ec">
+ <div align="left" class="portlet-header" style="display: none;"> 
+  <span id="menu">
+  </span> 
+  <div id="submenub692e913970b4cb78331ea51a816affe" class="shadow dn"> 
+   <ul class="float_list_ul">
+   </ul> 
+  </div> 
+ </div> 
+ <div>
+   
+
+
+<div class="tab1" id="product_ul" opentype="page"> 
+ <div class="product_content" style="display:block;"> 
+  <p style="text-align: center;font-size:28px;font-weight:bold;margin-bottom:20px;">阳光金固定收益系列产品简介</p> 
+  <span><p>&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; “阳光金”系列产品为光大理财“固定收益类”产品线，主要定位于“绝对收益”策略。该系列产品主要投资于固定收益类资产，产品形态多样，期限类型丰富。本系列产品延续光大理财在固定收益类投资方面的传统优势，主打“纯固收和稳健固收+”策略，资产投资风格总体稳健，适合低、较低风险等各类风险偏好的投资者。<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; （以上产品体系介绍仅为概括性表述，具体理财产品投资时需满足投资者适当性要求。）</p></span> 
+ </div> 
+</div>
+ 
+ </div> 
+</div>  <div class="portlet" id="d983a105e2a14aaa939b7c96487d1546" pagemoduleid="f57f68838c204e20b1ea598e2be9cd16">
+ <div align="left" class="portlet-header" style="display: none;"> 
+  <span id="menu">
+  </span> 
+  <div id="submenud983a105e2a14aaa939b7c96487d1546" class="shadow dn"> 
+   <ul class="float_list_ul">
+   </ul> 
+  </div> 
+ </div> 
+ <div>
+   
+
+
+<div class="tab1" id="product_ul" opentype="page"> 
+ <div class="product_content"> 
+  <p style="text-align: center;font-size:28px;font-weight:bold;margin-bottom:20px;">阳光碧现金管理系列产品简介</p> 
+  <span><p>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; “阳光碧”系列产品为光大理财“现金管理类”产品线。本系列产品包括“光银现金A”“机构盈”“乐活”“灵活”“悦活”等子系列产品。产品运作灵活，投资管理专业，适合广大有现金管理需求的投资者。<br>&nbsp;&nbsp;&nbsp;&nbsp; （以上产品体系介绍仅为概括性表述，具体理财产品投资时需满足投资者适当性要求。）</p></span> 
+ </div> 
+</div>
+ 
+ </div> 
+</div>  <div class="portlet" id="b8402536b8be4a95ac13e35ca100063b" pagemoduleid="6405ad744a024062ab206790dab5b3bd">
+ <div align="left" class="portlet-header" style="display: none;"> 
+  <span id="menu">
+  </span> 
+  <div id="submenub8402536b8be4a95ac13e35ca100063b" class="shadow dn"> 
+   <ul class="float_list_ul">
+   </ul> 
+  </div> 
+ </div> 
+ <div>
+   
+
+
+<div class="tab1" id="product_ul" opentype="page"> 
+ <div class="product_content"> 
+  <p style="text-align: center;font-size:28px;font-weight:bold;margin-bottom:20px;">阳光青另类及衍生品策略系列产品简介</p> 
+  <span><p>&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; “阳光青”系列产品为光大理财“另类及衍生品策略”产品线。通过另类及衍生品投资策略，在不同市场中寻找结构性投资机会，以期增强产品收益，为投资者提供更多特色化投资工具，分散投资风险，实现个性化投资目标。根据产品挂钩标的和产品结构的不同，适合不同风险偏好的投资者。<br>&nbsp;&nbsp;&nbsp;&nbsp; （以上产品体系介绍仅为概括性表述，具体理财产品投资时需满足投资者适当性要求。）</p></span> 
+ </div> 
+</div>
+ 
+ </div> 
+</div>  <div class="portlet" id="6c68e7924a12420d8cbf99dc0b2b3f19" pagemoduleid="094efbf1b74845969907ccbca48b9942">
+ <div align="left" class="portlet-header" style="display: none;"> 
+  <span id="menu">
+  </span> 
+  <div id="submenu6c68e7924a12420d8cbf99dc0b2b3f19" class="shadow dn"> 
+   <ul class="float_list_ul">
+   </ul> 
+  </div> 
+ </div> 
+ <div>
+   
+
+
+<div class="tab1" id="product_ul" opentype="page"> 
+ <div class="product_content"> 
+  <p style="text-align: center;font-size:28px;font-weight:bold;margin-bottom:20px;">阳光蓝私募股权系列产品简介</p> 
+  <span><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; “阳光蓝”系列产品为光大理财“私募股权系列”产品线。本系列产品重点投资于未上市企业股权类资产。以服务实体经济和国家战略为出发点，聚焦“硬科技”领域成长型企业，投资包括新能源、光电芯片、智能制造、信息技术、医药卫生等方向，促进经济高质量发展。适合较高及以上风险偏好的投资者。<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; （以上产品体系介绍仅为概括性表述，具体理财产品投资时需满足投资者适当性要求。）</p></span> 
+ </div> 
+</div>
+ 
+ </div> 
+</div>  <div class="portlet" id="f95ba6f4ac0444dfaad489075446927e" pagemoduleid="5c95c67e31314cf98d6b6b7a6cfa5f14">
+ <div align="left" class="portlet-header" style="display: none;"> 
+  <span id="menu">
+  </span> 
+  <div id="submenuf95ba6f4ac0444dfaad489075446927e" class="shadow dn"> 
+   <ul class="float_list_ul">
+   </ul> 
+  </div> 
+ </div> 
+ <div>
+   
+
+
+<div class="tab1" id="product_ul" opentype="page"> 
+ <div class="product_content"> 
+  <p style="text-align: center;font-size:28px;font-weight:bold;margin-bottom:20px;">阳光紫项目融资系列产品简介</p> 
+  <span><p>&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; “阳光紫”系列产品为光大理财“项目融资系列”产品线。本系列产品充分发挥银行资管基因内生的项目遴选及风控优势，具有产品结构清晰、资金投向明确、风险收益过手等特点。适合中等及以上风险偏好的投资者。<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; （以上产品体系介绍仅为概括性表述，具体理财产品投资时需满足投资者适当性要求。）</p></span> 
+ </div> 
+</div>
+ 
+ </div> 
+</div>     </div> 
+   </div> 
+   <div class="clear"></div> 
+   <div class="product_main column" id="product_main" runat="server" name="理财产品">
+ <div class="portlet" id="49552054328b4fb8af36e2db96a3b886" pagemoduleid="01dccd4891a44889916b57c5eb7145e4">
+ <div align="left" class="portlet-header" style="display: none;"> 
+  <span id="menu">
+  </span> 
+  <div id="submenu49552054328b4fb8af36e2db96a3b886" class="shadow dn"> 
+   <ul class="float_list_ul">
+   </ul> 
+  </div> 
+ </div> 
+ <div>
+   <div class="finance_top"><span class="on">净值型产品<input class="cpFlbs" type="hidden" value="0"></span> <span>现金管理型产品<input class="cpFlbs" type="hidden" value="1"></span><div class="finance_search"><input autocomplete="off" class="finance_inp" id="finance_inp1" maxlength="15" type="text" value="请输入关键字"> <a class="searchButton" href="javascript:goSubmit1();" id="searchButton1" datas-ts="=bzxv*">搜索</a></div>
+<div class="finance_search" style="display:none;"><input autocomplete="off" class="finance_inp" id="finance_inp2" maxlength="15" type="text" value="请输入关键字"> <a class="searchButton" href="javascript:goSubmit2();" id="searchButton2" datas-ts="=(aopm">搜索</a></div>
+<div class="clear"></div>
+</div>
+<script type="text/javascript">var cpFlbs='0';$(function(){var $spans=$(_$k4('yE6rnMCpT36pIMKmNMG')).find(_$k4('vhbRNMbmX3CYIwDea')).find(_$k4('PQ6rfMG'));var $search=$(_$k4('1E6rnMCpT36pIMKmNMG')).find(_$k4('hhbRNMbmX3CYIQCYfQbJL'));var $finances=$(_$k4('BE6rnMCpT36pIMKmNMG')).find(_$k4('EhbRNMbmX3CYIw6xfQq'));$spans.click(function(){cpFlbs=$(this).find(_$k4('IhbJapbSPQa')).val();$(this).addClass('on').siblings().removeClass('on');$search.css({display:_$k4('9MbeXRA')}).eq($(this).index()).css({display:_$k4('N3bSB3C7')});$finances.css({display:_$k4('hMbeXRA')}).eq($(this).index()).css({display:_$k4('k3bSB3C7')});if(cpFlbs==1){doSubmit2();}else if(cpFlbs==0){doSubmit1();}});});</script>
+ 
+ </div> 
+</div>  <div class="portlet" id="82cc16a1a65e4484ab4f3a9859aa7dc7" pagemoduleid="ab28fb66abda485d811d394c9ef99f07">
+ <div align="left" class="portlet-header" style="display: none;"> 
+  <span id="menu">
+  </span> 
+  <div id="submenu82cc16a1a65e4484ab4f3a9859aa7dc7" class="shadow dn"> 
+   <ul class="float_list_ul">
+   </ul> 
+  </div> 
+ </div> 
+ <div>
+   <style type="text/css">
+.zsbq_b {
+        font-size: 12px;
+        color: #f39800;
+        border: 1px solid #f39800;
+        border-radius: 10px;
+        padding: 1px 8px;
+        margin-top: 3px;
+        display: inline-block;
+    }
+
+    .zsbq_a {
+        font-size: 12px;
+        color: #999999;
+        border: 1px solid #999999;
+        border-radius: 10px;
+        padding: 1px 8px;
+        margin-top: 3px;
+        display: inline-block;
+    }</style>
+<div class="finance_wrap"><div class="finance_center finance_center1"><ul class="lccp_bz" data-fl="bz">
+<li class="cx_type">币&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;种</li>
+<li class="item limited"><a class="unlimited" href="javascript:void(0)" value="" datas-ts="=YLt.A">不限</a></li>
+<li class="item sig"><a href="javascript:void(0)" value="RMB" datas-ts="=z9mcU">人民币</a></li>
+<li class="item sig"><a href="javascript:void(0)" value="WB" datas-ts="=Cfsdi">外&nbsp;&nbsp;币</a></li>
+</ul>
+<ul class="lccp_qdje" data-fl="qdje">
+<li class="cx_type">起点金额</li>
+<li class="item limited"><a class="unlimited" href="javascript:void(0)" value="" datas-ts="=-xM_$">不限</a></li>
+<li class="item sig"><a href="javascript:void(0)" value="0,50000" datas-ts="=fTg6C">0-5万(含)</a></li>
+<li class="item sig"><a href="javascript:void(0)" value="50000,500000" datas-ts="=GtNZp">5万-50万(含)</a></li>
+<li class="item sig"><a href="javascript:void(0)" value="500000,5000000" datas-ts="=cbOK4">50-500万</a></li>
+<li class="item sig"><a href="javascript:void(0)" value="5000000" datas-ts="=mWrrn">500万以上</a></li>
+</ul>
+<ul class="lccp_fxdj" data-fl="fxdj">
+<li class="cx_type">风险等级</li>
+<li class="item limited"><a class="unlimited" href="javascript:void(0)" value="" datas-ts="=?+.N$">不限</a></li>
+<li class="item sig"><a href="javascript:void(0)" value="1" datas-ts="=4VwfK">低</a></li>
+<li class="item sig"><a href="javascript:void(0)" value="2" datas-ts="=4q(qK">较低</a></li>
+<li class="item sig"><a href="javascript:void(0)" value="3" datas-ts="=(_z[n">中</a></li>
+<li class="item sig"><a href="javascript:void(0)" value="4" datas-ts="=9BSm*">较高</a></li>
+<li class="item sig"><a href="javascript:void(0)" value="5" datas-ts="=8Z9OA">高</a></li>
+</ul>
+<ul class="lccp_cppz" data-fl="cppz">
+<li class="cx_type">产品品种</li>
+<li class="item limited"><a class="unlimited" href="javascript:void(0)" value="" datas-ts="=A2cag">不限</a></li>
+<li class="item sig"><a href="javascript:void(0)" value="0" datas-ts="=W{RTJ">封闭式</a></li>
+<li class="item sig"><a href="javascript:void(0)" value="1" datas-ts="=8bY;t">开放式</a></li>
+</ul>
+<div class="lccp_screen lccp_screen1"><p>共有 <span class="total_count1">4019</span> 款产品符合条件</p>
+<a class="empty" href="javascript:void(0)" datas-ts="=]jXR3">清空筛选条件</a></div>
+</div>
+<div class="finance_bottom"><table cellpadding="0" cellspacing="0" id="finance_tb1">
+<tbody class="wealthlccp_list1">
+	<tr class="first_tr first_tr1">
+	<td class="lb_td_specil" width="170">产品名称</td>
+	<td class="lb_td_specil" width="90">代码</td>
+	<!--<td class="lb_td_specil" width="210">销售日期</td>--><td class="lb_td_specil" width="100">起点金额</td>
+	<td class="lb_td_specil" width="130">单位净值</td>
+	<td class="lb_td_specil" width="130">累计净值</td>
+	<td class="lb_td_specil" width="130">资产净值</td>
+	<td class="lb_td_specil" width="150">近一月涨跌幅</td>
+	<td class="lb_td_specil" width="150">近一年涨跌幅</td>
+	<td class="lb_td_specil" width="150">成立以来涨跌幅</td>
+	<td class="lb_td_specil" width="120">风险等级</td>
+	<td class="lb_td_specil" style="border-right:0;" width="140">操作</td>
+	</tr>
+<tr><td><a style="outline:none;" class="lb_title" href="javascript: void(0);" target="_blank" datas-ts="=AkWrT" onclick="null">阳光橙优选基金宝</a></td><td>EB1008</td><td>100.00</td><td>3.7132</td><td>3.7132</td><td>--</td><td>6.1217%</td><td>29.755%</td><td>23.9675%</td><td>较高</td><td><a class="lccp_buybutton" data-analytics-click="lccpy-qg-EB1008" href="javascript: void(0);" target="_blank" datas-ts="=QB8UG">详情</a></td></tr><tr style="background: rgb(250, 250, 250);"><td><a style="outline:none;" class="lb_title" href="javascript: void(0);" target="_blank" datas-ts="=Sc5PI">阳光金全球添利</a></td><td>EB1066</td><td>2000美元</td><td>1.2622</td><td>1.2622</td><td>--</td><td>0.302%</td><td>4.4522%</td><td>26.22%</td><td>较低</td><td><a class="lccp_buybutton" data-analytics-click="lccpy-qg-EB1066" href="javascript: void(0);" target="_blank" datas-ts="=@[Yas">详情</a></td></tr><tr><td><a style="outline:none;" class="lb_title" href="javascript: void(0);" target="_blank" datas-ts="=7 (3_">阳光金日添利1号</a></td><td>EB1068</td><td>1.00</td><td>1.3069</td><td>1.3069</td><td>--</td><td>0.2839%</td><td>2.0936%</td><td>30.69%</td><td>较低</td><td><a class="lccp_buybutton" data-analytics-click="lccpy-qg-EB1068" href="javascript: void(0);" target="_blank" datas-ts="=YGY6A">详情</a></td></tr><tr style="background: rgb(250, 250, 250);"><td><a style="outline:none;" class="lb_title" href="javascript: void(0);" target="_blank" datas-ts="=!*q=I">阳光金月添利1号</a></td><td>EB1088</td><td>1.00</td><td>1.3152</td><td>1.3152</td><td>--</td><td>0.2133%</td><td>1.8745%</td><td>31.52%</td><td>较低</td><td><a class="lccp_buybutton" data-analytics-click="lccpy-qg-EB1088" href="javascript: void(0);" target="_blank" datas-ts="=ukBe8">详情</a></td></tr><tr><td><a style="outline:none;" class="lb_title" href="javascript: void(0);" target="_blank" datas-ts="=Ca m.">阳光金稳健一号</a></td><td>EB1089</td><td>100.00</td><td>1.2536</td><td>1.2536</td><td>--</td><td>0.1918%</td><td>2.2262%</td><td>25.36%</td><td>较低</td><td><a class="lccp_buybutton" data-analytics-click="lccpy-qg-EB1089" href="javascript: void(0);" target="_blank" datas-ts="=tH_+E">详情</a></td></tr><tr style="background: rgb(250, 250, 250);"><td><a style="outline:none;" class="lb_title" href="javascript: void(0);" target="_blank" datas-ts="=@fPA)">阳光金18M添利1号</a></td><td>EB1202</td><td>100.00</td><td>1.0524</td><td>1.3000</td><td>--</td><td>0.2381%</td><td>1.202%</td><td>30.0%</td><td>较低</td><td><a class="lccp_buybutton" data-analytics-click="lccpy-qg-EB1202" href="javascript: void(0);" target="_blank" datas-ts="=(F5su">详情</a></td></tr><tr><td><a style="outline:none;" class="lb_title" href="javascript: void(0);" target="_blank" datas-ts="=N6(B)">阳光金18M添利2号</a></td><td>EB1203</td><td>100.00</td><td>1.1256</td><td>1.2770</td><td>--</td><td>0.303%</td><td>1.2332%</td><td>27.7%</td><td>较低</td><td><a class="lccp_buybutton" data-analytics-click="lccpy-qg-EB1203" href="javascript: void(0);" target="_blank" datas-ts="=1|0{_">详情</a></td></tr><tr style="background: rgb(250, 250, 250);"><td><a style="outline:none;" class="lb_title" href="javascript: void(0);" target="_blank" datas-ts="=%^|5f">阳光金18M添利3号</a></td><td>EB1205</td><td>1.00</td><td>1.0672</td><td>1.2423</td><td>--</td><td>0.4707%</td><td>2.3693%</td><td>24.23%</td><td>较低</td><td><a class="lccp_buybutton" data-analytics-click="lccpy-qg-EB1205" href="javascript: void(0);" target="_blank" datas-ts="=d@5nA">详情</a></td></tr><tr><td><a style="outline:none;" class="lb_title" href="javascript: void(0);" target="_blank" datas-ts="=}E^]+">阳光金12M添利1号</a></td><td>EB1211</td><td>100.00</td><td>1.0676</td><td>1.2805</td><td>--</td><td>0.471%</td><td>1.7206%</td><td>28.05%</td><td>较低</td><td><a class="lccp_buybutton" data-analytics-click="lccpy-qg-EB1211" href="javascript: void(0);" target="_blank" datas-ts="=.mCIz">详情</a></td></tr><tr style="background: rgb(250, 250, 250);"><td><a style="outline:none;" class="lb_title" href="javascript: void(0);" target="_blank" datas-ts="=#3{Ny">阳光金24M添利1号</a></td><td>EB1215</td><td>100.00</td><td>1.1178</td><td>1.2740</td><td>--</td><td>0.2871%</td><td>1.1637%</td><td>27.4%</td><td>较低</td><td><a class="lccp_buybutton" data-analytics-click="lccpy-qg-EB1215" href="javascript: void(0);" target="_blank" datas-ts="=9^Afo">详情</a></td></tr></tbody>
+</table>
+<div class="lccp_page lccp_page1"><a class="home_page no_home_page" style="cursor:default" datas-ts="=_J^5#">首页</a> <span class="page_left_no" style="cursor:default">&lt;</span><input id="currentPage1" type="text" value="1">/<span id="totalpage1">402</span> <span class="page_right" onclick="goPage1(&quot;next&quot;)">&gt;</span> <a class="end_page" style="cursor:pointer" onclick="goPage1(402)" datas-ts="=m Nq5">尾页</a></div>
+<div class="wxts wxts1"></div>
+</div>
+</div>
+<script>urlShowcontent();var pageId=$(_$k4("2ECYaQbe03KSkwUxnRKy0VDmvRV29")).val();var isGrlcStr='1';var urlStr=decodeURI(_$_y(location,_$k4('0Fox2RG')));var urlStrSplitArr=urlStr.split("?");if(urlStrSplitArr.length==2){var urlStrSplitTempArr=urlStrSplitArr[1].split("&");if(urlStrSplitArr[1].indexOf(_$k4("8FUJEMCT2VDmvRs0"))>=0){for(var i=0;i<urlStrSplitTempArr.length;i++ ){var urlStrSplitEqualTempArr=urlStrSplitTempArr[i].split("=");if(urlStrSplitEqualTempArr.length==2){if(urlStrSplitEqualTempArr[0]==_$k4("iFKyawUppwKYn8YJ0QG")){inputQueryStr=FunValue(urlStrSplitEqualTempArr[1]);$(_$k4("bECRNMbmX3CYIFKyaWA")).val(inputQueryStr);$(_$k4("sECRNMbmX3CYIFKyaWG")).val(inputQueryStr);break;}else if(urlStrSplitEqualTempArr[0]==_$k4("9QKJ78q")){qclx=FunValue(urlStrSplitEqualTempArr[1]);break;}}}}else{if(urlStrSplitArr[1].indexOf(_$k4("UQKJ78k0"))>=0){for(var i=0;i<urlStrSplitTempArr.length;i++ ){var urlStrSplitEqualTempArr=urlStrSplitTempArr[i].split("=");if(urlStrSplitEqualTempArr.length==2){if(urlStrSplitEqualTempArr[0]==_$k4("yQKJ78q")){qclx=FunValue(urlStrSplitEqualTempArr[1]);break;}}}}}}$(function(){$(_$k4('YhbRNMbmX3CYIFKya')).focus(function(){if($(this).attr(_$k4('Nwbm7wKV'))=='请输入关键字'){$(this).attr(_$k4('.wbm7wKV'),'');}});$(_$k4('FhbRNMbmX3CYIFKya')).blur(function(){if($(this).attr(_$k4('Qwbm7wKV'))==''){$(this).attr(_$k4('Ywbm7wKV'),'请输入关键字');}});$(_$k4('QhbRNMbmX3CYI3CYXwDYnW1rTMcr7F1yNwDYzEDl')).click(function(){if($(this).parent().hasClass(_$k4('OQC2v'))){if($(this).hasClass(_$k4('L3Cf23Cz2Rq'))){$(this).removeClass(_$k4('53Cf23Cz2Rq'));if($(this).parent().parent().attr(_$k4("43CSfQ6W"))==_$k4('TMDJOQmeP8G')){for(var i=0;i<mjbzArr.length;i++ ){if($(this).attr(_$k4('bwbm7wKV'))==mjbzArr[i]){mjbzArr.splice(i,1);break;}}}else if($(this).parent().parent().attr(_$k4("N3CSfQ6W"))==_$k4('tMDJOQmeSRDN2')){for(var i=0;i<xsqdjeArr.length;i++ ){if($(this).attr(_$k4('Rwbm7wKV'))==xsqdjeArr[i]){xsqdjeArr.splice(i,1);break;}}}else if($(this).parent().parent().attr(_$k4("x3CSfQ6W"))==_$k4('iMDJOQmeb8Dpj')){for(var i=0;i<cpfxdjArr.length;i++ ){if($(this).attr(_$k4('awbm7wKV'))==cpfxdjArr[i]){cpfxdjArr.splice(i,1);break;}}}else if($(this).parent().parent().attr(_$k4("v3CSfQ6W"))==_$k4('QMDJOQmeOQor_')){for(var i=0;i<sfkfsArr.length;i++ ){if($(this).attr(_$k4('Qwbm7wKV'))==sfkfsArr[i]){sfkfsArr.splice(i,1);break;}}}}else{$(this).addClass(_$k4('a3Cf23Cz2Rq'));$(this).parent().parent().find(_$k4('vhbSNMK20RKAGhvYXMD2zFUp2Rq')).removeClass(_$k4('UwKy7FKTNwDY9'));if($(this).parent().parent().attr(_$k4("e3CSfQ6W"))==_$k4('QMDJOQmeP8G')){mjbzArr.push($(this).attr(_$k4("6wbm7wKV")));}else if($(this).parent().parent().attr(_$k4("a3CSfQ6W"))==_$k4('MMDJOQmeSRDN2')){xsqdjeArr.push($(this).attr(_$k4("Dwbm7wKV")));}else if($(this).parent().parent().attr(_$k4("z3CSfQ6W"))==_$k4('uMDJOQmeb8Dpj')){cpfxdjArr.push($(this).attr(_$k4("Owbm7wKV")));}else if($(this).parent().parent().attr(_$k4("g3CSfQ6W"))==_$k4('ZMDJOQmeOQor_')){sfkfsArr.push($(this).attr(_$k4("Ywbm7wKV")));}}if(mjbzArr.length==0&&$(this).parent().parent().attr(_$k4("x3CSfQ6W"))==_$k4('2MDJOQmeP8G')){$(this).parent().parent().find(_$k4('QhbSNMK20RKAG3A')).addClass(_$k4('DwKy7FKTNwDY9'));}if(xsqdjeArr.length==0&&$(this).parent().parent().attr(_$k4("W3CSfQ6W"))==_$k4('IMDJOQmeSRDN2')){$(this).parent().parent().find(_$k4('2hbSNMK20RKAG3A')).addClass(_$k4('mwKy7FKTNwDY9'));}if(cpfxdjArr.length==0&&$(this).parent().parent().attr(_$k4("43CSfQ6W"))==_$k4('xMDJOQmeb8Dpj')){$(this).parent().parent().find(_$k4('ZhbSNMK20RKAG3A')).addClass(_$k4('gwKy7FKTNwDY9'));}if(sfkfsArr.length==0&&$(this).parent().parent().attr(_$k4("g3CSfQ6W"))==_$k4('AMDJOQmeOQor_')){$(this).parent().parent().find(_$k4('nhbSNMK20RKAG3A')).addClass(_$k4('ZwKy7FKTNwDY9'));}currentPage=1;doSubmit1();}});$(_$k4('ZhbRNMbmX3CYI3CYXwDYnW1r7F1y7FKTNwDY9EDl')).click(function(){$(this).addClass(_$k4('KwKy7FKTNwDY9'));$(this).parent().parent().find(_$k4('Nhb20RK0GhbJLRKJ.RKA')).removeClass(_$k4('_3Cf23Cz2Rq'));if($(this).parent().parent().attr(_$k4("M3CSfQ6W"))==_$k4('BMDJOQmeP8G')){mjbzArr=[];}else if($(this).parent().parent().attr(_$k4("y3CSfQ6W"))==_$k4('4MDJOQmeSRDN2')){xsqdjeArr=[];}else if($(this).parent().parent().attr(_$k4("x3CSfQ6W"))==_$k4('AMDJOQmeb8Dpj')){cpfxdjArr=[];}else if($(this).parent().parent().attr(_$k4("13CSfQ6W"))==_$k4('eMDJOQmeOQor_')){sfkfsArr=[];}currentPage=1;doSubmit1();});$(_$k4('8hbSO36rIQCJnRKYXW1qXRKTawo9')).click(function(){$(_$k4('lhbRNMbmX3CYI3CYXwDYnW1rTMcr7F1yNwDYzEcrf')).removeClass(_$k4('P3Cf23Cz2Rq'));$(_$k4('mhbRNMbmX3CYI3CYXwDYnW1rTMcr7F1y7FKTNwDY9EDl')).addClass(_$k4('KwKy7FKTNwDY9'));$(_$k4('fhvrnMCpT36pIMCy2EDSNEDl')).removeClass(_$k4('yQCY7RKJ0RKA'));mjbzArr=[];xsqdjeArr=[];cpfxdjArr=[];sfkfsArr=[];inputQueryStr="";qclx="";$(_$k4("gECRNMbmX3CYIFKyaWA")).val("请输入关键字");currentPage=1;doSubmit1();});});function goSubmit1(){currentPage=1;doSubmit1();}$(document).on(_$k4('QFCYyQox2Q6W'),function(_$gh){if($(_$k4("4ECRNMbmX3CYIFKyaWA")).is(_$k4(".ibRB36Yu"))&&_$gh.keyCode==13){currentPage=1;doSubmit1();}});function doSubmit1(){var _$iT=trim($(_$k4("2ECRNMbmX3CYIFKyaWA")).val());if(!isIllegal(_$iT)){alert('关键字中存在非法字符，请重新输入！','提示信息');$(_$k4('EECRNMbmX3CYIFKyaWA')).focus();return;}$(_$k4('UE6J23UxOFlxTwopBMOl')).removeAttr(_$k4('TFox2RG'));$.ajax({type:_$k4("bVlesYq"),url:_$k4("bhCYaM6x03KaBwK9dMKe9wKS21KAeWsEaJuWbQDmvRV29HA")+pageId+_$k4("OxvrBQvpfMcyTQbaehCmaQce6RKm7wDf73CJapvxBMvpr36pNMCgfQUY2Qv2URKm7wDf73CJaVoxBRoYOwoWXQDenwDS2wq"),dataType:_$k4("9FvJBMG"),async:false,data:{inputQueryStr:$(_$k4('vECRNMbmX3CYIFKyaWA')).attr(_$k4('ywbm7wKV'))=='请输入关键字'?inputQueryStr:$(_$k4('9ECRNMbmX3CYIFKyaWA')).attr(_$k4('uwbm7wKV')).toUpperCase(),mjbzArr:mjbzArr,xsqdjeArr:xsqdjeArr,cpfxdjArr:cpfxdjArr,sfkfsArr:sfkfsArr,pageKeyStr:pageKeyStr,currentPage:currentPage,isGrlcStr:isGrlcStr,qclx:qclx,cpFlbs:cpFlbs},success:function(_$kv){introduceWealthlccp1(_$kv);}});_$hQ(setTimeout,_$k4("mxcGvE6J23UxOFlxTwopBMOlvt1yfwopntcwLQbYbxnavFbmC3UJOQb2awkNvMTJT3bTNwklLts7vtA"),1000);}$.ajax({type:_$k4("dVlesYq"),url:_$k4("BhCYaM6x03KaBwK9dMKe9wKS21KAeWsEaJuWbQDmvRV29HA")+pageId+_$k4("uxvrBQvpfMcyTQbaehCmaQce6RKm7wDf73CJapvxBMvpr36pNMCgfQUY2Qv2URKm7wDf73CJaVoxBRoYOwoWXQDenwDS2wq"),dataType:_$k4("MFvJBMG"),data:{inputQueryStr:inputQueryStr,mjbzArr:mjbzArr,xsqdjeArr:xsqdjeArr,cpfxdjArr:cpfxdjArr,sfkfsArr:sfkfsArr,pageKeyStr:pageKeyStr,currentPage:currentPage,isGrlcStr:isGrlcStr,qclx:qclx,cpFlbs:cpFlbs},success:function(_$kv){introduceWealthlccp1(_$kv);}});function introduceWealthlccp1(_$kv){if(_$kv!=null&&_$kv!=_$k4("6wKy9RKRNMbY9")){$(_$k4("QhbRNQvJ0U6pnWA")).siblings().remove();$(_$k4("ahbSO36rIQDmvRsl")).html("");var _$ie="";var _$a8=_$kv.resultList;if(_$a8.length==0){$(_$k4("3hvwgwoWS")).html("亲，很抱歉，没有找到符合条件的理财产品~");$(_$k4("fhbRNQvJ0U6pnWA")).hide();}else{$(_$k4("ghvwgwoWS")).html("");$(_$k4("1hbRNQvJ0U6pnWA")).show();}var _$_A=_$kv.page;var _$cw=_$_A.totalPage;totalPageNum=_$cw;var currentPage=_$_A.currentPage;var _$lZ=_$_A.hasPrePage;var _$ia=_$_A.hasNextPage;var _$$m=_$_A.totalCount;$(_$k4("YhvpBwDm7UCJBwKy0WA")).html(_$$m);for(var i=0;i<_$a8.length;i++ ){var _$h3=_$a8[i].CPNAME;if(_$h3==null||""==_$h3||_$h3==_$k4("mwKy9RKRNMbY9")){_$h3="--";}var _$eM=_$a8[i].CPCODE;if(_$eM==null||""==_$eM||_$eM==_$k4("_wKy9RKRNMbY9")){_$eM="--";}var _$fS=_$a8[i].XSQDJE;if(_$fS==null||""==_$fS||_$fS==_$k4("rwKy9RKRNMbY9")){_$fS="--";}else{if(_$fS%10000==0){_$fS=_$fS/10000+"万";}else if(_$fS%1000==0){if(_$eM==_$k4("bpVESWk3C")){_$fS=_$fS.substring(0,_$fS.length-3)+"美元";}else{_$fS=_$fS/1000+"千";}}}var _$h1=_$a8[i].ZXJZ;if(_$h1==null||""==_$h1||_$h1==_$k4("CwKy9RKRNMbY9")){_$h1="--";}var _$is=_$a8[i].LJJZ;if(_$is==null||""==_$is||_$is==_$k4("gwKy9RKRNMbY9")){_$is="--";}var _$_4=_$a8[i].MJFS;var _$_8=_$a8[i].SFKFS;var _$_r=_$a8[i].ZCJZ;if(_$_4=="0"&&_$_8=="0"){if(_$_r==null||""==_$_r||_$_r==_$k4("JwKy9RKRNMbY9")){_$_r="--";}}else{_$_r="--";}var _$gv=_$a8[i].JYYZDF;if(_$gv==null||""==_$gv||_$gv==_$k4("awKy9RKRNMbY9")){_$gv="--";}var _$hV=_$a8[i].JYNZDF;if(_$hV==null||""==_$hV||_$hV==_$k4("3wKy9RKRNMbY9")){_$hV="--";}var _$fj=_$a8[i].CLYLZDF;if(_$fj==null||""==_$fj||_$fj==_$k4("MwKy9RKRNMbY9")){_$fj="--";}var _$dJ=_$a8[i].CPFXDJ;if(_$dJ==null||""==_$dJ||_$dJ==_$k4("WwKy9RKRNMbY9")){_$dJ="--";}else{_$dJ=getCpfxdjStr(_$dJ);}var _$jB=_$a8[i].HTMLURL;var _$ga=_$a8[i].PRD_STATUS;_$ie+=_$k4("_HopnHOS0RkgZ31ruwo27Rs0vM6Y0MD2XRsNXMCy2inQG3CSfQ6WexCSPU6pNwDS2xnrLQbYbH1Q")+_$jB+_$k4("Gxnr03UxvRUAexTePMDmXFnQ5")+_$h3;if(_$ga=="a"){_$ie+="<br/><b class='zsbq_a'>已终止</b>";}var _$aO=_$a8[i].ZSBQ;if(_$aO==null||_$aO==""||_$aO==undefined){_$ie+=_$k4("pHcefHOaBwDA5");}else{_$ie+=_$k4("mHDxnhugZ3PrOMDmuQu0v8vJPQYePxug")+_$aO+_$k4("DHcePHOaB3sgZh6p9HG");}_$ie+=_$k4("MHop9HG")+_$eM+_$k4("rHce0RkgZwDA5")+_$fS+_$k4("WHce0RkgZwDA5")+_$h1+_$k4("fHce0RkgZwDA5")+_$is+_$k4("nHce0RkgZwDA5")+_$_r+_$k4("lHce0RkgZwDA5")+_$gv+_$k4("BHce0RkgZwDA5")+_$hV+_$k4("yHce0RkgZwDA5")+_$fj+_$k4("7Hce0RkgZwDA5")+_$dJ+_$k4("1Hce0Rkg");_$ie+=_$k4("pHop9HOSfEDJ73UJuH1w73CJaUCxT8KxTwopBMPQGRDm031TfMbm78UpN36Wz3CSN3C7exCSO36ryhUmvhA")+_$eM+_$k4("BxnrLQbYbH1Q")+_$jB+"' target='_blank'>详情</a></td>";_$ie+=_$k4("0Hce0QOg");}$(_$k4("_hvw23KS0FDSO36rIMD2uwkl")).append(_$ie);var _$dO=document.getElementById(_$k4("YRb2X3KyORYe03Ol"));var _$aL=_$dO.getElementsByTagName(_$k4("zwDxBRo9"))[0];var _$ea=_$aL.getElementsByTagName("tr");for(var i=1;i<_$ea.length;i++ ){if(i%2==0){_$ea[i].style.background=_$k4('wECRfRbmb3A');}};if(_$a8.length>0){if(!_$lZ){$(_$k4("UhbSO36rIQDmvRsl")).append("<a class='home_page no_home_page' style='cursor:default'>首页</a> <span class='page_left_no' style='cursor:default'><</span><input id='currentPage1' type='text' value='"+currentPage+_$k4("5xnqBHPZ"));if(!_$ia){$(_$k4("_hbSO36rIQDmvRsl")).append(_$k4("OHoJa3KgGFKAex6pBwDm7QDmvRslvHG")+_$cw+"</span> <span class='page_right_no'>></span> <a class='end_page no_end_page' style='cursor:default'>尾页</a>");}else{$(_$k4("dhbSO36rIQDmvRsl")).append(_$k4("VHoJa3KgGFKAex6pBwDm7QDmvRslvHG")+_$cw+"</span> <span class='page_right' onclick='goPage1(\"next\")'>></span> <a class='end_page' style='cursor:pointer' onclick='goPage1("+_$cw+")'>尾页</a>");}}else if(_$lZ){$(_$k4("hhbSO36rIQDmvRsl")).append("<a class='home_page' style='cursor:pointer' onclick='goPage1(1)'>首页</a> <span class='page_left' onclick='goPage1(\"pre\")'><</span><input id='currentPage1' type='text' value='"+currentPage+_$k4("0xnqBHPZ"));if(!_$ia){$(_$k4("ehbSO36rIQDmvRsl")).append(_$k4("xHoJa3KgGFKAex6pBwDm7QDmvRslvHG")+_$cw+"</span> <span class='page_right_no' style='cursor:default'>></span> <a class='end_page no_end_page' style='cursor:default'>尾页</a>");}else{$(_$k4("QhbSO36rIQDmvRsl")).append(_$k4("XHoJa3KgGFKAex6pBwDm7QDmvRslvHG")+_$cw+"</span> <span class='page_right' onclick='goPage1(\"next\")'>></span> <a class='end_page' style='cursor:pointer' onclick='goPage1("+_$cw+")'>尾页</a>");}}}}}function goPage1(_$_A){if(_$_A==_$k4("cQox2")){currentPage=currentPage-1;}else if(_$_A==_$k4("QMbYgwq")){currentPage= ++currentPage;}else{currentPage=_$_A;}doSubmit1();}$(document).on(_$k4('qFCYyQox2Q6W'),function(_$gh){if($(_$k4(".ECJTQvx2MvpA3Kw2WA")).is(_$k4("UibRB36Yu"))&&_$gh.keyCode==13){var _$es=$(_$k4('5ECJTQvx2MvpA3Kw2WA')).val();if(_$es<=0||_$es>totalPageNum){$(_$k4('CECJTQvx2MvpA3Kw2WA')).focus();$(_$k4('4ECJTQvx2MvpA3Kw2WA')).val(currentPage);return;}currentPage=$(_$k4("KECJTQvx2MvpA3Kw2WA")).val();doSubmit1();}});</script>
+ 
+ </div> 
+</div>  <div class="portlet" id="6b0a8b03cb494311a11feb485b44f7e1" pagemoduleid="f39ed26e42ad486c910dd06df4023d37">
+ <div align="left" class="portlet-header" style="display: none;"> 
+  <span id="menu">
+  </span> 
+  <div id="submenu6b0a8b03cb494311a11feb485b44f7e1" class="shadow dn"> 
+   <ul class="float_list_ul">
+   </ul> 
+  </div> 
+ </div> 
+ <div>
+   <div class="finance_wrap" style="display:none;"><div class="finance_center finance_center2"><ul class="lccp_bz" data-fl="bz">
+<li class="cx_type">币&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;种</li>
+<li class="item limited"><a class="unlimited" href="javascript:void(0)" value="" datas-ts="=xfNmp">不限</a></li>
+<li class="item sig"><a href="javascript:void(0)" value="RMB" datas-ts="=KrZy-">人民币</a></li>
+<li class="item sig"><a href="javascript:void(0)" value="WB" datas-ts="=a^_Jy">外&nbsp;&nbsp;币</a></li>
+</ul>
+<ul class="lccp_qdje" data-fl="qdje">
+<li class="cx_type">起点金额</li>
+<li class="item limited"><a class="unlimited" href="javascript:void(0)" value="" datas-ts="=o+o0f">不限</a></li>
+<li class="item sig"><a href="javascript:void(0)" value="0,50000" datas-ts="=fQ}4A">0-5万(含)</a></li>
+<li class="item sig"><a href="javascript:void(0)" value="50000,500000" datas-ts="=9,;=^">5万-50万(含)</a></li>
+<li class="item sig"><a href="javascript:void(0)" value="500000,5000000" datas-ts="=KE5qW">50-500万</a></li>
+<li class="item sig"><a href="javascript:void(0)" value="5000000" datas-ts="=mm-c%">500万以上</a></li>
+</ul>
+<ul class="lccp_fxdj" data-fl="fxdj">
+<li class="cx_type">风险等级</li>
+<li class="item limited"><a class="unlimited" href="javascript:void(0)" value="" datas-ts="=UP@)S">不限</a></li>
+<li class="item sig"><a href="javascript:void(0)" value="1" datas-ts="=)~m;v">低</a></li>
+<li class="item sig"><a href="javascript:void(0)" value="2" datas-ts="=}de7c">较低</a></li>
+<li class="item sig"><a href="javascript:void(0)" value="3" datas-ts="=;v|Yw">中</a></li>
+<li class="item sig"><a href="javascript:void(0)" value="4" datas-ts="=]xXeX">较高</a></li>
+<li class="item sig"><a href="javascript:void(0)" value="5" datas-ts="=G^r@D">高</a></li>
+</ul>
+<ul class="lccp_cppz" data-fl="cppz">
+<li class="cx_type">产品品种</li>
+<li class="item limited"><a class="unlimited" href="javascript:void(0)" value="" datas-ts="=uJrE9">不限</a></li>
+<li class="item sig"><a href="javascript:void(0)" value="0" datas-ts="=Vd#Kp">封闭式</a></li>
+<li class="item sig"><a href="javascript:void(0)" value="1" datas-ts="=Fnpda">开放式</a></li>
+</ul>
+<div class="lccp_screen lccp_screen2"><p>共有 <span class="total_count2">&nbsp;</span> 款产品符合条件</p>
+<a class="empty" href="javascript:void(0)" datas-ts="=1mQiQ">清空筛选条件</a></div>
+</div>
+<div class="finance_bottom"><table cellpadding="0" cellspacing="0" id="finance_tb2">
+<tbody class="wealthlccp_list2">
+	<tr class="first_tr first_tr2">
+	<td class="lb_td_specil" width="214">产品名称</td>
+	<td class="lb_td_specil" width="134">代码</td>
+	<!--<td class="lb_td_specil" width="254">销售日期</td>--><td class="lb_td_specil" width="144">起点金额</td>
+	<td class="lb_td_specil" width="174">万份收益</td>
+	<td class="lb_td_specil" width="174">七日年化</td>
+	<td class="lb_td_specil" width="164">风险等级</td>
+	<td class="lb_td_specil" style="border-right:0;" width="184">操作</td>
+	</tr>
+</tbody>
+</table>
+<div class="lccp_page lccp_page2"></div>
+<div class="wxts wxts2"></div>
+</div>
+</div>
+<script>var currentPage2=1;var totalPageNum2=0;var mjbzArr2=[];var xsqdjeArr2=[];var cpfxdjArr2=[];var sfkfsArr2=[];$(function(){$(_$k4('HhbRNMbmX3CYI3CYXwDYnWPrTMcr7F1yNwDYzEDl')).click(function(){if($(this).parent().hasClass(_$k4('qQC2v'))){if($(this).hasClass(_$k4('a3Cf23Cz2Rq'))){$(this).removeClass(_$k4('E3Cf23Cz2Rq'));if($(this).parent().parent().attr(_$k4("u3CSfQ6W"))==_$k4('xMDJOQmeP8G')){for(var _$hV=0;_$hV<mjbzArr2.length;_$hV++ ){if($(this).attr(_$k4('0wbm7wKV'))==mjbzArr2[_$hV]){mjbzArr2.splice(_$hV,1);break;}}}else if($(this).parent().parent().attr(_$k4("P3CSfQ6W"))==_$k4('yMDJOQmeSRDN2')){for(var _$hV=0;_$hV<xsqdjeArr2.length;_$hV++ ){if($(this).attr(_$k4('dwbm7wKV'))==xsqdjeArr2[_$hV]){xsqdjeArr2.splice(_$hV,1);break;}}}else if($(this).parent().parent().attr(_$k4("e3CSfQ6W"))==_$k4('mMDJOQmeb8Dpj')){for(var _$hV=0;_$hV<cpfxdjArr2.length;_$hV++ ){if($(this).attr(_$k4('3wbm7wKV'))==cpfxdjArr2[_$hV]){cpfxdjArr2.splice(_$hV,1);break;}}}else if($(this).parent().parent().attr(_$k4("t3CSfQ6W"))==_$k4('OMDJOQmeOQor_')){for(var _$hV=0;_$hV<sfkfsArr2.length;_$hV++ ){if($(this).attr(_$k4('6wbm7wKV'))==sfkfsArr2[_$hV]){sfkfsArr2.splice(_$hV,1);break;}}}}else{$(this).addClass(_$k4('i3Cf23Cz2Rq'));$(this).parent().parent().find(_$k4('qhbSNMK20RKAGhvYXMD2zFUp2Rq')).removeClass(_$k4('ywKy7FKTNwDY9'));if($(this).parent().parent().attr(_$k4("K3CSfQ6W"))==_$k4('YMDJOQmeP8G')){mjbzArr2.push($(this).attr(_$k4("mwbm7wKV")));}else if($(this).parent().parent().attr(_$k4("M3CSfQ6W"))==_$k4('RMDJOQmeSRDN2')){xsqdjeArr2.push($(this).attr(_$k4("swbm7wKV")));}else if($(this).parent().parent().attr(_$k4("63CSfQ6W"))==_$k4('DMDJOQmeb8Dpj')){cpfxdjArr2.push($(this).attr(_$k4("3wbm7wKV")));}else if($(this).parent().parent().attr(_$k4("p3CSfQ6W"))==_$k4('xMDJOQmeOQor_')){sfkfsArr2.push($(this).attr(_$k4("7wbm7wKV")));}}if(mjbzArr2.length==0&&$(this).parent().parent().attr(_$k4("H3CSfQ6W"))==_$k4('XMDJOQmeP8G')){$(this).parent().parent().find(_$k4('zhbSNMK20RKAG3A')).addClass(_$k4('EwKy7FKTNwDY9'));}if(xsqdjeArr2.length==0&&$(this).parent().parent().attr(_$k4("I3CSfQ6W"))==_$k4('YMDJOQmeSRDN2')){$(this).parent().parent().find(_$k4('ghbSNMK20RKAG3A')).addClass(_$k4('awKy7FKTNwDY9'));}if(cpfxdjArr2.length==0&&$(this).parent().parent().attr(_$k4("Y3CSfQ6W"))==_$k4('7MDJOQmeb8Dpj')){$(this).parent().parent().find(_$k4('qhbSNMK20RKAG3A')).addClass(_$k4('NwKy7FKTNwDY9'));}if(sfkfsArr2.length==0&&$(this).parent().parent().attr(_$k4("B3CSfQ6W"))==_$k4('iMDJOQmeOQor_')){$(this).parent().parent().find(_$k4('xhbSNMK20RKAG3A')).addClass(_$k4('5wKy7FKTNwDY9'));}currentPage2=1;doSubmit2();}});$(_$k4('QhbRNMbmX3CYI3CYXwDYnWPr7F1y7FKTNwDY9EDl')).click(function(){$(this).addClass(_$k4('ZwKy7FKTNwDY9'));$(this).parent().parent().find(_$k4('fhb20RK0GhbJLRKJ.RKA')).removeClass(_$k4('V3Cf23Cz2Rq'));if($(this).parent().parent().attr(_$k4("l3CSfQ6W"))==_$k4('HMDJOQmeP8G')){mjbzArr2=[];}else if($(this).parent().parent().attr(_$k4("x3CSfQ6W"))==_$k4('gMDJOQmeSRDN2')){xsqdjeArr2=[];}else if($(this).parent().parent().attr(_$k4("E3CSfQ6W"))==_$k4('SMDJOQmeb8Dpj')){cpfxdjArr2=[];}else if($(this).parent().parent().attr(_$k4("Y3CSfQ6W"))==_$k4('_MDJOQmeOQor_')){sfkfsArr2=[];}currentPage2=1;doSubmit2();});$(_$k4('hhbSO36rIQCJnRKYXWPqXRKTawo9')).click(function(){$(_$k4('JhbRNMbmX3CYI3CYXwDYnWPrTMcr7F1yNwDYzEcrf')).removeClass(_$k4('K3Cf23Cz2Rq'));$(_$k4('5hbRNMbmX3CYI3CYXwDYnWPrTMcr7F1y7FKTNwDY9EDl')).addClass(_$k4('SwKy7FKTNwDY9'));$(_$k4('lhvrnMCpT36pIMCy2EDSNEDl')).removeClass(_$k4('CQCY7RKJ0RKA'));mjbzArr2=[];xsqdjeArr2=[];cpfxdjArr2=[];sfkfsArr2=[];inputQueryStr="";qclx="";$(_$k4("AECRNMbmX3CYIFKyaWG")).val("请输入关键字");currentPage2=1;doSubmit2();});});function goSubmit2(){currentPage2=1;doSubmit2();}$(document).on(_$k4('bFCYyQox2Q6W'),function(_$ia){if($(_$k4("PECRNMbmX3CYIFKyaWG")).is(_$k4("PibRB36Yu"))&&_$ia.keyCode==13){currentPage2=1;doSubmit2();}});function doSubmit2(){var _$_A=trim($(_$k4("gECRNMbmX3CYIFKyaWG")).val());if(!isIllegal(_$_A)){alert('关键字中存在非法字符，请重新输入！','提示信息');$(_$k4('OECRNMbmX3CYIFKyaWG')).focus();return;}$(_$k4('AE6J23UxOFlxTwopBMOE')).removeAttr(_$k4('BFox2RG'));$.ajax({type:_$k4("iVlesYq"),url:_$k4("7hCYaM6x03KaBwK9dMKe9wKS21KAeWsEaJuWbQDmvRV29HA")+pageId+_$k4("hxvrBQvpfMcyTQbaehCmaQce6RKm7wDf73CJapvxBMvpr36pNMCgfQUY2Qv2URKm7wDf73CJaVoxBRoYOwoWXQDenwDS2wq"),dataType:_$k4("CFvJBMG"),async:false,data:{inputQueryStr:$(_$k4('AECRNMbmX3CYIFKyaWG')).attr(_$k4('8wbm7wKV'))=='请输入关键字'?inputQueryStr:$(_$k4('VECRNMbmX3CYIFKyaWG')).attr(_$k4('cwbm7wKV')).toUpperCase(),mjbzArr:mjbzArr2,xsqdjeArr:xsqdjeArr2,cpfxdjArr:cpfxdjArr2,sfkfsArr:sfkfsArr2,pageKeyStr:pageKeyStr,currentPage:currentPage2,isGrlcStr:isGrlcStr,qclx:qclx,cpFlbs:cpFlbs},success:function(_$es){introduceWealthlccp2(_$es);}});_$hQ(setTimeout,_$k4("nxcGvE6J23UxOFlxTwopBMOEvt1yfwopntcwLQbYbxnavFbmC3UJOQb2awkNvMTJT3bTNwkELts7vtA"),1000);}function introduceWealthlccp2(_$es){if(_$es!=null&&_$es!=_$k4("vwKy9RKRNMbY9")){$(_$k4("jhbRNQvJ0U6pnWG")).siblings().remove();$(_$k4("zhbSO36rIQDmvRsE")).html("");var _$jB="";var _$$m=_$es.resultList;if(_$$m.length==0){$(_$k4("ThvwgwoWn")).html("亲，很抱歉，没有找到符合条件的理财产品~");$(_$k4("KhbRNQvJ0U6pnWG")).hide();}else{$(_$k4("ThvwgwoWn")).html("");$(_$k4("mhbRNQvJ0U6pnWG")).show();}var _$is=_$es.page;var _$_8=_$is.totalPage;totalPageNum2=_$_8;var _$kv=_$is.currentPage;var _$ie=_$is.hasPrePage;var _$lZ=_$is.hasNextPage;var _$iT=_$is.totalCount;$(_$k4("4hvpBwDm7UCJBwKy0WG")).html(_$iT);for(var _$hV=0;_$hV<_$$m.length;_$hV++ ){var _$h3=_$$m[_$hV].CPNAME;if(_$h3==null||""==_$h3||_$h3==_$k4("YwKy9RKRNMbY9")){_$h3="--";}var _$eM=_$$m[_$hV].CPCODE;if(_$eM==null||""==_$eM||_$eM==_$k4("lwKy9RKRNMbY9")){_$eM="--";}var _$ea=_$$m[_$hV].XSQDJE;if(_$ea==null||""==_$ea||_$ea==_$k4("0wKy9RKRNMbY9")){_$ea="--";}else{if(_$ea%10000==0){_$ea=_$ea/10000+"万";}else if(_$ea%1000==0){_$ea=_$ea/1000+"千";}}var _$cw=_$$m[_$hV].WFSY;if(_$cw==null||""==_$cw||_$cw==_$k4("FwKy9RKRNMbY9")){_$cw="--";}var _$_r=_$$m[_$hV].ZJQTSY;if(_$_r==null||""==_$_r||_$_r==_$k4("uwKy9RKRNMbY9")){_$_r="--";}var _$aO=_$$m[_$hV].ZJSYSY;if(_$aO==null||""==_$aO||_$aO==_$k4("ywKy9RKRNMbY9")){_$aO="--";}var _$fS=_$$m[_$hV].ZJBNSY;if(_$fS==null||""==_$fS||_$fS==_$k4("fwKy9RKRNMbY9")){_$fS="--";}var _$h1=_$$m[_$hV].ZJYNSY;if(_$h1==null||""==_$h1||_$h1==_$k4("BwKy9RKRNMbY9")){_$h1="--";}var _$dJ=_$$m[_$hV].CPFXDJ;if(_$dJ==null||""==_$dJ||_$dJ==_$k4("vwKy9RKRNMbY9")){_$dJ="--";}else{_$dJ=getCpfxdjStr(_$dJ);}var _$fj=_$$m[_$hV].CATEGORY;var _$a8=_$$m[_$hV].ZDCYTS;if(_$fj=="11"&&(_$a8==""||_$a8==undefined||_$a8<=1||_$_r==_$k4("kWcgaxA"))&&(_$eM!=_$k4("ppVE0Wu9T")&&_$eM!=_$k4("TpVESJO3y"))){_$_r="--";}var _$dO=_$$m[_$hV].HTMLURL;var _$_4=_$$m[_$hV].PRD_STATUS;_$jB+=_$k4("1HopnHOS0RkgZ31ruwo27Rs0vM6Y0MD2XRsNXMCy2inQG3CSfQ6WexCSPU6pNwDS2xnrLQbYbH1Q")+_$dO+_$k4("Jxnr03UxvRUAexTePMDmXFnQ5")+_$h3;if(_$_4=="a"){_$jB+="<br/><b class='zsbq_a'>已终止</b>";}var _$bC=_$$m[_$hV].ZSBQ;if(_$bC==null||_$bC==""||_$bC==undefined){_$jB+=_$k4("1HcefHOaBwDA5");}else{_$jB+=_$k4("KHDxnhugZ3PrOMDmuQu0v8vJPQYePxug")+_$bC+_$k4("mHcePHOaB3sgZh6p9HG");}_$jB+=_$k4("THop9HG")+_$eM+_$k4("RHce0RkgZwDA5")+_$ea+_$k4("qHce0RkgZwDA5")+_$cw+_$k4("kHce0RkgZwDA5")+_$_r+_$k4("qHce0RkgZwDA5")+_$dJ+_$k4("jHce0Rkg");_$jB+=_$k4("ZHop9HOSfEDJ73UJuH1w73CJaUCxT8KxTwopBMPQGRDm031TfMbm78UpN36Wz3CSN3C7exCSO36ryhUmvhA")+_$eM+_$k4("ExnrLQbYbH1Q")+_$dO+"' target='_blank'>详情</a></td>";_$jB+=_$k4("WHce0QOg");}$(_$k4("ghvw23KS0FDSO36rIMD2uwkE")).append(_$jB);var _$gv=document.getElementById(_$k4("4Rb2X3KyORYe03OE"));var _$ga=_$gv.getElementsByTagName(_$k4("twDxBRo9"))[0];var _$aL=_$ga.getElementsByTagName("tr");for(var _$hV=1;_$hV<_$aL.length;_$hV++ ){if(_$hV%2==0){_$aL[_$hV].style.background=_$k4('DECRfRbmb3A');}};if(_$$m.length>0){if(!_$ie){$(_$k4("ihbSO36rIQDmvRsE")).append("<a class='home_page no_home_page' style='cursor:default'>首页</a> <span class='page_left_no' style='cursor:default'><</span><input id='currentPage2' type='text' value='"+_$kv+_$k4("nxnqBHPZ"));if(!_$lZ){$(_$k4("5hbSO36rIQDmvRsE")).append(_$k4("QHoJa3KgGFKAex6pBwDm7QDmvRsEvHG")+_$_8+"</span> <span class='page_right_no' style='cursor:default'>></span> <a class='end_page no_end_page' style='cursor:default'>尾页</a>");}else{$(_$k4("zhbSO36rIQDmvRsE")).append(_$k4("NHoJa3KgGFKAex6pBwDm7QDmvRsEvHG")+_$_8+"</span> <span class='page_right' onclick='goPage2(\"next\")'>></span> <a class='end_page' style='cursor:pointer;' onclick='goPage2("+_$_8+")'>尾页</a>");}}else if(_$ie){$(_$k4("8hbSO36rIQDmvRsE")).append("<a class='home_page' style='cursor:pointer;'  onclick='goPage2(1)'>首页</a> <span class='page_left' onclick='goPage2(\"pre\")'><</span><input id='currentPage2' type='text' value='"+_$kv+_$k4("CxnqBHPZ"));if(!_$lZ){$(_$k4("6hbSO36rIQDmvRsE")).append(_$k4("iHoJa3KgGFKAex6pBwDm7QDmvRsEvHG")+_$_8+"</span> <span class='page_right_no' style='cursor:default'>></span> <a class='end_page no_end_page' style='cursor:default'>尾页</a>");}else{$(_$k4("jhbSO36rIQDmvRsE")).append(_$k4("fHoJa3KgGFKAex6pBwDm7QDmvRsEvHG")+_$_8+"</span> <span class='page_right' onclick='goPage2(\"next\")'>></span> <a class='end_page' style='cursor:pointer;' onclick='goPage2("+_$_8+")'>尾页</a>");}}}}}function goPage2(_$is){if(_$is==_$k4("hQox2")){currentPage2=currentPage2-1;}else if(_$is==_$k4("iMbYgwq")){currentPage2= ++currentPage2;}else{currentPage2=_$is;}doSubmit2();}$(document).on(_$k4('zFCYyQox2Q6W'),function(_$ia){if($(_$k4("hECJTQvx2MvpA3Kw2WG")).is(_$k4("nibRB36Yu"))&&_$ia.keyCode==13){var _$gh=$(_$k4('vECJTQvx2MvpA3Kw2WG')).val();if(_$gh<=0||_$gh>totalPageNum2){$(_$k4('rECJTQvx2MvpA3Kw2WG')).focus();$(_$k4('CECJTQvx2MvpA3Kw2WG')).val(currentPage2);return;}currentPage2=$(_$k4("_ECJTQvx2MvpA3Kw2WG")).val();doSubmit2();}});</script>
+ 
+ </div> 
+</div>    </div> 
+   <div class="footer">
+<style>
+.footer{
+    height:235px;
+    background: #3c3c3c;
+    min-width:1200px;
+}
+
+.bottom_content{
+    width: 1200px;
+    margin:auto;
+	padding: 30px 0;
+}
+.bottom_left{
+    /* margin-top: 60px; */
+}
+.bottom_left p,.bottom_left a{
+    color: #c1c1c1;
+}
+.bottom_left p{
+    line-height:25px;
+}
+.bottom_left .bold_text{
+    font-size: 16px;
+    font-weight: bold;
+}
+.bottom_right{
+    margin-top: 30px;
+}
+.bottom_right img{
+    margin-right:33px;
+}
+.bottom_right img:last-child{
+    margin-right:0;
+}
+</style>
+<div class="bottom_content">
+    <div class="bottom_left fl">
+        <p>
+            <a href="javascript: void(0);" datas-ts="xha5">网站声明</a>
+            <span> | </span>
+            <a href="javascript: void(0);" datas-ts="YWq3">网站导航</a>
+            <span> | </span>
+            <a href="javascript: void(0);" datas-ts="vWAP">理财账户查询</a>
+        </p>
+        <p class="bold_text">
+            <span style="margin-right: 1em;">客户服务热线：400-889-5595</span>
+            <span>服务时间：工作日9:00-17:00</span>
+        </p><p class="bold_text">公司地址：山东省青岛市崂山区香港东路195号4号楼16至19层</p>
+        <p class="bold_text">官方投诉邮箱：gdlcxb@cebwm.com</p>
+        <p>
+            <a class="bold_text" href="javascript: void(0);" datas-ts="LWG9">客户服务与投诉指南</a>
+        </p>
+        <p>光大理财有限责任公司 <span class="ipv_con"></span> 版权所有</p>
+        <p>
+            <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=37021202001142" style="background:url(/wealth/resource/cms/2020/11/img_pc_site/2020111615005875670.png) no-repeat center left; padding-left:21px;" datas-ts="=)i@6(">鲁公网安备
+                37021202001142号</a>
+            <span> | </span>
+            <a target="_blank" href="https://beian.miit.gov.cn" datas-ts="=T@zWn">鲁ICP备20019400号</a>
+			<!--<a href="/fileDir/wealth/resource/cms/article/107232464/145466265/2020102309424245454.pdf" target="_blank">金融许可证</a>-->
+        </p>
+    </div>
+    <div class="bottom_right fr">
+        <img src="/static/cebbank/wealth/bottom_sunbank.png" alt="阳光银行">
+        <img src="/static/cebbank/wealth/bottom_bankapp.png" alt="手机银行">
+    </div>
+    <div class="clear"></div>
+</div>   </div> 
+  </div><div style="display:none" easysite="easysiteHiddenDiv">
+<input type="hidden" id="currentLoginUserLoginName">
+<input type="hidden" id="currentLoginUserLoginId">
+<input type="hidden" id="currentLoginUserIsSuperAdmin">
+</div>
+ 
+</body></html>

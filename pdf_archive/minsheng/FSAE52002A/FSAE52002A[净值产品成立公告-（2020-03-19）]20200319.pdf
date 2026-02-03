@@ -1,0 +1,2251 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html>
+ <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />  <title>中国民生银行-中国民生银行 </title>
+ <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+
+<meta http-equiv="x-ua-compatible" content="ie=edge"> <meta  name="createDate" content="2026-02-02 18:12:51" />
+<meta name=renderer content=webkit>
+<link rel="shortcut icon" type="image/x-icon" href="/cmbc/imageDir/siteIcon.ico" />
+<script type="text/javascript">var _speedMark = new Date();</script>
+<meta name="ColumnName" content="首页" >
+<meta name="ColumnType"  content="工作动态" >
+<meta name="SiteName" content="民生银行官网中文"><!--网站名称-->
+<meta name="SiteDomain" content=""><!--网站域名-->
+<meta name="SiteIDCode" content="0000000000"><!--网站标识-->
+<meta name="ColumnDescription" content="民生银行官网中文默认栏目"><!--栏目描述-->
+<meta name="ColumnKeywords" content="中国民生银行"><!--栏目关键词--><link rel="stylesheet" type="text/css"  href="/uiFramework/huilan-jquery-ui/css/huilan-jquery-ui.css" />
+
+<script type="text/javascript" src="/uiFramework/huilan-jquery-ui/js/huilan-jquery-ui.js?self=true&skin=default&random=15654"></script>
+<script src="/uiFramework/commonResource/aisitetheme/js/cmbc-theme.js" type="text/javascript"></script> 
+  <link rel="stylesheet" type="text/css" href="/cmbc/template/cmbc.css?timestamp=1742440822812" />
+  <script type="text/javascript" src="/cmbc/template/cmbc.js?timestamp=1742440822812"></script>
+ </head>
+ <body style="
+					
+					">
+  <link rel="stylesheet" type="text/css" href="/cmbc/template/page/index/skin.css?timestamp=1742440822812" /> <div style="display:none" easysite="easysiteHiddenDiv">
+	<input id="contextPath" value="/eportal" type="hidden"/>
+	<input id="isOnlyUseCkeditorSourceMode" value="$isOnlyUseCkeditorSourceMode" type="hidden"/>
+	<input id="eprotalCurrentPageId" value="f6753bfc6e2d4d93859fa0c971ea42bd" type="hidden"/>
+	<input id="eprotalCurrentPageName" value="首页" type="hidden"/>
+	<input id="eprotalCurrentPageUrl" value="" type="hidden"/>
+	<input id="eprotalCurrentPageOutLink" value="" type="hidden"/>
+	<input id="eprotalCurrentSiteId" value="758d14b6f7b5402cb0a11445a09351f2" type="hidden"/>
+	<input id="eprotalCurrentSiteName" value="民生银行官网中文" type="hidden"/>
+	<input id="eprotalCurrentSiteEnname" value="cmbc" type="hidden"/>
+	<input id="eprotalCurrentSiteType" value="WEB" type="hidden"/>
+	<input id="eprotalCurrentSiteHideMaskLayer" value="no" type="hidden"/>
+	<input id="eprotalCurrentArticleKey"  value=""  type="hidden"/>
+	<input id="eprotalCurrentArticleTitle"  value=""  type="hidden"/>
+	<input id="eprotalCurrentColumnId"  value=""  type="hidden"/>
+	<input id="eprotalCurrentArticleUrl" value="" type="hidden"/>
+	<input id="isStaticRequest" value="yes" type="hidden"/>
+	<input id="isOpenStaticPageList" value="no" type="hidden"/>
+	<input id="defaultPublishPage" value="2" type="hidden"/>
+	<input id="eprotalMsgDataId"  value=""  type="hidden"/>
+	<input id="eprotalMsgboardId"  value=""  type="hidden"/>
+	<input type='hidden' id='eportalappPortletId' value="3">
+	<input type="hidden" id="currentLoginMemberId"  value="" />
+	<input type="hidden" id="currentLoginMemberName"  value="" />
+			<input type="hidden" id="portalLastRequestUrl"  value="" />
+	<input type="hidden" id="easysiteParamKey" value="1766401877828"/>
+    <input type="hidden" id="isOpenEasysiteToken" value="true"/>
+    <input type="hidden" id="isOpenFormParmaValidate" value="false"/>
+    <input type="hidden" id="isOpenSiteVisitHotClick" value="no"/>
+    <input type="hidden" id="aisiteViewArticleIds"  value="" />
+    <input type="hidden" id="openWeixinJsShare" value="off"/>
+</div>  <!--<link rel="stylesheet" type="text/css"  href="/cmbc/template/common/comHeader/qdzgiconfont.css?timestamp=1718209582091"/>-->
+<link rel="stylesheet" href="/uiFramework/commonResource/css/swiper4.css">
+<script src="/uiFramework/commonResource/js/swiper4.js"></script>
+<link rel="stylesheet" href="/uiFramework/commonResource/css/nav.css" />
+<script src="/uiFramework/commonResource/js/share.js"></script>
+
+<!--20250515跳转wap--->
+<script type="text/javascript">
+var browser = {
+  versions: (function () {
+    var u = navigator.userAgent,
+      app = navigator.appVersion;
+    return {
+      //移动终端浏览器版本信息
+      mobile:
+        (!!u.match(/AppleWebKit.*Mobile/) ||
+          !!u.match(/Windows Phone/) ||
+          !!u.match(/Android/) ||
+          !!u.match(/MQQBrowser/)) &&
+        !u.match(/iPad/), //是否为移动终端
+    };
+  })(),
+};
+
+if(
+  window.location.href.indexOf("desktop") > -1 ||
+  window.location.href.indexOf("/ent/") > -1 ||
+  window.location.href.indexOf("/bx/xxpl") > -1 ||
+  window.location.href.indexOf("/lxwm/fwwd") > -1)
+{
+	try{
+		window.sessionStorage.setItem("$$FORCE_DESKTOP","1")
+	}catch(err){
+		//do nothing
+	}
+}
+
+if (
+  browser.versions.mobile && window.sessionStorage.getItem("$$FORCE_DESKTOP") !== '1'
+) {
+  window.location.href = "https://wap.cmbc.com.cn/";
+}
+</script>
+<!--20250515跳转wap END--->
+
+<!--无障碍-->
+<script type="text/javascript">
+    
+    if (!(document.documentMode && document.documentMode < 11)) {
+      var readerBaseUrl = "/gw/po_web/GetAccessTokenAndShortTextForTTs.do"
+      var mousePath = "https://static.cmbc.com.cn/resource/accessibility/cursor.cur"
+      var explanationUrl = "https://static.cmbc.com.cn/resource/accessibility/accessibility.pdf"
+      if(window._isUAT_){
+	readerBaseUrl="/gw/po_web/GetAccessTokenAndShortTextForTTs.do"
+	mousePath = "http://cmbcwebwww.cmbcweb.uat.cmbc.cn:10007/resource/accessibility/cursor.cur"
+	explanationUrl = "http://cmbcwebwww.cmbcweb.uat.cmbc.cn:10007/resource/accessibility/accessibility.pdf"
+      }
+      if(window._isVER_){
+	readerBaseUrl="/gw/po_web/GetAccessTokenAndShortTextForTTs.do"
+	mousePath = "http://cmbcwebwww.cmbcweb.ver.cmbc.cn:20007/resource/accessibility/cursor.cur"
+	explanationUrl = "http://cmbcwebwww.cmbcweb.ver.cmbc.cn:20007/resource/accessibility/accessibility.pdf"
+      }
+      var accessScript = document.createElement('script');
+      accessScript.type="text/javascript"
+      accessScript.src="https://static.cmbc.com.cn/resource/accessibility/index.js"
+      if(window._isUAT_){
+	accessScript.src="http://cmbcwebwww.cmbcweb.uat.cmbc.cn:10007/resource/accessibility/index.js"
+      }
+      if(window._isVER_){
+	accessScript.src="http://cmbcwebwww.cmbcweb.ver.cmbc.cn:20007/resource/accessibility/index.js"
+      }
+      accessScript.onload = function() {
+        if (window.MpaasAtb) {
+          window.mpaasAtb = new MpaasAtb() //初始化
+          mpaasAtb.init({
+            readerBaseUrl:readerBaseUrl,
+            mousePath:mousePath,
+            explanationUrl:explanationUrl
+          })
+        }
+      }
+      document.getElementsByTagName('head')[0].appendChild(accessScript)
+    }
+  </script>
+
+<!--页面头部-->
+<div class="container-fluid">
+  <div class="wrap cmbc-site-header">
+    <div class="cmbc-site-header-left"><a href="/cmbc/index/index.html"> <img class="logo hoverable" src="/uiFramework/commonResource/image/2024061211185919694.png"> </a></div>
+    <div class="cmbc-site-header-right">
+      <div class="cmbc-site-header-right-btns"> 
+        <!--<div class="cmbc-site-header-right-btns-item first hoverable" onclick="_zoomIn()"><img src="/uiFramework/commonResource/image/2024061212011549080.png">页面放大</div>--> 
+        <!--<div class="cmbc-site-header-right-btns-item hoverable" onclick="_zoomOut()"><img src="/uiFramework/commonResource/image/2024061212012470190.png">页面缩小</div>-->
+        <div class="cmbc-site-header-right-btns-item first hoverable" id="Accessibility" style="display:none"><img src="/uiFramework/commonResource/image/2025041021513622833.png" style="margin-right:5px;">无障碍</div>
+        <div class="cmbc-site-header-right-btns-item tel first hoverAble" data-link="tel:95568"> <img src="/uiFramework/commonResource/image/2024061212030622599.png"> 95568 </div>
+        <div class="cmbc-site-header-right-btns-item hoverAble"> <a class="fj_box hoverAble" id="StranLink" href=" ">繁</a > </div>
+        <div class="cmbc-site-header-right-btns-item last hoverAble" onclick="toLink('https://en.cmbc.com.cn/cmbc_en/index.html')" > En </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--PC端导航-->
+<div class="headerNav"> 
+  <div class="wh_menu_bot wrap">
+    <ul class="wh_menu_bot_main">
+      <li class="wh_menu_bot_main_one"> 
+ <a class="ph_navLink" href="/cmbc/index/index.html">首页</a>  </li>
+      <li class="wh_menu_bot_main_one"> 
+ <a class="ph_navLink toOpen hasChild" href="/cmbc/gryw/index.html">个人客户</a>
+        
+          <ul class="wh_menu_bot_main_two">
+            <div class="wrap">
+            <li> <a href="/cmbc/gryw/yxk/ykzn/jjkgs/index.html">银行卡</a> </li>
+            <li> <a href="/cmbc/gryw/grylj/index.html">个人养老金</a> </li>
+            <li> <a href="/cmbc/gryw/sryx/sryxjj/index.html">私人银行</a> </li>
+            <li> <a href="/cmbc/gryw/lc/index.html">理财</a> </li>
+            <li> <a href="/cmbc/gryw/jj/index.html">基金</a> </li>
+            <li> <a href="/cmbc/gryw/bx/xxpl/jyzz/index.html">保险</a> </li>
+            <li> <a href="/cmbc/gryw/gjs/swj/zyppswj/index.html">贵金属</a> </li>
+            <li> <a href="/cmbc/gryw/ck/msaxc/index.html">存款</a> </li>
+            <li> <a href="/cmbc/gryw/kjlct/kjlct/index.html">跨境理财通</a> </li>
+            <li> <a href="/cmbc/gryw/dk/grfwajdk/index.html">贷款</a> </li>
+            <li> <a href="/cmbc/gryw/cgjr/grjsh/sh/index.html">出国金融</a> </li>
+            <li> <a href="/cmbc/gryw/bljr/jfyw/index.html">便利金融</a> </li>
+            <li> <a href="/cmbc/gryw/zzyx/zzyxjs/index.html">自助银行</a> </li>
+            </div>
+          </ul>
+        
+ </li>
+      <li class="wh_menu_bot_main_one"> 
+ <a class="ph_navLink toOpen hasChild" href="/cmbc/xwyw/index.html">小微客户</a>
+        
+          <ul class="wh_menu_bot_main_two">
+            <div class="wrap">
+            <li> <a href="/cmbc/xwyw/msxwapp/msxwapp/index.html">民生小微App</a> </li>
+            <li> <a href="/cmbc/xwyw/rzfw/dydk/mshdyd/index.html">融资服务</a> </li>
+            <li> <a href="/cmbc/xwyw/msej/index.html">民生e家</a> </li>
+            </div>
+          </ul>
+        
+ </li>
+      <li class="wh_menu_bot_main_one"> 
+ <a class="ph_navLink toOpen hasChild" href="/cmbc/wljr/index.html">网络金融</a>
+        
+          <ul class="wh_menu_bot_main_two">
+            <div class="wrap">
+            <li> <a href="/cmbc/wljr/sjyx/xykb74/cpjs/index.html">手机银行</a> </li>
+            <li> <a href="/cmbc/wljr/grwsyx/ywjs/index.html">个人网上银行</a> </li>
+            <li> <a href="/cmbc/wljr/qywsyx/ywjs/index.html">企业网上银行</a> </li>
+            <li> <a href="/cmbc/wljr/wxyx/cpjs/index.html">微信银行</a> </li>
+            <li> <a href="/cmbc/wljr/dhyx/ywjs/index.html">电话银行</a> </li>
+            <li> <a href="/cmbc/wljr/kxt/cpjs/index.html">跨行通</a> </li>
+            <li> <a href="/cmbc/wljr/dhyx23/ywjs/index.html">安全提示</a> </li>
+            </div>
+          </ul>
+        
+ </li>
+      <li class="wh_menu_bot_main_one"> 
+ <a class="ph_navLink toOpen hasChild" href="/cmbc/gskh/index.html">公司客户</a>
+        
+          <ul class="wh_menu_bot_main_two">
+            <div class="wrap">
+            <li> <a href="/cmbc/gskh/zhgl/qykhe/index.html">账户管理</a> </li>
+            <li> <a href="/cmbc/gskh/xjgl/skt/skt61/index.html">现金管理</a> </li>
+            <li> <a href="/cmbc/gskh/zjzz/ckzzcp/dgdecd/index.html">资金增值</a> </li>
+            <li> <a href="/cmbc/gskh/dk/dgdk/frzhtz/index.html">贷款</a> </li>
+            <li> <a href="https://e.cmbc.com.cn/apollo/xjy-pc/index.html#/home?_k=0kyxq4">现金盈</a> </li>
+            <li> <a href="/cmbc/gskh/myrz/gnddrz/gnddrz/index.html">贸易融资</a> </li>
+            <li> <a href="/cmbc/gskh/gylrz/dde/index.html">供应链融资</a> </li>
+            <li> <a href="/cmbc/gskh/gjyw/mshqsh/mshqsh/index.html">国际业务</a> </li>
+            <li> <a href="/cmbc/gskh/tzyx/fzyw/dqrzq/index.html">投资银行</a> </li>
+            <li> <a href="/cmbc/gskh/jrsc/whjqyw/jqjsh/index.html">金融市场</a> </li>
+            <li> <a href="/cmbc/gskh/zctg/khzjtg/index.html">资产托管</a> </li>
+            <li> <a href="/cmbc/gskh/kjjr/wljrpt/qywsyx/index.html">金融科技</a> </li>
+            </div>
+          </ul>
+        
+ </li>
+      <li class="wh_menu_bot_main_one"> 
+ <a class="ph_navLink toOpen hasChild" href="/cmbc/zxkh/index.html">中小客户</a>
+        
+          <ul class="wh_menu_bot_main_two">
+            <div class="wrap">
+            <li> <a href="/cmbc/zxkh/zxmsgc/index.html">中小民生工程</a> </li>
+            <li> <a href="https://e.cmbc.com.cn/eweb/static/current/caiyunindex.html?aisiteOutPageId=74227ec9f12840a1bd1d3e7731e9ff22">民生财运</a> </li>
+            <li> <a href="/cmbc/zxkh/zhzl/index.html">账户专列</a> </li>
+            <li> <a href="/cmbc/zxkh/kjd/index.html">快捷贷</a> </li>
+            <li> <a href="/cmbc/zxkh/yhjh/index.html">萤火计划</a> </li>
+            <li> <a href="/cmbc/zxkh/msqyjy/index.html">民生企业家园</a> </li>
+            </div>
+          </ul>
+        
+ </li>
+      <li class="wh_menu_bot_main_one"> 
+ <a class="ph_navLink toOpen hasChild" href="/cmbc/tykh/index.html">同业客户</a>
+        
+          <ul class="wh_menu_bot_main_two">
+            <div class="wrap">
+            <li> <a href="/cmbc/tykh/zjrt/tyck/index.html">资金融通</a> </li>
+            <li> <a href="/cmbc/tykh/zjjy/jqrmbjsh/index.html">资金交易</a> </li>
+            <li> <a href="/cmbc/tykh/yyhz/hzblyqjsh/index.html">银银合作</a> </li>
+            <li> <a href="/cmbc/tykh/yzhz/dlxszcgljh/index.html">银证合作</a> </li>
+            <li> <a href="/cmbc/tykh/xdzczqh/xdzczqh/index.html">银信合作</a> </li>
+            <li> <a href="/cmbc/tykh/ybhz/bxxyck/index.html">银保合作</a> </li>
+            <li> <a href="/cmbc/tykh/yqhz/yqztc/index.html">银期合作</a> </li>
+            <li> <a href="/cmbc/tykh/zhxhz/zqxsyjyfw/index.html">综合性合作</a> </li>
+            </div>
+          </ul>
+        
+ </li>
+      <li class="wh_menu_bot_main_one"> 
+ <a class="ph_navLink toOpen hasChild" href="https://creditcard.cmbc.com.cn/home/cn/web/index/index.shtml?aisiteOutPageId=09f499bf33d4492c930591cf88d282d4">信用卡</a>
+        
+          <ul class="wh_menu_bot_main_two">
+            <div class="wrap">
+            <li> <a href="https://creditcard.cmbc.com.cn/tyglweb/home/cn/web/product/list_1.shtml?aisiteOutPageId=5854fb0cba6a4d8a909b83e325ce77c1">卡家族</a> </li>
+            <li> <a href="https://creditcard.cmbc.com.cn/tyglweb/home/cn/web/wonderful/leshare/all/list_1.shtml?aisiteOutPageId=8a598874ef93455ba1cda7f620660c24">功能服务</a> </li>
+            <li> <a href="https://creditcard.cmbc.com.cn/tyglweb/home/cn/web/wonderful/active/list_1.shtml?aisiteOutPageId=bd02d570dfff4f39bbe1ec3eb2bcc9b3">动态信息</a> </li>
+            <li> <a href="https://creditcard.cmbc.com.cn/tyglweb/home/cn/web/business/stage/billing/index.shtml?aisiteOutPageId=7f71ee681a5d4f55a37e7c8912c0a33e">分期付款</a> </li>
+            <li> <a href="https://creditcard.cmbc.com.cn/tyglweb/home/cn/web/customer/card/konw/list_1.shtml?aisiteOutPageId=3d9a650fb7574cac8b06f036d009b3be">用卡百科</a> </li>
+            <li> <a href="https://creditcard.cmbc.com.cn/tyglweb/home/cn/web/customer/client/APP/list_1.shtml?aisiteOutPageId=b7ea6cdd1e024a7da3f4312b78ab3468">全民生活APP</a> </li>
+            </div>
+          </ul>
+        
+ </li>
+      <li class="wh_menu_bot_main_one"> 
+ <a class="ph_navLink toOpen hasChild" href="/cmbc/jrms/index.html">今日民生</a>
+        
+          <ul class="wh_menu_bot_main_two">
+            <div class="wrap">
+            <li> <a href="/cmbc/jrms/gyms/msjj/index.html">关于民生</a> </li>
+            <li> <a href="/cmbc/jrms/msdt/msxw/index.html">民生新闻</a> </li>
+            <li> <a href="https://ir.cmbc.com.cn/?aisiteOutPageId=53c6df4c0d894963ba3f74ba4166121b">投资者关系</a> </li>
+            <li> <a href="http://career.cmbc.com.cn:8080/index.jsp#/app/home">民生招聘</a> </li>
+            <li> <a href="/cmbc/jrms/hjshjgz/hjshjgzxx/index.html">环境、社会及管治</a> </li>
+            </div>
+          </ul>
+        
+ </li>
+      <li class="wh_menu_bot_main_one"> 
+ <a class="ph_navLink" href="/cmbc/ckbx/index.html">存款保险</a>  </li>
+    </ul>
+  </div>
+</div>
+
+<!--移动端导航-->
+<div class="yd_nav"> 
+  <div class="gov_header_ph"></div>
+  <div class="hideNav"></div>
+  <div class="headerCon">
+    <div class="ph_head"><span><a href="">中国民生银行</a></span><span class="ph_icon"></span></div>
+    <div class="gov_header">
+      <div class="gov_header_main"> 
+        <!-- NavBox -->
+        <div class="gov_navu_box">
+          <ul class="gov_navu_main">
+            <li> <a class="pc_navLink" href="/cmbc/index/index.html">首页</a> 
+ <a class="ph_navLink" href="/cmbc/index/index.html">首页</a>  </li>
+            <li> <a class="pc_navLink" href="/cmbc/gryw/index.html">个人客户</a> 
+ <a class="ph_navLink toOpen hasChild"><span onclick="toLink('/cmbc/gryw/index.html')">个人客户</span></a>
+              <ul class="gov_navu_two">
+                <li> <a href="/cmbc/gryw/yxk/ykzn/jjkgs/index.html">银行卡</a>
+                  <ul class="gov_navu_three">
+                    <li> <a href="/cmbc/gryw/yxk/ykzn/jjkgs/index.html">用卡指南</a> </li>
+                    <li> <a href="/cmbc/gryw/yxk/gbk/index.html">贵宾卡</a> </li>
+                    <li> <a href="/cmbc/gryw/yxk/yljjk/ylicjjk/index.html">银联借记卡</a> </li>
+                  </ul>
+                </li>
+                <li> <a href="/cmbc/gryw/grylj/index.html">个人养老金</a>
+                  <ul class="gov_navu_three">
+                  </ul>
+                </li>
+                <li> <a href="/cmbc/gryw/sryx/sryxjj/index.html">私人银行</a>
+                  <ul class="gov_navu_three">
+                    <li> <a href="/cmbc/gryw/sryx/sryxjj/index.html">私人银行简介</a> </li>
+                    <li> <a href="/cmbc/gryw/sryx/zskj/index.html">专属空间</a> </li>
+                    <li> <a href="/cmbc/gryw/sryx/zsqy/index.html">专属权益</a> </li>
+                    <li> <a href="/cmbc/gryw/sryx/zszk/index.html">专属智库</a> </li>
+                    <li> <a href="/cmbc/gryw/sryx/zscp/index.html">专属产品</a> </li>
+                  </ul>
+                </li>
+                <li> <a href="/cmbc/gryw/lc/index.html">理财</a>
+                  <ul class="gov_navu_three">
+                    <li> <a href="/cmbc/gryw/lc/lcdt/index.html">理财动态</a> </li>
+                    <li> <a href="/cmbc/gryw/lc/zscp/index.html">在售产品</a> </li>
+                    <li> <a href="/cmbc/gryw/lc/yscp/index.html">已售产品</a> </li>
+                  </ul>
+                </li>
+                <li> <a href="/cmbc/gryw/jj/index.html">基金</a>
+                  <ul class="gov_navu_three">
+                  </ul>
+                </li>
+                <li> <a href="/cmbc/gryw/bx/xxpl/jyzz/index.html">保险</a>
+                  <ul class="gov_navu_three">
+                    <li> <a href="/cmbc/gryw/bx/xxpl/jyzz/index.html">信息披露</a> </li>
+                  </ul>
+                </li>
+                <li> <a href="/cmbc/gryw/gjs/swj/zyppswj/index.html">贵金属</a>
+                  <ul class="gov_navu_three">
+                    <li> <a href="/cmbc/gryw/gjs/swj/zyppswj/index.html">实物金</a> </li>
+                    <li> <a href="/cmbc/gryw/gjs/jcj/index.html">积存金</a> </li>
+                  </ul>
+                </li>
+                <li> <a href="/cmbc/gryw/ck/msaxc/index.html">存款</a>
+                  <ul class="gov_navu_three">
+                    <li> <a href="/cmbc/gryw/ck/msaxc/index.html">民生安心存</a> </li>
+                    <li> <a href="/cmbc/gryw/ck/decd/index.html">大额存单</a> </li>
+                    <li> <a href="/cmbc/gryw/ck/cxck/index.html">储蓄存款</a> </li>
+                    <li> <a href="/cmbc/gjs/wh/zyppswj/index.html">人民币个人存款利率</a> </li>
+                    <li> <a href="/cmbc/gryw/ck/bwbhqcx/index.html">本外币活期储蓄</a> </li>
+                    <li> <a href="/cmbc/gryw/ck/bwbdqcx/index.html">本外币定期储蓄</a> </li>
+                    <li> <a href="/cmbc/gryw/ck/cz/index.html">存折</a> </li>
+                    <li> <a href="/cmbc/gryw/ck/cd/index.html">存单</a> </li>
+                    <li> <a href="/cmbc/gryw/ck/jgxck/fbscpxx/index.html">结构性存款</a> </li>
+                  </ul>
+                </li>
+                <li> <a href="/cmbc/gryw/kjlct/kjlct/index.html">跨境理财通</a>
+                  <ul class="gov_navu_three">
+                    <li> <a href="/cmbc/gryw/kjlct/kjlct/index.html">跨境理财通</a> </li>
+                    <li> <a href="/cmbc/gryw/kjlct/nxt/index.html">南向通</a> </li>
+                    <li> <a href="/cmbc/gryw/kjlct/bxt/index.html">北向通</a> </li>
+                    <li> <a href="/cmbc/gryw/kjlct/blwd/index.html">办理网点</a> </li>
+                  </ul>
+                </li>
+                <li> <a href="/cmbc/gryw/dk/grfwajdk/index.html">贷款</a>
+                  <ul class="gov_navu_three">
+                    <li> <a href="/cmbc/gryw/dk/grfwajdk/index.html">个人房屋按揭贷款</a> </li>
+                    <li> <a href="/cmbc/gryw/dk/grqcxfdk/index.html">个人汽车消费贷款</a> </li>
+                    <li> <a href="/cmbc/gryw/dk/grzhxfdk/index.html">个人综合消费贷款</a> </li>
+                    <li> <a href="/cmbc/gryw/dk/grwxxfdk/index.html">民易贷</a> </li>
+                    <li> <a href="/cmbc/gjs/wh/rmbdkscbjll/index.html">人民币贷款利率</a> </li>
+                    <li> <a href="/cmbc/gryw/dk/dhtsycsfwzc/index.html">电话提示与催收服务支持</a> </li>
+                    <li> <a href="/cmbc/gryw/dk/xflhlwzdywhzjg18/index.html">消费类互联网助贷业务合作机构</a> </li>
+                    <li> <a href="/cmbc/gryw/dk/grdkcswbhzjg/index.html">个人贷款催收外包合作机构</a> </li>
+                  </ul>
+                </li>
+                <li> <a href="/cmbc/gryw/cgjr/grjsh/sh/index.html">出国金融</a>
+                  <ul class="gov_navu_three">
+                    <li> <a href="/cmbc/gryw/cgjr/grjsh/sh/index.html">个人结售汇</a> </li>
+                    <li> <a href="/cmbc/gryw/cgjr/grjsh27/sh/index.html">跨境汇款</a> </li>
+                  </ul>
+                </li>
+                <li> <a href="/cmbc/gryw/bljr/jfyw/index.html">便利金融</a>
+                  <ul class="gov_navu_three">
+                    <li> <a href="/cmbc/gryw/bljr/jfyw/index.html">缴费业务</a> </li>
+                  </ul>
+                </li>
+                <li> <a href="/cmbc/gryw/zzyx/zzyxjs/index.html">自助银行</a>
+                  <ul class="gov_navu_three">
+                    <li> <a href="/cmbc/gryw/zzyx/zzyxjs/index.html">自助银行介绍</a> </li>
+                    <li> <a href="/cmbc/gryw/zzyx/xjcqkj/index.html">现金存取款机</a> </li>
+                    <li> <a href="/cmbc/gryw/zzyx/tkcllc/index.html">吞卡处理流程</a> </li>
+                  </ul>
+                </li>
+              </ul>
+ </li>
+            <li> <a class="pc_navLink" href="/cmbc/xwyw/index.html">小微客户</a> 
+ <a class="ph_navLink toOpen hasChild"><span onclick="toLink('/cmbc/xwyw/index.html')">小微客户</span></a>
+              <ul class="gov_navu_two">
+                <li> <a href="/cmbc/xwyw/msxwapp/msxwapp/index.html">民生小微App</a>
+                  <ul class="gov_navu_three">
+                    <li> <a href="/cmbc/xwyw/msxwapp/msxwapp/index.html">民生小微App</a> </li>
+                    <li> <a href="/cmbc/xwyw/msxwapp/msxwxcx/index.html">民生小微小程序</a> </li>
+                    <li> <a href="/cmbc/xwyw/msxwapp/msxwzjgzh/index.html">民生小微之家公众号</a> </li>
+                  </ul>
+                </li>
+                <li> <a href="/cmbc/xwyw/rzfw/dydk/mshdyd/index.html">融资服务</a>
+                  <ul class="gov_navu_three">
+                    <li> <a href="/cmbc/xwyw/rzfw/dydk/mshdyd/index.html">抵押贷款</a> </li>
+                    <li> <a href="/cmbc/xwyw/rzfw/xydk/mshxyd/index.html">信用贷款</a> </li>
+                    <li> <a href="/cmbc/xwyw/rzfw/dbdk/ydpldbd/index.html">担保贷款</a> </li>
+                    <li> <a href="/cmbc/xwyw/rzfw/xwqyyxcdhp/index.html">银行承兑汇票</a> </li>
+                    <li> <a href="/cmbc/xwyw/rzfw/xwdzbh/index.html">小微电子保函</a> </li>
+                    <li> <a href="/cmbc/xwyw/rzfw/msxwappzztx/index.html">民生小微App自助贴现</a> </li>
+                    <li> <a href="/cmbc/xwyw/rzfw/whbxd/index.html">无还本续贷</a> </li>
+                    <li> <a href="/cmbc/xwyw/rzfw/fwzc/index.html">服务支持</a> </li>
+                    <li> <a href="/cmbc/xwyw/rzfw/jylhlwzdywhzjg/index.html">经营类互联网助贷业务合作机构</a> </li>
+                  </ul>
+                </li>
+                <li> <a href="/cmbc/xwyw/msej/index.html">民生e家</a>
+                  <ul class="gov_navu_three">
+                  </ul>
+                </li>
+              </ul>
+ </li>
+            <li> <a class="pc_navLink" href="/cmbc/wljr/index.html">网络金融</a> 
+ <a class="ph_navLink toOpen hasChild"><span onclick="toLink('/cmbc/wljr/index.html')">网络金融</span></a>
+              <ul class="gov_navu_two">
+                <li> <a href="/cmbc/wljr/sjyx/xykb74/cpjs/index.html">手机银行</a>
+                  <ul class="gov_navu_three">
+                    <li> <a href="/cmbc/wljr/sjyx/xykb74/cpjs/index.html">个人版</a> </li>
+                    <li> <a href="/cmbc/wljr/sjyx/xykb/cpjs/index.html">信用卡版</a> </li>
+                    <li> <a href="/cmbc/wljr/sjyx/qyb/gnzl/index.html">企业版</a> </li>
+                    <li> <a href="/cmbc/wljr/sjyx/tye/cpjs/index.html">同业e＋</a> </li>
+                    <li> <a href="/cmbc/wljr/wxyx/cpjs/index.html">微信银行</a> </li>
+                  </ul>
+                </li>
+                <li> <a href="/cmbc/wljr/grwsyx/ywjs/index.html">个人网上银行</a>
+                  <ul class="gov_navu_three">
+                    <li> <a href="/cmbc/wljr/grwsyx/ywjs/index.html">业务介绍</a> </li>
+                    <li> <a href="/cmbc/wljr/grwsyx/dlsm/index.html">登录说明</a> </li>
+                    <li> <a href="/cmbc/wljr/grwsyx/xzzq/index.html">下载专区</a> </li>
+                    <li> <a href="/cmbc/wljr/grwsyx/cfcayzszzsfwxy/index.html">CFCA预植数字证书服务协议</a> </li>
+                    <li> <a href="/cmbc/wljr/grwsyx/fwxy/index.html">服务协议</a> </li>
+                  </ul>
+                </li>
+                <li> <a href="/cmbc/wljr/qywsyx/ywjs/index.html">企业网上银行</a>
+                  <ul class="gov_navu_three">
+                    <li> <a href="/cmbc/wljr/qywsyx/ywjs/index.html">业务介绍</a> </li>
+                    <li> <a href="/cmbc/wljr/qywsyx/xzzq/index.html">下载专区</a> </li>
+                    <li> <a href="/cmbc/wljr/qywsyx/yqzl/index.html">银企直联</a> </li>
+                    <li> <a href="/cmbc/wljr/sjyx/qyb/gnzl/index.html">企业手机银行</a> </li>
+                    <li> <a href="/cmbc/wljr/qywsyx/cfcayzszzsfwxy(zx)/index.html">CFCA预植数字证书服务协议(暂行)</a> </li>
+                    <li> <a href="https://ent.cmbc.com.cn/eweb/static/electNoteCheckmain.html?aisiteOutPageId=20d6633b1b1b4fb0855f40b58fb751ac">往日电子回单验证</a> </li>
+                  </ul>
+                </li>
+                <li> <a href="/cmbc/wljr/wxyx/cpjs/index.html">微信银行</a>
+                  <ul class="gov_navu_three">
+                    <li> <a href="/cmbc/wljr/wxyx/cpjs/index.html">产品介绍</a> </li>
+                    <li> <a href="/cmbc/wljr/wxyx/qykt/index.html">签约开通</a> </li>
+                    <li> <a href="/cmbc/wljr/wxyx/wxts/index.html">温馨提示</a> </li>
+                  </ul>
+                </li>
+                <li> <a href="/cmbc/wljr/dhyx/ywjs/index.html">电话银行</a>
+                  <ul class="gov_navu_three">
+                    <li> <a href="/cmbc/wljr/dhyx/ywjs/index.html">业务介绍</a> </li>
+                    <li> <a href="/cmbc/wljr/dhyx/zhxxjst/index.html">账户信息即时通</a> </li>
+                    <li> <a href="/cmbc/wljr/dhyx/zhxxjstfwxy/index.html">“账户信息即时通”服务协议</a> </li>
+                  </ul>
+                </li>
+                <li> <a href="/cmbc/wljr/kxt/cpjs/index.html">跨行通</a>
+                  <ul class="gov_navu_three">
+                    <li> <a href="/cmbc/wljr/kxt/cpjs/index.html">产品介绍</a> </li>
+                    <li> <a href="/cmbc/wljr/kxt/tsgn/index.html">特色功能</a> </li>
+                    <li> <a href="/cmbc/wljr/kxt/wxts/index.html">温馨提示</a> </li>
+                  </ul>
+                </li>
+                <li> <a href="/cmbc/wljr/dhyx23/ywjs/index.html">安全提示</a>
+                  <ul class="gov_navu_three">
+                    <li> <a href="/cmbc/wljr/dhyx23/ywjs/index.html">反赌反诈</a> </li>
+                    <li> <a href="/cmbc/wljr/dhyx23/zhxxjst/index.html">网上银行/手机银行</a> </li>
+                    <li> <a href="/cmbc/wljr/dhyx23/zhxxjstfwxy/index.html">网络支付</a> </li>
+                    <li> <a href="/cmbc/wljr/dhyx23/szrmb/index.html">数字人民币</a> </li>
+                  </ul>
+                </li>
+              </ul>
+ </li>
+            <li> <a class="pc_navLink" href="/cmbc/gskh/index.html">公司客户</a> 
+ <a class="ph_navLink toOpen hasChild"><span onclick="toLink('/cmbc/gskh/index.html')">公司客户</span></a>
+              <ul class="gov_navu_two">
+                <li> <a href="/cmbc/gskh/zhgl/qykhe/index.html">账户管理</a>
+                  <ul class="gov_navu_three">
+                    <li> <a href="/cmbc/gskh/zhgl/qykhe/index.html">企业开户e</a> </li>
+                    <li> <a href="/cmbc/gskh/zhgl/gylkhe/index.html">供应链开户e</a> </li>
+                    <li> <a href="/cmbc/gskh/zhgl/yzkhe/index.html">银政开户e</a> </li>
+                    <li> <a href="/cmbc/gskh/zhgl/zht/index.html">账户通</a> </li>
+                    <li> <a href="/cmbc/gskh/zhgl/dwjsk/index.html">单位结算卡</a> </li>
+                    <li> <a href="/cmbc/gskh/zhgl/qyyxzhkhbzjblsx/index.html">企业银行账户开户标准及办理时限</a> </li>
+                  </ul>
+                </li>
+                <li> <a href="/cmbc/gskh/xjgl/skt/skt61/index.html">现金管理</a>
+                  <ul class="gov_navu_three">
+                    <li> <a href="/cmbc/gskh/xjgl/skt/skt61/index.html">“收”系列产品</a> </li>
+                    <li> <a href="/cmbc/gskh/xjgl/zjglfw/kxxjglhczy/index.html">“付”系列产品</a> </li>
+                    <li> <a href="/cmbc/gskh/xjgl/zjgkfw/fgt/index.html">“管”系列产品</a> </li>
+                    <li> <a href="/cmbc/gskh/xjgl/ptjsfw/ygt/index.html">“控”系列产品</a> </li>
+                    <li> <a href="/cmbc/gskh/xjgl/edt/edt/index.html">e点通</a> </li>
+                    <li> <a href="/cmbc/gskh/xjgl/frzhtz/index.html">法人账户透支</a> </li>
+                    <li> <a href="/cmbc/gskh/xjgl/fxzdqck/index.html">发行制定期存款</a> </li>
+                    <li> <a href="/cmbc/gskh/xjgl/dgdecd/index.html">对公大额存单</a> </li>
+                  </ul>
+                </li>
+                <li> <a href="/cmbc/gskh/zjzz/ckzzcp/dgdecd/index.html">资金增值</a>
+                  <ul class="gov_navu_three">
+                    <li> <a href="/cmbc/gskh/zjzz/ckzzcp/dgdecd/index.html">存款增值产品</a> </li>
+                    <li> <a href="/cmbc/gskh/zjzz/tzlccp/ttzlxllc/index.html">代销理财产品</a> </li>
+                    <li> <a href="/cmbc/gskh/zjzz/cpxx/index.html">产品信息</a> </li>
+                    <li> <a href="/cmbc/gskh/zjzz/xjy/index.html">现金盈</a> </li>
+                  </ul>
+                </li>
+                <li> <a href="/cmbc/gskh/dk/dgdk/frzhtz/index.html">贷款</a>
+                  <ul class="gov_navu_three">
+                    <li> <a href="/cmbc/gskh/dk/dgdk/frzhtz/index.html">对公贷款</a> </li>
+                    <li> <a href="/cmbc/gskh/dk/wtdk25/dwwtdk/index.html">科技金融易创贷</a> </li>
+                    <li> <a href="/cmbc/gskh/dk/wtdk/dwwtdk/index.html">委托贷款</a> </li>
+                    <li> <a href="javascript:void(0)">特色业务</a> </li>
+                    <li> <a href="/cmbc/gskh/dk/xwdk/xwcfajdk/index.html">小微贷款</a> </li>
+                  </ul>
+                </li>
+                <li> <a href="https://e.cmbc.com.cn/apollo/xjy-pc/index.html#/home?_k=0kyxq4">现金盈</a>
+                  <ul class="gov_navu_three">
+                  </ul>
+                </li>
+                <li> <a href="/cmbc/gskh/myrz/gnddrz/gnddrz/index.html">贸易融资</a>
+                  <ul class="gov_navu_three">
+                    <li> <a href="/cmbc/gskh/myrz/gnddrz/gnddrz/index.html">国内订单融资</a> </li>
+                    <li> <a href="/cmbc/gskh/myrz/gnxyz/dzxyzgn/index.html">国内信用证</a> </li>
+                    <li> <a href="/cmbc/gskh/myrz/gnbh/index.html">国内保函</a> </li>
+                    <li> <a href="/cmbc/gskh/myrz/bl/yzsqgnmfbl/index.html">保理</a> </li>
+                    <li> <a href="/cmbc/gskh/myrz/pj/syhpyxcd/index.html">票据</a> </li>
+                  </ul>
+                </li>
+                <li> <a href="/cmbc/gskh/gylrz/dde/index.html">供应链融资</a>
+                  <ul class="gov_navu_three">
+                    <li> <a href="/cmbc/gskh/gylrz/dde/index.html">订单e</a> </li>
+                    <li> <a href="/cmbc/gskh/gylrz/xre/index.html">信融e</a> </li>
+                    <li> <a href="/cmbc/gskh/gylrz/yse/index.html">应收e</a> </li>
+                    <li> <a href="/cmbc/gskh/gylrz/pre/index.html">票融e</a> </li>
+                    <li> <a href="/cmbc/gskh/gylrz/sxe/index.html">赊销e</a> </li>
+                    <li> <a href="/cmbc/gskh/gylrz/cge/index.html">采购e</a> </li>
+                    <li> <a href="/cmbc/gskh/gylrz/cct/index.html">车采通</a> </li>
+                    <li> <a href="/cmbc/gskh/gylrz/cxt/index.html">车销通</a> </li>
+                  </ul>
+                </li>
+                <li> <a href="/cmbc/gskh/gjyw/mshqsh/mshqsh/index.html">国际业务</a>
+                  <ul class="gov_navu_three">
+                    <li> <a href="/cmbc/gskh/gjyw/mshqsh/mshqsh/index.html">民生环球速汇</a> </li>
+                    <li> <a href="/cmbc/gskh/gjyw/jkjsyrz/jkxyz/index.html">进口结算与融资</a> </li>
+                    <li> <a href="/cmbc/gskh/gjyw/ckjsyrz/cker/index.html">出口结算与融资</a> </li>
+                    <li> <a href="/cmbc/gskh/gjyw/qqxjgl/kjzjc/index.html">全球现金管理</a> </li>
+                    <li> <a href="/cmbc/gskh/gjyw/tsgjjsyrz/dyckjrfw/index.html">特色国际结算与融资</a> </li>
+                    <li> <a href="/cmbc/gskh/gjyw/zzfwl/wszjtzfdi/index.html">增值服务类</a> </li>
+                    <li> <a href="/cmbc/gskh/gjyw/gjxd/jwtzdk/index.html">国际信贷</a> </li>
+                    <li> <a href="/cmbc/gskh/gjyw/swbh/swtbbh/index.html">涉外保函</a> </li>
+                  </ul>
+                </li>
+                <li> <a href="/cmbc/gskh/tzyx/fzyw/dqrzq/index.html">投资银行</a>
+                  <ul class="gov_navu_three">
+                    <li> <a href="/cmbc/gskh/tzyx/fzyw/dqrzq/index.html">发债业务</a> </li>
+                    <li> <a href="/cmbc/gskh/tzyx/zczqh/xdzczqh/index.html">资产证券化</a> </li>
+                    <li> <a href="/cmbc/gskh/tzyx/zbscyw/zbsctrzfw/index.html">资本市场业务</a> </li>
+                    <li> <a href="/cmbc/gskh/tzyx/bgrz/bgrz/index.html">并购服务</a> </li>
+                    <li> <a href="/cmbc/gskh/tzyx/zx/cwgw/index.html">咨询</a> </li>
+                    <li> <a href="/cmbc/gskh/tzyx/zczqh62/xdzczqh/index.html">易创“投、融、富、慧”</a> </li>
+                  </ul>
+                </li>
+                <li> <a href="/cmbc/gskh/jrsc/whjqyw/jqjsh/index.html">金融市场</a>
+                  <ul class="gov_navu_three">
+                    <li> <a href="/cmbc/gskh/jrsc/whjqyw/jqjsh/index.html">外汇即期业务</a> </li>
+                    <li> <a href="/cmbc/gskh/jrsc/whysyw/yqjsh/index.html">外汇衍生业务</a> </li>
+                    <li> <a href="/cmbc/gskh/jrsc/gjsyw/gjszl/index.html">贵金属业务</a> </li>
+                    <li> <a href="/cmbc/gskh/jrsc/llysyw/dkllqqcp/index.html">利率衍生业务</a> </li>
+                    <li> <a href="/cmbc/gskh/jrsc/bzcdzyrz/bzcdxszyrz/index.html">标准仓单质押融资</a> </li>
+                  </ul>
+                </li>
+                <li> <a href="/cmbc/gskh/zctg/khzjtg/index.html">资产托管</a>
+                  <ul class="gov_navu_three">
+                    <li> <a href="/cmbc/gskh/zctg/khzjtg/index.html">客户资金托管</a> </li>
+                    <li> <a href="/cmbc/gskh/zctg/qynjjjtg/index.html">企业年金基金托管</a> </li>
+                    <li> <a href="/cmbc/gskh/zctg/qynjjjzhgl/index.html">企业年金基金账户管理</a> </li>
+                    <li> <a href="/cmbc/gskh/zctg/xxpl/gmjjxxpl/index.html">信息披露</a> </li>
+                  </ul>
+                </li>
+                <li> <a href="/cmbc/gskh/kjjr/wljrpt/qywsyx/index.html">金融科技</a>
+                  <ul class="gov_navu_three">
+                    <li> <a href="/cmbc/gskh/kjjr/wljrpt/qywsyx/index.html">网络金融平台</a> </li>
+                    <li> <a href="/cmbc/gskh/kjjr/wlzf/msf/index.html">网络支付</a> </li>
+                  </ul>
+                </li>
+              </ul>
+ </li>
+            <li> <a class="pc_navLink" href="/cmbc/zxkh/index.html">中小客户</a> 
+ <a class="ph_navLink toOpen hasChild"><span onclick="toLink('/cmbc/zxkh/index.html')">中小客户</span></a>
+              <ul class="gov_navu_two">
+                <li> <a href="/cmbc/zxkh/zxmsgc/index.html">中小民生工程</a>
+                  <ul class="gov_navu_three">
+                  </ul>
+                </li>
+                <li> <a href="https://e.cmbc.com.cn/eweb/static/current/caiyunindex.html?aisiteOutPageId=74227ec9f12840a1bd1d3e7731e9ff22">民生财运</a>
+                  <ul class="gov_navu_three">
+                  </ul>
+                </li>
+                <li> <a href="/cmbc/zxkh/zhzl/index.html">账户专列</a>
+                  <ul class="gov_navu_three">
+                  </ul>
+                </li>
+                <li> <a href="/cmbc/zxkh/kjd/index.html">快捷贷</a>
+                  <ul class="gov_navu_three">
+                  </ul>
+                </li>
+                <li> <a href="/cmbc/zxkh/yhjh/index.html">萤火计划</a>
+                  <ul class="gov_navu_three">
+                  </ul>
+                </li>
+                <li> <a href="/cmbc/zxkh/msqyjy/index.html">民生企业家园</a>
+                  <ul class="gov_navu_three">
+                  </ul>
+                </li>
+              </ul>
+ </li>
+            <li> <a class="pc_navLink" href="/cmbc/tykh/index.html">同业客户</a> 
+ <a class="ph_navLink toOpen hasChild"><span onclick="toLink('/cmbc/tykh/index.html')">同业客户</span></a>
+              <ul class="gov_navu_two">
+                <li> <a href="/cmbc/tykh/zjrt/tyck/index.html">资金融通</a>
+                  <ul class="gov_navu_three">
+                    <li> <a href="/cmbc/tykh/zjrt/tyck/index.html">同业存款</a> </li>
+                    <li> <a href="/cmbc/tykh/zjrt/tycj/index.html">同业拆借</a> </li>
+                    <li> <a href="/cmbc/tykh/zjrt/tyjk/index.html">同业借款</a> </li>
+                    <li> <a href="/cmbc/tykh/zjrt/mrfsymchg/index.html">买入返售与卖出回购</a> </li>
+                    <li> <a href="/cmbc/tykh/zjrt/hjcj/index.html">黄金拆借</a> </li>
+                  </ul>
+                </li>
+                <li> <a href="/cmbc/tykh/zjjy/jqrmbjsh/index.html">资金交易</a>
+                  <ul class="gov_navu_three">
+                    <li> <a href="/cmbc/tykh/zjjy/jqrmbjsh/index.html">即期人民币结售汇</a> </li>
+                    <li> <a href="/cmbc/tykh/zjjy/jqwhmm/index.html">即期外汇买卖</a> </li>
+                    <li> <a href="/cmbc/tykh/zjjy/zqjy/index.html">债券交易</a> </li>
+                    <li> <a href="/cmbc/tykh/zjjy/gjsjqjy/index.html">贵金属即期交易</a> </li>
+                    <li> <a href="/cmbc/tykh/zjjy/ysjy/whysjy/index.html">衍生交易</a> </li>
+                  </ul>
+                </li>
+                <li> <a href="/cmbc/tykh/yyhz/hzblyqjsh/index.html">银银合作</a>
+                  <ul class="gov_navu_three">
+                    <li> <a href="/cmbc/tykh/yyhz/hzblyqjsh/index.html">合作办理远期结售汇</a> </li>
+                  </ul>
+                </li>
+                <li> <a href="/cmbc/tykh/yzhz/dlxszcgljh/index.html">银证合作</a>
+                  <ul class="gov_navu_three">
+                    <li> <a href="/cmbc/tykh/yzhz/dlxszcgljh/index.html">代理销售资产管理计划</a> </li>
+                    <li> <a href="/cmbc/tykh/yzhz/zxzcgljh/index.html">专项资产管理计划</a> </li>
+                  </ul>
+                </li>
+                <li> <a href="/cmbc/tykh/xdzczqh/xdzczqh/index.html">银信合作</a>
+                  <ul class="gov_navu_three">
+                    <li> <a href="/cmbc/tykh/xdzczqh/xdzczqh/index.html">信贷资产证券化</a> </li>
+                  </ul>
+                </li>
+                <li> <a href="/cmbc/tykh/ybhz/bxxyck/index.html">银保合作</a>
+                  <ul class="gov_navu_three">
+                    <li> <a href="/cmbc/tykh/ybhz/bxxyck/index.html">保险协议存款</a> </li>
+                    <li> <a href="/cmbc/tykh/ybhz/bxcpdlxs/index.html">保险产品代理销售</a> </li>
+                  </ul>
+                </li>
+                <li> <a href="/cmbc/tykh/yqhz/yqztc/index.html">银期合作</a>
+                  <ul class="gov_navu_three">
+                    <li> <a href="/cmbc/tykh/yqhz/yqztc/index.html">银期直通车</a> </li>
+                  </ul>
+                </li>
+                <li> <a href="/cmbc/tykh/zhxhz/zqxsyjyfw/index.html">综合性合作</a>
+                  <ul class="gov_navu_three">
+                    <li> <a href="/cmbc/tykh/zhxhz/zqxsyjyfw/index.html">债券销售与交易服务</a> </li>
+                    <li> <a href="/cmbc/tykh/zhxhz/tywy/index.html">同业网银</a> </li>
+                    <li> <a href="/cmbc/tykh/zhxhz/dxhzjgml/index.html">代销合作机构名录</a> </li>
+                  </ul>
+                </li>
+              </ul>
+ </li>
+            <li> <a class="pc_navLink" href="https://creditcard.cmbc.com.cn/home/cn/web/index/index.shtml?aisiteOutPageId=09f499bf33d4492c930591cf88d282d4">信用卡</a> 
+ <a class="ph_navLink toOpen hasChild"><span onclick="toLink('https://creditcard.cmbc.com.cn/home/cn/web/index/index.shtml?aisiteOutPageId=09f499bf33d4492c930591cf88d282d4')">信用卡</span></a>
+              <ul class="gov_navu_two">
+                <li> <a href="https://creditcard.cmbc.com.cn/tyglweb/home/cn/web/product/list_1.shtml?aisiteOutPageId=5854fb0cba6a4d8a909b83e325ce77c1">卡家族</a>
+                  <ul class="gov_navu_three">
+                  </ul>
+                </li>
+                <li> <a href="https://creditcard.cmbc.com.cn/tyglweb/home/cn/web/wonderful/leshare/all/list_1.shtml?aisiteOutPageId=8a598874ef93455ba1cda7f620660c24">功能服务</a>
+                  <ul class="gov_navu_three">
+                  </ul>
+                </li>
+                <li> <a href="https://creditcard.cmbc.com.cn/tyglweb/home/cn/web/wonderful/active/list_1.shtml?aisiteOutPageId=bd02d570dfff4f39bbe1ec3eb2bcc9b3">动态信息</a>
+                  <ul class="gov_navu_three">
+                  </ul>
+                </li>
+                <li> <a href="https://creditcard.cmbc.com.cn/tyglweb/home/cn/web/business/stage/billing/index.shtml?aisiteOutPageId=7f71ee681a5d4f55a37e7c8912c0a33e">分期付款</a>
+                  <ul class="gov_navu_three">
+                  </ul>
+                </li>
+                <li> <a href="https://creditcard.cmbc.com.cn/tyglweb/home/cn/web/customer/card/konw/list_1.shtml?aisiteOutPageId=3d9a650fb7574cac8b06f036d009b3be">用卡百科</a>
+                  <ul class="gov_navu_three">
+                  </ul>
+                </li>
+                <li> <a href="https://creditcard.cmbc.com.cn/tyglweb/home/cn/web/customer/client/APP/list_1.shtml?aisiteOutPageId=b7ea6cdd1e024a7da3f4312b78ab3468">全民生活APP</a>
+                  <ul class="gov_navu_three">
+                  </ul>
+                </li>
+              </ul>
+ </li>
+            <li> <a class="pc_navLink" href="/cmbc/jrms/index.html">今日民生</a> 
+ <a class="ph_navLink toOpen hasChild"><span onclick="toLink('/cmbc/jrms/index.html')">今日民生</span></a>
+              <ul class="gov_navu_two">
+                <li> <a href="/cmbc/jrms/gyms/msjj/index.html">关于民生</a>
+                  <ul class="gov_navu_three">
+                    <li> <a href="/cmbc/jrms/gyms/msjj/index.html">民生简介</a> </li>
+                    <li> <a href="/cmbc/jrms/gyms/dshjs/index.html">董事会介绍</a> </li>
+                    <li> <a href="/cmbc/jrms/gyms/glcjs/index.html">管理层介绍</a> </li>
+                    <li> <a href="/cmbc/jrms/gyms/msry/index.html">民生荣誉</a> </li>
+                    <li> <a href="/cmbc/jrms/gyms/zzjg/index.html">组织结构</a> </li>
+                    <li> <a href="/cmbc/jrms/gyms/fsjg/index.html">附属机构</a> </li>
+                  </ul>
+                </li>
+                <li> <a href="/cmbc/jrms/msdt/msxw/index.html">民生新闻</a>
+                  <ul class="gov_navu_three">
+                    <li> <a href="/cmbc/jrms/msdt/msxw/index.html">民生新闻</a> </li>
+                  </ul>
+                </li>
+                <li> <a href="https://ir.cmbc.com.cn/?aisiteOutPageId=53c6df4c0d894963ba3f74ba4166121b">投资者关系</a>
+                  <ul class="gov_navu_three">
+                  </ul>
+                </li>
+                <li> <a href="http://career.cmbc.com.cn:8080/index.jsp#/app/home">民生招聘</a>
+                  <ul class="gov_navu_three">
+                  </ul>
+                </li>
+                <li> <a href="/cmbc/jrms/hjshjgz/hjshjgzxx/index.html">环境、社会及管治</a>
+                  <ul class="gov_navu_three">
+                    <li> <a href="/cmbc/jrms/hjshjgz/hjshjgzxx/index.html">环境、社会及管治信息</a> </li>
+                    <li> <a href="/cmbc/jrms/hjshjgz/ndhjshjgzbg/index.html">年度环境、社会及管治报告</a> </li>
+                    <li> <a href="/cmbc/jrms/hjshjgz/ndshzrbg/index.html">年度社会责任报告</a> </li>
+                  </ul>
+                </li>
+              </ul>
+ </li>
+            <li> <a class="pc_navLink" href="/cmbc/ckbx/index.html">存款保险</a> 
+ <a class="ph_navLink" href="/cmbc/ckbx/index.html">存款保险</a>  </li>
+          </ul>
+          <!-- SearchBox --> 
+          
+          <!-- END SearchBox --> 
+        </div>
+        <!-- END NavBox --> 
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+$(".nav-right .Searchico").click(function () {
+        $(".nav-right .searchbox").toggleClass("on");
+        $(this).toggleClass("on");
+    
+})
+</script> 
+<script>
+$('.search_btn').click(function(e){	
+  $('.searchForm').show();			
+})
+$(document).mouseup(function (e) {
+  var pop = $('.searchForm');
+  if (!pop.is(e.target) && pop.has(e.target).length === 0) {
+     // 可以在这里关闭弹窗
+     $(".searchForm").hide();
+   }
+});
+//移动端
+$(".ph_icon").click(function(){
+    $(".gov_header_main").toggle();
+    $(".hideNav").toggle();
+})
+$('.hideNav').click(function(e) {
+    $(".gov_header_main").toggle();
+    $(".hideNav").toggle();
+});
+$(".toOpen").click(function(){
+    var hasOpen = $(this).hasClass("isOpen");
+    if(hasOpen){
+        $(this).next().hide();
+        $(this).removeClass("isOpen");
+    }else{
+        $(this).next().show();
+        $(this).addClass("isOpen");
+    }
+})
+</script> 
+<script type="text/javascript">
+    function toLink(href) {
+        window.location.href = href;
+    }
+
+
+        var isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
+        if (!isFirefox && $) {
+            $('.cmbc-site-header-right-btns-item.first').removeClass('first');
+           // $('.cmbc-site-header-right-btns').prepend('<div class="cmbc-site-header-right-btns-item first hoverAble" onclick="_zoomIn()"><img src="/uiFramework/commonResource/image/2024061212011549080.png" />页面放大</div><div class="cmbc-site-header-right-btns-item hoverAble" onclick="_zoomOut()"><img //src="/uiFramework/commonResource/image/2024061212012470190.png" />页面缩小</div>')
+            var zoom = sessionStorage.getItem('$$ZOOM')
+            var url = sessionStorage.getItem('$$ZOOM_URL')
+            if (zoom && url !== window.location.href) {
+                zoom = parseFloat(zoom)
+                document.body.style.zoom = zoom
+            } else {
+                zoom = 1
+            }
+					     
+								 sessionStorage.setItem('$$ZOOM_URL', window.location.href)
+
+            window._zoomIn = function () {
+                if (zoom < 1.5) {
+                    zoom += 0.25
+                    document.body.style.zoom = zoom
+                    sessionStorage.setItem('$$ZOOM', zoom)
+                    sessionStorage.setItem('$$ZOOM_URL', window.location.href)
+                } else {
+                    alert('页面已是最大状态')
+                }
+            }
+
+            window._zoomOut = function () {
+                if (zoom > 1) {
+                    zoom -= 0.25
+                    document.body.style.zoom = zoom
+                    sessionStorage.setItem('$$ZOOM', zoom)
+                    sessionStorage.setItem('$$ZOOM_URL', window.location.href)
+                } else {
+                    alert('页面已是最小状态')
+                }
+            }
+        }
+
+  function addEvent(element, eventName, handler){
+     if(element.addEventListener){
+       element.addEventListener(eventName, handler, false)
+     }else if(element.attachEvent){
+       element.attachEvent('on' + eventName, function(){
+          handler.call(element)
+       })
+     }else{
+       element['on' + eventName] = handler
+      }
+    }
+
+//无障碍
+
+if(window.sessionStorage.getItem("_accessbility_switch") !== null && window.sessionStorage.getItem("_accessbility_switch") !== undefined){
+    if(window.sessionStorage.getItem("_accessbility_switch") === "1"){
+         document.getElementById('Accessibility').style.display = 'inline-block'
+
+         var element = document.getElementById('Accessibility')
+
+         addEvent(element,'click', function() {
+           if (document.documentMode && document.documentMode < 11) {
+             alert('您当前使用的浏览器版本较低，为了更好的使用体验，推荐您使用IE11以上版本浏览器或Chrome浏览器。')
+           } else {
+             mpaasAtb.toggle()
+           }
+         })
+    }
+}else{
+$.ajax({
+      url: '/gw/po_web/QryLgnSwitch.do',
+      method: 'POST',
+      contentType: 'application/json',
+      data: JSON.stringify({ ruleId: 'UEB-28317' }),
+      success: function(u){
+       window.sessionStorage.setItem("_accessbility_switch", u['switch']==='Y'?'1':'0');
+       if(u['switch']==='Y'){
+         document.getElementById('Accessibility').style.display = 'inline-block'
+
+         var element = document.getElementById('Accessibility')
+
+         addEvent(element,'click', function() {
+           if (document.documentMode && document.documentMode < 11) {
+             alert('您当前使用的浏览器版本较低，为了更好的使用体验，推荐您使用IE11以上版本浏览器或Chrome浏览器。')
+           } else {
+             mpaasAtb.toggle()
+           }
+         })
+       }
+     }
+  })
+}
+
+</script>
+<style>
+#Accessibility{border-left:none;}
+.hoverActive{background: #0058b0;}
+.container-fluid{padding-right:15px;padding-left:15px;margin-right:auto;margin-left:auto}
+.cmbc-site-header {
+    position: relative;
+    background: #ffffff;
+    height: 70px;
+}
+
+.cmbc-site-header-left {
+    float: left;
+    color: #999999;
+    position: relative;
+}
+
+.cmbc-site-header-left .logo {
+    height: 32px;
+    margin-top: 19px;
+    cursor: pointer;
+}
+
+
+
+.cmbc-site-header-right {
+    float: right;
+}
+
+.cmbc-site-header-right-btns {
+    padding-top: 25px;
+    display: inline-block;
+}
+
+.cmbc-site-header-right-btns-item {
+    display: inline-block;
+    height: 20px;
+    line-height: 20px;
+    color: #999999;
+    padding: 0 10px;
+    border-left: 1px solid #ececec;
+    font-size:14px;
+    cursor: pointer;
+}
+
+.cmbc-site-header-right-btns-item a{font-size:14px}
+
+.cmbc-site-header-right-btns-item.first {
+    border-left: none;
+}
+
+.cmbc-site-header-right-btns-item.tel {
+    font-weight: bold;
+}
+
+.cmbc-site-header-right-btns-item img {
+    width: 15px;
+    vertical-align: middle;
+    margin-bottom: 3px;
+}
+
+.cmbc-site-header-right-search {
+    display: inline-block;
+}
+.cmbc-site-header-right-search input {
+    height: 24px;
+    width: 160px;
+    border: 1px solid #979797;
+    border-radius: 12.5px;
+    padding: 0 15px;
+    background: url(/upload/img/icon-search.png) no-repeat scroll 94% 3px;
+    background-size: 15px;
+    /* padding-left: 30px; */
+}
+.headerNav{
+    background: #0066cc;
+    height: 50px;
+    position: relative;
+    z-index: 1000;
+    white-space: nowrap;
+}
+.wh_menu_bot{background-color: #0066cc;}
+.wh_menu_bot ul li:first-child .wh_menu_bot_main_two{ display:none;} 
+.wh_menu_bot_main .wh_menu_bot_main_one{min-width:100px;}
+.wh_menu_bot_main .wh_menu_bot_main_two{ display:none;	background: #fff;box-shadow: 0 15px 27px 0 rgba(167,165,165,0.38);width: 100%;left: 0;position:absolute;z-index:999;}
+.wh_menu_bot_main_two li{line-height: 40px;text-align: center;}
+.wh_menu_bot_main_two li a{ font-size:14px;font-weight:600;color:#333333;}
+.wh_menu_bot_main_two li a:hover{ color: #508bed;}
+.wh_menu_bot_main li .ph_navLink {font-size:14px;padding:0 20px;color:#ffffff;font-weight:600;}
+.wh_menu_bot_main li .ph_navLink span{ display:none;padding:0 5px;padding-left:20px;}
+.wh_menu_bot_main li:last-child a span{display:none;}
+.wh_menu_bot_main li:hover .wh_menu_bot_main_two{display:block;}
+.wh_menu_bot_main_two li{display:block!important;margin:0 20px;}
+/*导航状态信息添加*/
+.wh_menu_bot_main li{  }
+.wh_menu_bot_main .wh_menu_bot_main_one:hover,.wh_menu_bot_main li.navLink-on{background:#0058b0;}
+.wh_menu_bot_main li .ph_navLink:hover::after{width:60%;}
+.wh_menu_bot_main li.navLink-on .ph_navLink::after{content:"";position:absolute;left:50%;bottom:0px;width:60%;height:2px;background-color:#e02020;transform: translate(-50%, 10px);transition:all 0.4s;}
+
+
+.pc_head{height:120px;width:95%;width:90%;margin:0 auto;display:flex;justify-content:space-between;align-items:Center;}
+.wh_menu_top{ float:right;}
+.wh_menu_top ul li{float:left;margin-left:50px;height:38px;line-height:38px;display:flex;align-items:center;justify-content:center;}
+.wh_menu_top ul li img{vertical-align: middle;margin-right:10px;}
+.wh_menu_top ul li span{font-size:16px;}
+.wh_menu_bot ul li{ 
+    display: inline-block;
+    color: #ffffff;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.2s background-color ease-in-out;
+    transform: none !important;float:left; }
+.wh_menu_bot{display:flex;align-items:center;}
+
+
+
+/*搜索*/
+.searchForm {
+    position: absolute;
+    box-shadow: 0px 3px 6px #ccc;
+    transition: all 0.6s;
+    top: 80px;
+    right: 8%;
+    width: 300px;
+    height: 0;
+    background: #fff;
+    border: 1px solid #ccc;
+    display: none;z-index:9999;
+}
+.wh_menu_top{position:relative;}
+.sbtn {
+    width: 40px;
+    height: 50px;
+    background: url(/uiFramework/commonResource/image/2023081616121652839.png) no-repeat right center;
+    border: 0;
+    float: right;
+    margin-right: 5px;
+}
+.searchForm.on{height:50px;}
+
+.yd_nav{display:none;}
+
+.nav-right{ position:relative;z-index:999; }
+.nav-right .Search{position:absolute; float:left;right:0;top:-2px;}
+.nav-right .Searchico{cursor:pointer; color:#d42325;}
+.nav-right .Searchico .iconso{  display:block;color:#d42325; background:url(/uiFramework/commonResource/image/2023111719262582114.png) no-repeat left center;background-size:contain;width:28px;height:28px;filter:brightness(0) invert(0.9);}
+.nav-right .Searchico .iconfont{vertical-align:top; font-size:26px;}
+.nav-right .Searchico .icongb1{display:none;}
+.nav-right .Searchico:hover{color:#d42325;}
+.nav-right .Searchico.on .icongb1{display:block;background:url(/uiFramework/commonResource/image/2023111719225933902.png) no-repeat left center;background-size:contain;width:28px;height:28px;filter:brightness(0) invert(0.9);}
+.nav-right .Searchico.on .iconso{display:none;}
+.nav-right .searchbox{width:250px; padding-right: 35px; background:#fff; line-height:40px; right:0; box-shadow:0 0 10px #999; visibility:hidden; opacity:0; position:absolute; top:220px;transition: all ease 0.3s;}
+.nav-right .searchbox.on{visibility:visible; opacity:1; top:60px;}
+.nav-right .searchbox input{width:100%; height:40px; text-indent:1em; font-size:14px;border:none;background:#fff;}
+.nav-right .searchbox .input::-webkit-input-placeholder{color: #959595;}
+.nav-right .searchbox .btn{position:absolute; right:5px; top:15%; width:30px; line-height: 26px; background:none; padding: 0;border:none;}
+
+.hoverAble {
+    transition: all .5s;
+    cursor: pointer;
+}
+
+.hoverAble:hover {
+    opacity: 0.8;
+    color: #508bed;
+}
+
+
+
+/*移动端适配*/
+
+@media screen and (max-width:768px) {
+  .headerNav{display:none;}
+  .yd_nav{display:block;}
+  .gov_navu_main li:nth-child(6){display:block !important}
+  .navgationDiv{display:none;}
+  .pc_nav{display:none;}
+  .phone_nav{display:block;}
+  .gov_navu_two{display:none;}
+  /**头部导航**/
+  .gov_navu_main li a.pc_navLink{ display:none;}
+  .gov_navu_main li a.ph_navLink{ display: block;color:#fff;}
+  .headerCon{position:fixed; top:0;left:0;width:100%;height:auto;z-index: 99999;}
+  .ph_head{display:block; width:100%;height:45px; line-height:45px; background: #0066cc; padding-left:15px; box-sizing:border-box;text-align:left; }
+  .ph_head span,  .ph_head a{ display:inline-block;color:#fff;font-size:16px;}
+  .ph_icon{float:right;width:52px;height:45px; background:  url(/uiFramework/commonResource/image/2024062706393613489.png) no-repeat center center;background-size:22px;}
+  .gov_header_main{width:100%;height:auto;padding-top:0;transition: all 0.3s;display:none;}
+  .hideNav{position: fixed; width:100%;height:100%;top: 0;left: 0; background: rgba(0,0,0,.4);z-index: 1; display:none;}
+  .gov_file,.hideImg,.index_leftbottom,#pdq1,#pdq2{display:none;}
+  .gov_header{background: none;height: auto;}
+  .gov_header_ph{ background-size:100%;}
+  .gov_navu_box,.gov_navu_main{line-height: 45px;overflow:hidden;background: #E12525;}
+  .gov_navu_main{max-height: 500px;overflow-y: auto;}
+  .gov_navu_box{ width:100%;padding-top: 0;}
+  .gov_searchbox{position: absolute;top: 50px;left: 15px; width: 90%;}
+  .gov_navu_main li{width:100%;float:none;}
+  .gov_navu_main ul{ margin: 0;}
+  .gov_navu_main li a:after{ content: "";}
+  .gov_navu_main li a.hasChild:after{ content: "+";float:right;font-size: 20px;}
+  .gov_navu_main li a.isOpen:after{ content: "-";font-weight: bold; padding-right: 3px;}
+  .gov_navu_main li a{font-size: 14px; padding: 0 15px;border-top: 1px solid #fff;box-sizing: border-box;text-align: left;color: #fff;}
+  .gov_navu_two li a{padding-left: 30px;color:#fff;}
+  .gov_navu_three{ display:none;}
+  .gov_navu_three li a{padding-left: 45px;}
+  .gov_top{display: none;}
+  .gov_navu_box, .gov_navu_main{background: #0066cc;}
+  .gov_searchbox {position: absolute;top: 50px; left: 15px; width: 90%;}
+  .gov_nav_box{display:none;}
+  .gov_inputbtn {width: 100%;height: 100%;border: none;padding: 0 36px 0 10px;font-size: 14px;background: #fff;box-sizing: border-box;}
+  .gov_navu_two li a{    padding-left: 30px!important;border-bottom: none;display: block;}
+  .gov_searchbox {height: 32px;margin-top: 9px;border-radius: 8px; background: #fff;box-sizing: border-box;overflow: hidden;}
+  .gov_searchbtn{    position: absolute;top: 8px;right: 10px;width: 16px;height: 16px;cursor: pointer;border: none; background: #fff url(/uiFramework/commonResource/image/2023082413302059921.png) no-repeat;display: block;}
+  .cmbc-site-header-right{display:none}
+  .container-fluid{display:none}
+
+}
+
+@media screen and (max-width:640px) {
+  .header,.rightBar,.db_menu{display:none;}
+  .yd_nav{display:block;}
+}
+</style>  <div class="section pcBox column" runat="server" name="banner" id="section1">
+  <div class="portlet" id="4a33c8af7b214fae8502c0fe442db29b" pagemoduleid="2fc061d80d5343a693798e11ba2f75ed">
+ <div align="left" class="eps-portlet-header">
+  <div id="submenu4a33c8af7b214fae8502c0fe442db29b" class="eps-shadow eps-dn"> 
+   <ul class="float_list_ul">
+   </ul> 
+  </div> 
+ </div> 
+ <div>
+   
+
+
+<div class="banner" opentype="page"> 
+ <div class="swiper-container bannerSwiper"> 
+  <div class="swiper-wrapper"> 
+   <div class="swiper-slide" style="background: url(/cmbc/imageDir/2025/10/img_pc_site/2025102310194586316.jpg) center center no-repeat;background-size: cover;"> 
+    <a target="_blank" style="display: inline-block;width: 100%;height: 100%;" href="http://www.cmbc.com.cn/cmbc/2025-08/01/article_2025080117012144080.html"></a> 
+   </div>
+   <div class="swiper-slide" style="background: url(/cmbc/imageDir/2024/11/img_pc_site/2024111517502477470.jpg) center center no-repeat;background-size: cover;"> 
+    <a target="_blank" style="display: inline-block;width: 100%;height: 100%;" href="https://creditcard.cmbc.com.cn/tyglweb/home/cn/web/product/index.shtml?partNumber=577"></a> 
+   </div> 
+  </div> 
+  <div class="swiper-pagination"></div> 
+ </div> 
+ <!-- 客户登录窗口 --> 
+ <div class="login-box"> 
+  <div class="login-entry" onclick="toLink('https://nper.cmbc.com.cn/pweb/static/login.html')"> 
+   <img class="login-fir-pic" src="/uiFramework/commonResource/image/2024061211203617119.png" alt=""> 
+   <div class="perbank-title"> 
+    <div>
+      个人网银登录 
+    </div> 
+    <div class="perbank-small">
+      小微客户同样适用 
+    </div> 
+   </div> 
+   <img class="login-right-pic" src="/uiFramework/commonResource/image/2024061211214347581.png" alt=""> 
+  </div> 
+  <div class="login-entry" onclick="toLink('https://ent.cmbc.com.cn/apollo/ent-bank-ng/new/#/login')"> 
+   <img class="login-two-pic" src="/uiFramework/commonResource/image/2024061211204874938.png" alt=""> 
+   <div class="perbank-title"> 
+    <div>
+      企业网银登录 
+    </div> 
+   </div> 
+   <img class="login-right-pic" src="/uiFramework/commonResource/image/2024061211214347581.png" alt="" style="margin-top: 0px;"> 
+  </div> 
+  <div class="login-others clear"> 
+   <a href="https://ent.cmbc.com.cn/trust-bank/" class="left hoverAble">托管网上银行</a> 
+   <a href="https://hkper.cmbc.com.cn/" class="right hoverAble">香港个人网银</a> 
+   <a href="https://hkcib.cmbc.com.cn/hkcebk/index.html#/" class="left hoverAble">香港企业网银</a> 
+   <a href="https://ent.cmbc.com.cn/apollo/interbank-pc/index.html" class="right hoverAble">民生同业e+</a> 
+   <a href="https://nper.cmbc.com.cn/apollo/merchant-manage/index.html#/login?_k=sqrmxe" class="left hoverAble">商户进件</a> 
+   <a href="https://ehome.cmbc.com.cn/" class="right hoverAble">民生e家</a> 
+  </div> 
+ </div> 
+</div>
+
+ </div> 
+</div>  <div class="portlet" id="336b0be9b5a34bbe94a956c37c3b8ade" pagemoduleid="91e4d676275a45078143961cee60f997">
+ <div align="left" class="eps-portlet-header">
+  <div id="submenu336b0be9b5a34bbe94a956c37c3b8ade" class="eps-shadow eps-dn"> 
+   <ul class="float_list_ul">
+   </ul> 
+  </div> 
+ </div> 
+ <div>
+   
+
+
+<div class="mobileBanner" id="top" opentype="page"> 
+ <div class="swiper-container myMobileSwiper"> 
+  <div class="swiper-wrapper"> 
+   <div class="swiper-slide"> 
+    <a href="https://ccpc.creditcard.cmbc.cn/ccpc_exh/card-expo/#/detail/577?immersiveFlag=1"> <img src="/cmbc/imageDir/2025/07/img_pc_site/2025071810424368832.png" border="0" alt="民生山姆联名卡"> </a> 
+   </div> 
+  </div> 
+  <div class="swiper-paginationMobile mobilePagination"></div> 
+ </div> 
+</div> 
+<style>
+.cmbc-site-breadcrumb * {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 16px;
+    color: #666666;
+}
+@media screen and (min-width: 769px){
+  .container-fluid{display: block !important;}
+}
+</style>
+
+ </div> 
+</div>  <div class="portlet" id="9250efab28b949518fec46c34134dcc2" pagemoduleid="0b8ffbc17e5f4218a13e7009defb7ed3">
+ <div align="left" class="eps-portlet-header">
+  <div id="submenu9250efab28b949518fec46c34134dcc2" class="eps-shadow eps-dn"> 
+   <ul class="float_list_ul">
+   </ul> 
+  </div> 
+ </div> 
+ <div>
+   <style>
+ .mobileBanner{margin-bottom:0}
+</style>
+
+ </div> 
+</div>    </div> 
+  <div class="pcBox column" runat="server" name="重要通告" id="section2">
+  <div class="portlet" id="4560a57f761645d898cb1e5723962981" pagemoduleid="c46baafab2cb454a989b97f8c3fdfccf">
+ <div align="left" class="eps-portlet-header">
+  <div id="submenu4560a57f761645d898cb1e5723962981" class="eps-shadow eps-dn"> 
+   <ul class="float_list_ul">
+   </ul> 
+  </div> 
+ </div> 
+ <div>
+   
+
+
+<div class="wrap impNotice clear" opentype="page"> 
+ <div class="impNotice-title"> 
+  <img src="/uiFramework/commonResource/image/2024061206533924565.png" alt=""> 重要通告 
+ </div> 
+ <div class="impNotice-content hoverAble"> 
+  <a href="" id="notice-bar-content"></a> 
+ </div> 
+ <a class="more hoverAble" href="/cmbc/index/zdtj/zygg/index.html"> 更多 <img class="arrow" src="/uiFramework/commonResource/image/2024061113345229984.png"> </a> 
+</div> 
+<script src="/uiFramework/commonResource/js/zygghttp.js"></script> 
+<script type="text/javascript">
+var url = "";
+
+var listParams = {
+    pageNo: '1',
+    pageSize: '5',
+    appType: '4',
+    mType: '44'
+}
+function runQuery(){
+    $gw_ffapp('msQueryAppMsgInfo', listParams, function (res) {
+        //var listHtml = '';
+        var reslist = res.list;
+        var totalCount = res.totalCount;
+        if(reslist.length > 0)
+        {
+            var noticeData = reslist[0];
+            var noticeNode = $('#notice-bar-content')
+            noticeNode.attr('href',"/cmbc/index/zdtj/zygg/xqym/index.html?mId="+noticeData.mId+"")
+            noticeNode.text(noticeData.mTitle)
+        }
+
+        //setTimeout(bindDataLinks,0)
+    })
+}
+
+runQuery();
+</script>
+
+ </div> 
+</div>  <div class="portlet" id="fce81d7363d24454b832655f1f441bb5" pagemoduleid="6edb53b9e0dc42c7a06595d1202567af">
+ <div align="left" class="eps-portlet-header">
+  <div id="submenufce81d7363d24454b832655f1f441bb5" class="eps-shadow eps-dn"> 
+   <ul class="float_list_ul">
+   </ul> 
+  </div> 
+ </div> 
+ <div>
+   <!-- 四大菜单 --><div class="menuBox clear wrap"><div class="menuBox-firstBox hoverAble"><div class="hoverAble menuBox-innerBox" style="background-image: url(/uiFramework/commonResource/image/2024061207045964604.png);"><div class="menuBox-innerBox-title" onclick="toLink('https://openbank.cmbc.com.cn')">开放银行</div>
+<div class="menuBox-innerBox-links"><a class="hoverAble" href="https://openbank.cmbc.com.cn/open.service">服务介绍</a> <a class="hoverAble" href="https://openbank.cmbc.com.cn/docs">文档中心</a> <a class="hoverAble" href="https://openbank.cmbc.com.cn/loginPage?redirect=/user">管理中心</a> <a class="hoverAble" href="https://ehome.cmbc.com.cn/">民生e家</a></div>
+</div>
+</div>
+<div class="menuBox-firstBox hoverAble"><div class="hoverAble menuBox-innerBox" style="background-image: url(/uiFramework/commonResource/image/2024061207050863788.png);"><div class="menuBox-innerBox-title" onclick="toLink('/cmbc/index/zdtj/bjcx/index.html')">便捷查询</div>
+<div class="menuBox-innerBox-links"><a class="hoverAble" href="https://nper.cmbc.com.cn/apollo/merchant-manage/index.html#/login?_k=nxlfz8">商户进件</a> <a class="hoverAble" href="https://pay.cmbc.com.cn/epayweb/static/clogin.html">电子商户登录</a> <a class="hoverAble" href="https://ent.cmbc.com.cn/apollo/batch-salary/index.html#/login?_k=g6czdq">银企云联</a> <a class="hoverAble" href="https://ent.cmbc.com.cn/eweb/static/p_web_eb_static/index.html#/guarantee-verification/guarantee/verify?_k=ykff1c">保函业务查询</a></div>
+</div>
+</div>
+<div class="menuBox-firstBox hoverAble"><div class="hoverAble menuBox-innerBox" style="background-image: url(/uiFramework/commonResource/image/2024061207051570341.png);"><div class="menuBox-innerBox-title" onclick="toLink('/cmbc/xxpl/whcdll/clgg/index.html')">客户服务</div>
+<div class="menuBox-innerBox-links"><a class="hoverAble" href="/cmbc/khfw/fwjmb68/zfzdjzfdj/index.html">产品信息查询</a> <a class="hoverAble" href="/cmbc/khfw/fwjmb14/zfzdjzfdj/index.html">常用查询</a> <a class="hoverAble" href="/cmbc/xxpl/whcdll/clgg/index.html">服务价目表</a> <a class="hoverAble" href="https://nper.cmbc.com.cn/apollo/per-bank-new/index.html#/customer-service/login?chatChannelCodeLv1=pw_bank&fromChannelCode=p_web&_k=zd5ejm">在线客服</a></div>
+</div>
+</div>
+<div class="menuBox-firstBox hoverAble"><div class="hoverAble menuBox-innerBox" style="background-image: url(/uiFramework/commonResource/image/2024061207052224695.png);"><div class="menuBox-innerBox-title" onclick="toLink('https://ir.cmbc.com.cn')">投资者关系</div>
+<div class="menuBox-innerBox-links"><a class="hoverAble" href="https://ir.cmbc.com.cn/cn/investor-relations/financial-information/financial-highlights/">财务数据</a> <a class="hoverAble" href="https://ir.cmbc.com.cn/cn/investor-relations/announcements-and-disclosures/announcements-and-circulars/">信息披露</a> <a class="hoverAble" href="https://ir.cmbc.com.cn/cn/investor-relations/corporate-governance/corporate-governance-structure/">公司治理</a> <a class="hoverAble" href="https://ir.cmbc.com.cn/cn/investor-relations/investor-services/results-announcements/">投资者服务</a></div>
+</div>
+</div>
+<div class="menuBox-firstBox hoverAble"><div class="hoverAble menuBox-innerBox" style="background-image: url(/uiFramework/commonResource/image/2024061207052963944.png);"><div class="menuBox-innerBox-title" onclick="toLink('http://career.cmbc.com.cn:8080/index.jsp#/app/home')">民生招聘</div>
+<div class="menuBox-innerBox-links"><a class="hoverAble" href="http://career.cmbc.com.cn:8080/index.jsp#/app/recruitment/campus">校园招聘</a> <a class="hoverAble" href="http://career.cmbc.com.cn:8080/index.jsp#/app/recruitment/social">社会招聘</a> <a class="hoverAble" href="http://career.cmbc.com.cn:8080/index.jsp#/app/usercenter">个人中心</a> <a class="hoverAble" href="http://career.cmbc.com.cn:8080/index.jsp#/app/questionandanswer">在线问答</a></div>
+</div>
+</div>
+</div>
+<br />
+
+
+ </div> 
+</div>    </div> 
+  <div class="pcBox section column" runat="server" name="优惠活动" id="section3">
+  <div class="portlet" id="15602a224a6e4e5baa26ccdc7e0342cd" pagemoduleid="7296cc1b4004476fb601aa2bc9e91d14">
+ <div align="left" class="eps-portlet-header">
+  <div id="submenu15602a224a6e4e5baa26ccdc7e0342cd" class="eps-shadow eps-dn"> 
+   <ul class="float_list_ul">
+   </ul> 
+  </div> 
+ </div> 
+ <div>
+   <div class="activities wrap clear"><div class="activities-title"><div class="activities-title-text">优惠活动</div>
+<div class="activities-title-divide" id="yhud"></div>
+<div class="activities-title-desc" id="yhud2"><div>吃喝玩乐</div>
+<div>优惠多</div>
+</div>
+<a class="more hoverAble" href="/cmbc/gryw/hdzx/yhhd/index.html">更多 <img class="arrow" src="/uiFramework/commonResource/image/2024061113345229984.png" /> </a></div>
+</div>
+
+
+ </div> 
+</div>    </div> 
+  <div class="section pcBox num4 column" runat="server" name="优惠活动列表" id="section4">
+  <div class="portlet" id="97e8e28a29ad4dd8acde4c8aee4484a4" pagemoduleid="6d9df75e1f6d4180b6ff937955c140a0">
+ <div align="left" class="eps-portlet-header">
+  <div id="submenu97e8e28a29ad4dd8acde4c8aee4484a4" class="eps-shadow eps-dn"> 
+   <ul class="float_list_ul">
+   </ul> 
+  </div> 
+ </div> 
+ <div>
+   
+
+
+<div class="wrap activities-section clear" opentype="page"> 
+ <div class="activities-section-row1"> 
+  <div class="activities-section-newsList hoverAble clear"> 
+   <span class="news-item-title hoverAble"><a href="/cmbc/2025-02/20/article_2025022016234370629.html" onclick="void(0)" target="_blank" title="民生银行借记卡首绑京东支付 有机会享128元礼包" istitle="true">民生银行借记卡首绑京东支付 有机会享128元礼包</a></span> 
+   <span class="news-item-date">2026-01-02</span> 
+  </div>
+  <div class="activities-section-newsList hoverAble clear"> 
+   <span class="news-item-title hoverAble"><a href="/cmbc/2025-10/22/article_2025102218072815361.html" onclick="void(0)" target="_blank" title="民生借记卡首次绑定微信快捷支付可得5.19元立减金" istitle="true">民生借记卡首次绑定微信快捷支付可得5.19元立减金</a></span> 
+   <span class="news-item-date">2025-12-31</span> 
+  </div>
+  <div class="activities-section-newsList hoverAble clear"> 
+   <span class="news-item-title hoverAble"><a href="/cmbc/2025-08/01/article_2025080117012144080.html" onclick="void(0)" target="_blank" title="民生信用卡自动还款 月月领微信立减金" istitle="true">民生信用卡自动还款 月月领微信立减金</a></span> 
+   <span class="news-item-date">2025-12-01</span> 
+  </div>
+  <div class="activities-section-newsList hoverAble clear"> 
+   <span class="news-item-title hoverAble"><a href="/cmbc/2025-10/22/article_2025102218103194439.html" onclick="void(0)" target="_blank" title="V+任务限时提升礼 完成全部任务可累计获得180元微信立减金" istitle="true">V+任务限时提升礼 完成全部任务可累计获得180元微信立减金</a></span> 
+   <span class="news-item-date">2025-10-21</span> 
+  </div>
+  <div class="activities-section-newsList hoverAble clear"> 
+   <span class="news-item-title hoverAble"><a href="/cmbc/2025-10/22/article_2025102218091219073.html" onclick="void(0)" target="_blank" title="V+任务 等你来战 限时闯关 轻松挑战" istitle="true">V+任务 等你来战 限时闯关 轻松挑战</a></span> 
+   <span class="news-item-date">2025-10-14</span> 
+  </div> 
+ </div> 
+ <div class="activities-section-row2"> 
+  <p style="text-align:center;"><a data-cke-saved-href="https://creditcard.cmbc.com.cn/tyglweb/home/cn/web/product/index.shtml?partNumber=577" href="https://creditcard.cmbc.com.cn/tyglweb/home/cn/web/product/index.shtml?partNumber=577"><img src="/cmbc/imageDir/2025/03/2025032817505380433.png" data-cke-saved-src="/cmbc/imageDir/2025/03/2025032817505380433.png"></a></p> 
+  <p><br></p> 
+ </div> 
+</div> 
+<br>
+
+ </div> 
+</div>    </div> 
+  <div class="server pcBox column" runat="server" name="新闻资讯" id="section5">
+  <div class="portlet" id="1229a2600b1241b591372ed263bde3c5" pagemoduleid="0cf641dbce1045dead5c4cf73a9b3597">
+ <div align="left" class="eps-portlet-header">
+  <div id="submenu1229a2600b1241b591372ed263bde3c5" class="eps-shadow eps-dn"> 
+   <ul class="float_list_ul">
+   </ul> 
+  </div> 
+ </div> 
+ <div>
+   <div class="activities wrap clear"><div class="activities-title"><div class="activities-title-text">首页新闻资讯</div>
+<div class="activities-title-divide" id="xwzx"></div>
+<div class="activities-title-desc" id="xwzx2"><div>民生动态</div>
+<div>实时掌握</div>
+</div>
+<a class="more hoverAble" href="/cmbc/jrms/msdt/msxw/index.html">更多 <img class="arrow" src="/uiFramework/commonResource/image/2024061113345229984.png" /> </a></div>
+</div>
+
+
+ </div> 
+</div>    </div> 
+  <div class="server pcBox news-section wrap clear column" runat="server" name="新闻资讯列表" id="section6">
+  <div class="portlet" id="e00d3c798a9344ce801ffc79ab61c504" pagemoduleid="72b69592a83a4a69bab09184b7d4dffc">
+ <div align="left" class="eps-portlet-header">
+  <div id="submenue00d3c798a9344ce801ffc79ab61c504" class="eps-shadow eps-dn"> 
+   <ul class="float_list_ul">
+   </ul> 
+  </div> 
+ </div> 
+ <div>
+   
+
+
+<div class="news-section-box" opentype="page"> 
+ <a class="news-section-title hoverAble" href="/cmbc/jrms/msdt/msxw/index.html"> <img src="/uiFramework/commonResource/image/2024061210200347998.png" alt=""> <span class="news-section-text" onclick="toLink('/cmbc/jrms/msdt/msxw/index.html')">民生新闻</span> </a> 
+ <div class="news-section-items hoverAble"> 
+  <a href="/cmbc/2026-01/19/article_2026011911034628836.html" onclick="void(0)" target="_blank" title="民生银行：生死时速显担当 暖心守护见真情" istitle="true">民生银行：生死时速显担当 暖心守护见真情</a> 
+ </div>
+ <div class="news-section-items hoverAble"> 
+  <a href="/cmbc/2026-01/14/article_2026011410494928212.html" onclick="void(0)" target="_blank" title="中国网报道民生银行暖心服务故事" istitle="true">中国网报道民生银行暖心服务故事</a> 
+ </div>
+ <div class="news-section-items hoverAble"> 
+  <a href="/cmbc/2026-01/12/article_2026011218291510241.html" onclick="void(0)" target="_blank" title="《人民日报》报道民生银行服务小微企业案例" istitle="true">《人民日报》报道民生银行服务小微企业案例</a> 
+ </div>
+ <div class="news-section-items hoverAble"> 
+  <a href="/cmbc/2026-01/12/article_2026011218240799688.html" onclick="void(0)" target="_blank" title="新华社报道民生银行以扎实行动 诠释金融为民的使命担当" istitle="true">新华社报道民生银行以扎实行动 诠释金融为民的使命担当</a> 
+ </div>
+ <div class="news-section-items hoverAble"> 
+  <a href="/cmbc/2026-01/06/article_2026010618233652664.html" onclick="void(0)" target="_blank" title="民生银行获评人民网“2025人民匠心品牌”" istitle="true">民生银行获评人民网“2025人民匠心品牌”</a> 
+ </div> 
+</div>
+
+ </div> 
+</div>  <div class="portlet" id="08840bb55abc4a12995a802853f5a91d" pagemoduleid="dd400771f9bd42dbb36f8484d54dbf52">
+ <div align="left" class="eps-portlet-header">
+  <div id="submenu08840bb55abc4a12995a802853f5a91d" class="eps-shadow eps-dn"> 
+   <ul class="float_list_ul">
+   </ul> 
+  </div> 
+ </div> 
+ <div>
+   
+
+
+<div class="news-section-box" opentype="page"> 
+ <a class="news-section-title hoverAble" href="/cmbc/jrms/hjshjgz/hjshjgzxx/index.html"> <img src="/uiFramework/commonResource/image/2024061210202222392.png" alt=""> <span class="news-section-text">环境、社会及管治信息</span> </a> 
+ <div class="news-section-items hoverAble"> 
+  <a href="/cmbc/2024-12/09/article_2024120917172982935.html" onclick="void(0)" target="_blank" title="中国民生银行可持续发展（ESG）议题影响重要性调查问卷" istitle="true">中国民生银行可持续发展（ESG）议题影响重要性调查问卷</a> 
+ </div>
+ <div class="news-section-items hoverAble"> 
+  <a href="/cmbc/2026-01/04/article_2026010416114981326.html" onclick="void(0)" target="_blank" title="民生银行香港分行荣获《信报》“卓越ESG项目-可持续发展金融服务”奖" istitle="true">民生银行香港分行荣获《信报》“卓越ESG项目-可持续发展金融服务...</a> 
+ </div>
+ <div class="news-section-items hoverAble"> 
+  <a href="/cmbc/2026-01/04/article_2026010416064351884.html" onclick="void(0)" target="_blank" title="民生银行入选“2025银行业ESG典型实践案例”" istitle="true">民生银行入选“2025银行业ESG典型实践案例”</a> 
+ </div>
+ <div class="news-section-items hoverAble"> 
+  <a href="/cmbc/2026-01/04/article_2026010416032635696.html" onclick="void(0)" target="_blank" title="民生银行荣获金骏马ESG可持续发展先锋企业" istitle="true">民生银行荣获金骏马ESG可持续发展先锋企业</a> 
+ </div>
+ <div class="news-section-items hoverAble"> 
+  <a href="/cmbc/2026-01/04/article_2026010415540296550.html" onclick="void(0)" target="_blank" title="民生银行荣获2025年度普惠金融服务银行和中国银行业ESG实践“天玑奖”" istitle="true">民生银行荣获2025年度普惠金融服务银行和中国银行业ESG实践“天玑...</a> 
+ </div> 
+</div>
+
+ </div> 
+</div>    </div> 
+  <div class="section mobileBox column" runat="server" name="移动端banner" id="mobileSection1">
+  <div class="portlet" id="581bc87a9c8f4661aa6d2150a583c380" pagemoduleid="4f2679f3027949cf832a3f73dbc98880">
+ <div align="left" class="eps-portlet-header">
+  <div id="submenu581bc87a9c8f4661aa6d2150a583c380" class="eps-shadow eps-dn"> 
+   <ul class="float_list_ul">
+   </ul> 
+  </div> 
+ </div> 
+ <div>
+   <script src="/uiFramework/commonResource/js/flexible.js"></script>
+<style>
+ @media screen and (max-width: 1024px) {
+  .wrap {
+    width: 1170px;
+  }
+}
+@media screen and (max-width: 768px) {
+  .wrap{width:100%}
+}
+</style>
+
+ </div> 
+</div>    </div> <div>
+  <script src="/uiFramework/commonResource/js/qs_zhcn.js"></script>
+  <script src="/uiFramework/commonResource/js/flexible.js"></script>
+</div>
+<div class="footer-box">
+        <div class="wrap clear footer-section">
+            <div class="footer-left left">
+                <div class="footer-left-row">
+                    <span>本站支持IPV6访问</span>
+                </div>
+                <div class="footer-left-row footerNavBottom">
+                    <a class="footer-link hoverAble PCLink" href="/cmbc/xxpl/flsm/index.html">法律声明</a>
+                    <a class="footer-link hoverAble PCLink" href="/cmbc/xxpl/yszc/index.html">隐私政策</a>
+                    <a class="footer-link hoverAble PCLink" href="/cmbc/index/zzgs/jrxkzxx/index.html">证照公示</a>
+                    <a class="footer-link hoverAble PCLink" href="/cmbc/xxpl/whcdll/clgg/index.html">服务价目表</a>
+                    <a class="footer-link hoverAble PCLink" href="/cmbc/lxwm/index.html">联系我们</a>
+                    <a class="footer-link hoverAble PCLink" href="/cmbc/lxwm/tsqd/index.html">投诉渠道</a>
+                    <a class="footer-link hoverAble PCLink" href="/cmbc/index/yqlj/index.html">友情链接</a>
+                   
+                </div>
+
+                <div class="footer-left-row">
+                    版权所有：中国民生银行 
+                    <a href="https://beian.miit.gov.cn" target="_blank" class="miit">京ICP备05020372号</a>
+                    
+                    <div class="inlineBlock">
+                        <img src="/uiFramework/commonResource/image/2024061306154685689.png" alt="" style="vertical-align: text-bottom;">
+                    京公网安备 11040102700129号
+                    </div>
+                </div>
+
+                <div class="footer-tel">
+                    <img src="/uiFramework/commonResource/image/2024061306161174506.png" alt="">
+                    24小时客服热线：
+                    <a href="tel:95568">95568</a>
+                </div>
+
+                <div class="footer-left-row" style="margin-top:20px;font-size: 13px;">全行投诉受理电话：95568
+                    总行地址：北京市西城区复兴门内大街2号
+                    电子邮箱：95568server@cmbc.com.cn
+                </div>
+            </div>
+            <div class="footer-right right">
+                <div class="footer-right-box">
+                    <div class="footer-right-box-container">
+                        <img src="/uiFramework/commonResource/image/2025052217142589601.jpg" alt="">
+                    </div>
+                    <div class="footer-right-box-text">手机银行</div>
+                </div>
+                <div class="footer-right-box">
+                    <div class="footer-right-box-container">
+                        <img src="/uiFramework/commonResource/image/2024061306171429188.png" alt="">
+                    </div>
+                    <div class="footer-right-box-text">微信银行</div>
+                </div>
+                <div class="footer-right-box">
+                    <div class="footer-right-box-container">
+                        <img src="/uiFramework/commonResource/image/2024061306174479873.png" alt="">
+                    </div>
+                    <div class="footer-right-box-text">官方微博</div>
+                </div>
+            </div>
+        </div>
+
+     <!-- 移动端底部导航 -->
+         <div class="footerMobileBox">
+        <div class="footerMobileTel">
+            <img src="/uiFramework/commonResource/image/2024061306161174506.png" alt="">
+            <span>24小时客服热线：</span>
+            <span>95568</span>
+        </div>
+        <div class="mobileLine"></div>
+        <div class="footerMobileNav">
+            <a class="footerMobileLink" href="/cmbc/xxpl/flsm/index.html">法律声明</a>
+            <a class="footerMobileLink" href="/cmbc/xxpl/yszc/index.html">隐私政策</a>
+            <a class="footerMobileLink" href="/cmbc/index/zzgs/jrxkzxx/index.html">证照公示</a>
+            <a class="footerMobileLink" href="/cmbc/xxpl/whcdll/clgg/index.html">服务价目表</a>
+            <a class="footerMobileLink" href="/cmbc/lxwm/index.html">联系我们</a>
+            <a class="footerMobileLink" href="/cmbc/lxwm/tsqd/index.html">投诉渠道</a>
+            <a class="footerMobileLink" href="/cmbc/index/yqlj/index.html">友情链接</a>
+        </div>
+
+        <div class="footerMobileList" style="margin-top: .3rem;">
+            <span>版权所有:中国民生银行</span>
+            <span>京ICP备05020372号</span>
+        </div>
+
+        <div class="footerMobileList2">
+            <img src="/uiFramework/commonResource/image/2024061306154685689.png" alt="">
+            <p>京公网安备 11040102700129号</p>
+        </div>
+
+        <div class="footerMobileList">
+            本网站支持IPV6访问
+        </div>
+        <div class="footerMobileList" style="margin-top:.55rem">
+            全行投诉受理电话：95568
+        </div>
+        <div class="footerMobileList">
+            总行地址：北京市西城区复兴门内大街2号
+        </div>
+        <div class="footerMobileList">
+            电子邮箱：95568server@cmbc.com.cn
+        </div>
+        <div class="mobileLine" style="margin-top:.5rem"></div>
+        <div class="footer-right right">
+            <div class="footer-right-box">
+                <div class="footer-right-box-container">
+                    <img src="/uiFramework/commonResource/image/2025052217142589601.jpg" alt="">
+                </div>
+                <div class="footer-right-box-text">手机银行</div>
+            </div>
+            <div class="footer-right-box">
+                <div class="footer-right-box-container">
+                    <img src="/uiFramework/commonResource/image/2024061306171429188.png" alt="">
+                </div>
+                <div class="footer-right-box-text">微信银行</div>
+            </div>
+            <div class="footer-right-box">
+                <div class="footer-right-box-container">
+                    <img src="/uiFramework/commonResource/image/2024061306174479873.png" alt="">
+                </div>
+                <div class="footer-right-box-text">官方微博</div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+
+<style>
+.inlineBlock{display:inline-block}
+.footer-box {
+    width: 100%;
+    height: auto;
+    background-color: #f1f2f3;
+    margin-top:50px;
+}
+
+.footer-section {
+    height: auto;
+    font-size: 16px;
+    color: #1a1a1a;
+    line-height: 16px;
+    padding: 0 10px;
+}
+
+.footer-left {
+    padding-top: 35px;
+    width: 65%;
+}
+
+.footer-left-row {
+    margin-bottom: 24px;
+    font-size: 16px;
+    color: #1a1a1a;
+    line-height: 16px;
+}
+
+.footer-left-row span {
+    font-size: 16px;
+    line-height: 16px;
+    color: #1a1a1a;
+}
+
+.footer-link {
+    display: inline-block;
+    padding: 0 18px;
+    border-left: 1px solid #333333;
+    font-size: 16px;
+    line-height: 16px;
+    color: #1a1a1a;
+
+}
+
+.footer-link:first-child {
+    border-left: none;
+    padding-left: 0;
+}
+
+.miit {
+    font-size: 16px;
+    line-height: 16px;
+    color: #337ab7;
+}
+
+.footer-tel {
+    font-size: 22px;
+    color: #1a1a1a;
+    line-height: 16px;
+}
+
+.footer-tel img {
+    width: 20px;
+    margin-top: 3px;
+    vertical-align: text-top;
+    margin-right: 10px;
+}
+
+.footer-tel a {
+    font-size: 22px;
+    color: #508bed;
+}
+
+.footer-right {
+    padding-top: 40px;
+}
+
+.footer-right-box {
+    display: inline-block;
+    margin-left: 16px;
+    background: #ffffff;
+    border-radius: 3px;
+    padding: 8px;
+}
+
+.footer-right-box-container {
+    height: 90px;
+    width: 90px;
+    background: #f1f2f3;
+}
+
+.footer-right-box-container img {
+    width: 90px;
+    height: 90px;
+    display: block;
+}
+
+.footer-right-box-text {
+    margin-top: 8px;
+    text-align: center;
+    font-size: 14px;
+    color: #666666;
+}
+.MbLink{display:none}
+.footerMobileBox {
+    display: none;
+}
+.FHLogo {
+            position: absolute;
+            left: 195px;
+            top: 22px;
+            font-size: 18px;
+            height: 28px;
+            line-height: 30px;
+            display: block;
+            padding-left: 6px;
+            border-left: 1px solid #0e7fc3;
+            color: #0e7fc3;
+        }
+
+@media (max-width:768px){
+  .footer-section{display:none}
+  .footer-left{
+    width: 90%;
+    margin: 0 auto;
+    float: none;
+    text-align:center;
+  }
+  .footer-link:nth-child(4){
+    padding-left: 0;
+    border-left: none;
+  }
+  .footer-link:nth-child(7){
+    padding-left: 0;
+    border-left: none;
+  }
+  .footer-link{border-left: none;}
+ .footerNavBottom{
+display: flex;
+  flex-wrap: wrap;
+  justify-content: start;
+}
+  .PCLink{width: 25%;
+    margin-top: .4rem;
+    font-size: .4rem;
+    padding: 0 !important;
+}
+  .footer-right{
+    float: none;
+  text-align: center;
+    padding-top:0;
+  }
+  .footer-right-box:first-child{margin-left:0}
+  .footer-right-box-container{
+    height: 70px;
+    width: 70px;
+  }
+  .footer-right-box-container img{
+    
+    height: 70px;
+    width: 70px;
+  }
+ .inlineBlock{display:block;margin-top:5px}
+ .miit{line-height:2}
+ .footer-tel{line-height:1.5}
+ .footer-left-row{margin-bottom:14px;font-size: 14px;}
+.footer-box{padding-top:.53rem;}
+.footerMobileBox {
+        width: 85%;
+        display: block;
+        margin: 0 auto;
+        color: #1a1a1a;
+    }
+
+    .footerMobileTel {
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: .4rem;
+    }
+
+    .footerMobileTel img {
+        width: .68rem;
+        display: block;
+        margin-right: .3rem;
+    }
+
+    .footerMobileTel span {
+        font-size: .54rem;
+        white-space: nowrap;
+    }
+  
+
+    .footerMobileTel span:last-child {
+        color: #508bed;
+    }
+
+    .footerMobileNav {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: start;
+        margin-bottom: .2rem;
+    }
+
+    .footerMobileNav a {
+        width: 25%;
+        font-size: .4rem;
+        display: block;
+        margin-bottom: .2rem;
+        color: #1a1a1a;
+        white-space: nowrap;
+    }
+
+    .footerMobileList {
+        margin-bottom: .3rem;
+        font-size: .4rem;
+    }
+
+    .footerMobileList span {
+        font-size: .4rem;
+    }
+
+    .footerMobileList span:last-child {
+        color: #337ab7;
+    }
+
+    .footerMobileList2 {
+        display: flex;
+        align-items: center;
+        margin-bottom: .3rem;
+    }
+
+    .footerMobileList2 p {
+        font-size: .4rem;
+    }
+
+    .footerMobileList2 img {
+        display: block;
+        width: .6rem;
+    }
+    .mobileLine{width:100%;height:1px;background-color:#ccc;margin-bottom: .5rem;}
+}
+</style>
+<script>
+       //处理分行logo右侧分行文字
+        const SkinObjectArr = document.querySelectorAll(".SkinObject")
+        const logoBox = document.querySelector(".cmbc-site-header-left")
+        const newElement = document.createElement("a")
+        newElement.className = "FHLogo"
+if(SkinObjectArr.length > 0){
+        if (SkinObjectArr[1].innerHTML == "哈尔滨分行") {
+            newElement.innerHTML = SkinObjectArr[1].innerHTML
+            logoBox.appendChild(newElement)
+        } else if (SkinObjectArr[1].innerHTML == "长春分行") {
+            newElement.innerHTML = SkinObjectArr[1].innerHTML
+            logoBox.appendChild(newElement)
+        } else if (SkinObjectArr[1].innerHTML == "北京分行") {
+            newElement.innerHTML = SkinObjectArr[1].innerHTML
+            logoBox.appendChild(newElement)
+        } else if (SkinObjectArr[1].innerHTML == "沈阳分行") {
+            newElement.innerHTML = SkinObjectArr[1].innerHTML
+            logoBox.appendChild(newElement)
+        } else if (SkinObjectArr[1].innerHTML == "济南分行") {
+            newElement.innerHTML = SkinObjectArr[1].innerHTML
+            logoBox.appendChild(newElement)
+        } else if (SkinObjectArr[1].innerHTML == "西安分行") {
+            newElement.innerHTML = SkinObjectArr[1].innerHTML
+            logoBox.appendChild(newElement)
+        } else if (SkinObjectArr[1].innerHTML == "太原分行") {
+            newElement.innerHTML = SkinObjectArr[1].innerHTML
+            logoBox.appendChild(newElement)
+        } else if (SkinObjectArr[1].innerHTML == "青岛分行") {
+            newElement.innerHTML = SkinObjectArr[1].innerHTML
+            logoBox.appendChild(newElement)
+        } else if (SkinObjectArr[1].innerHTML == "郑州分行") {
+            newElement.innerHTML = SkinObjectArr[1].innerHTML
+            logoBox.appendChild(newElement)
+        } else if (SkinObjectArr[1].innerHTML == "天津分行") {
+            newElement.innerHTML = SkinObjectArr[1].innerHTML
+            logoBox.appendChild(newElement)
+        } else if (SkinObjectArr[1].innerHTML == "合肥分行") {
+            newElement.innerHTML = SkinObjectArr[1].innerHTML
+            logoBox.appendChild(newElement)
+        } else if (SkinObjectArr[1].innerHTML == "南京分行") {
+            newElement.innerHTML = SkinObjectArr[1].innerHTML
+            logoBox.appendChild(newElement)
+        } else if (SkinObjectArr[1].innerHTML == "宁波分行") {
+            newElement.innerHTML = SkinObjectArr[1].innerHTML
+            logoBox.appendChild(newElement)
+        } else if (SkinObjectArr[1].innerHTML == "重庆分行") {
+            newElement.innerHTML = SkinObjectArr[1].innerHTML
+            logoBox.appendChild(newElement)
+        } else if (SkinObjectArr[1].innerHTML == "上海分行") {
+            newElement.innerHTML = SkinObjectArr[1].innerHTML
+            logoBox.appendChild(newElement)
+        } else if (SkinObjectArr[1].innerHTML == "昆明分行") {
+            newElement.innerHTML = SkinObjectArr[1].innerHTML
+            logoBox.appendChild(newElement)
+        } else if (SkinObjectArr[1].innerHTML == "杭州分行") {
+            newElement.innerHTML = SkinObjectArr[1].innerHTML
+            logoBox.appendChild(newElement)
+        } else if (SkinObjectArr[1].innerHTML == "温州分行") {
+            newElement.innerHTML = SkinObjectArr[1].innerHTML
+            logoBox.appendChild(newElement)
+        } else if (SkinObjectArr[1].innerHTML == "武汉分行") {
+            newElement.innerHTML = SkinObjectArr[1].innerHTML
+            logoBox.appendChild(newElement)
+        } else if (SkinObjectArr[1].innerHTML == "长沙分行") {
+            newElement.innerHTML = SkinObjectArr[1].innerHTML
+            logoBox.appendChild(newElement)
+        } else if (SkinObjectArr[1].innerHTML == "南昌分行") {
+            newElement.innerHTML = SkinObjectArr[1].innerHTML
+            logoBox.appendChild(newElement)
+        } else if (SkinObjectArr[1].innerHTML == "厦门分行") {
+            newElement.innerHTML = SkinObjectArr[1].innerHTML
+            logoBox.appendChild(newElement)
+        } else if (SkinObjectArr[1].innerHTML == "福州分行") {
+            newElement.innerHTML = SkinObjectArr[1].innerHTML
+            logoBox.appendChild(newElement)
+        } else if (SkinObjectArr[1].innerHTML == "泉州分行") {
+            newElement.innerHTML = SkinObjectArr[1].innerHTML
+            logoBox.appendChild(newElement)
+        } else if (SkinObjectArr[1].innerHTML == "三亚分行") {
+            newElement.innerHTML = SkinObjectArr[1].innerHTML
+            logoBox.appendChild(newElement)
+        } else if (SkinObjectArr[1].innerHTML == "深圳分行") {
+            newElement.innerHTML = SkinObjectArr[1].innerHTML
+            logoBox.appendChild(newElement)
+        } else if (SkinObjectArr[1].innerHTML == "广州分行") {
+            newElement.innerHTML = SkinObjectArr[1].innerHTML
+            logoBox.appendChild(newElement)
+        } else if (SkinObjectArr[1].innerHTML == "苏州分行") {
+            newElement.innerHTML = SkinObjectArr[1].innerHTML
+            logoBox.appendChild(newElement)
+        } else if (SkinObjectArr[1].innerHTML == "贵阳分行") {
+            newElement.innerHTML = SkinObjectArr[1].innerHTML
+            logoBox.appendChild(newElement)
+        } else if (SkinObjectArr[1].innerHTML == "兰州分行") {
+            newElement.innerHTML = SkinObjectArr[1].innerHTML
+            logoBox.appendChild(newElement)
+        } else if (SkinObjectArr[1].innerHTML == "呼和浩特分行") {
+            newElement.innerHTML = SkinObjectArr[1].innerHTML
+            logoBox.appendChild(newElement)
+        } else if (SkinObjectArr[1].innerHTML == "大连分行") {
+            newElement.innerHTML = SkinObjectArr[1].innerHTML
+            logoBox.appendChild(newElement)
+        } else if (SkinObjectArr[1].innerHTML == "南宁分行") {
+            newElement.innerHTML = SkinObjectArr[1].innerHTML
+            logoBox.appendChild(newElement)
+        } else if (SkinObjectArr[1].innerHTML == "拉萨分行") {
+            newElement.innerHTML = SkinObjectArr[1].innerHTML
+            logoBox.appendChild(newElement)
+        } else if (SkinObjectArr[1].innerHTML == "成都分行") {
+            newElement.innerHTML = SkinObjectArr[1].innerHTML
+            logoBox.appendChild(newElement)
+        } else if (SkinObjectArr[1].innerHTML == "石家庄分行") {
+            newElement.innerHTML = SkinObjectArr[1].innerHTML
+            logoBox.appendChild(newElement)
+        } else if (SkinObjectArr[1].innerHTML == "乌鲁木齐分行") {
+            newElement.innerHTML = SkinObjectArr[1].innerHTML
+            logoBox.appendChild(newElement)
+        } else if (SkinObjectArr[1].innerHTML == "西宁分行") {
+            newElement.innerHTML = SkinObjectArr[1].innerHTML
+            logoBox.appendChild(newElement)
+        } else if (SkinObjectArr[1].innerHTML == "银川分行") {
+            newElement.innerHTML = SkinObjectArr[1].innerHTML
+            logoBox.appendChild(newElement)
+        } else if (SkinObjectArr[1].innerHTML == "汕头分行") {
+            newElement.innerHTML = SkinObjectArr[1].innerHTML
+            logoBox.appendChild(newElement)
+        }  else if (SkinObjectArr[1].innerHTML == "海口分行") {
+            newElement.innerHTML = SkinObjectArr[1].innerHTML
+            logoBox.appendChild(newElement)
+        } 
+}
+</script>  <script>
+$("title").html("中国民生银行")
+        var swiper = new Swiper(".bannerSwiper", {
+         speed:2000,
+        pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+        },
+        autoplay: {
+            delay: 8000,
+            disableOnInteraction: false,
+        },
+    });
+
+    function toLink(href) {
+        window.location.href = href;
+        //window.open(href)
+    }
+
+    // 移动端轮播图
+    var mobileSwiper = new Swiper(".myMobileSwiper", {
+        pagination: {
+            el: ".swiper-paginationMobile",
+        },
+        loop: true,
+    });
+
+    var mobileSwiperTwo = new Swiper('.mobileBannerTwo', {
+        slidesPerView: 4,
+        spaceBetween: 0,
+        slidesPerGroup: 4,
+        loop: true,
+        loopFillGroupWithBlank: true,
+        pagination: {
+            el: '.mobilePaginationTwo',
+            clickable: true,
+        },
+    });
+    
+    //移动端新闻导航栏切换
+    $(function () {
+        $('.newsList').click(function () {
+            // 移除其他元素的active类名
+            $('.newsList').removeClass('active');
+            // 给当前点击的元素添加active类名
+            $(this).addClass('active');
+
+            // 隐藏所有内容div
+            $('.newsContentBox').hide();
+            // 显示当前点击元素对应的内容div
+            var target = $(this).attr('data-target');
+            $(target).show();
+        });
+    });
+    //移动端返回顶部
+    $(".close").click(function () {
+        $(".download").hide()
+    })
+      
+</script> 
+  <style>
+@media only screen and (max-width: 768px) {
+    .mobileBanner{display:block;margin-top:45px;}
+    .banner {
+        display: none;
+    }
+
+    .wrap {
+        padding: 0 .5rem;
+    }
+
+    .impNotice {
+        height: 1.5rem;
+        line-height: 1.5rem;
+        display: flex;
+        font-size:.4rem;
+    }
+
+    .impNotice-title {
+        font-size: .4rem;
+    }
+
+
+    .impNotice-title img {
+        width: .4rem;
+        margin-right: .1rem;
+    }
+
+    .impNotice-content {
+        margin-left: .2rem;
+    }
+
+    .impNotice-content a {
+        display: block;
+        font-size: .38rem;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        max-width: 11em;
+        overflow: hidden;
+    }
+
+    .more {
+        float: none;
+        margin-left: 1rem;
+        font-size: .32rem;
+    }
+
+    .menuBox-firstBox {
+        float: none;
+        width: 100%;
+        margin-bottom: .2rem;
+        padding:0 !important;
+    }
+
+    .menuBox-innerBox {
+        padding: .4rem .1067rem .4rem .6rem;
+        height: 2.8rem;
+        background-size: 30%;
+    }
+
+    .menuBox-innerBox-title {
+        margin-bottom: .15rem;
+        font-size: .4rem;
+    }
+
+    .menuBox-innerBox-links a {
+        margin-top: .2rem;
+        font-size: .38rem;
+    }
+
+    .activities-title {
+        display: flex;
+        justify-content: space-between;
+        height: 1rem;
+        margin: 1rem 0;
+        margin-bottom: .5rem;
+        align-items: center;
+    }
+
+    .activities-title-text {
+        float: none;
+        height: 1rem;
+        line-height: 1rem;
+        padding: 0 .6rem;
+        font-size: .46rem;
+    }
+
+    .activities-title-divide {
+        float: none;
+        height: 1rem;
+        margin: 0 .3rem;
+    }
+
+    .activities-title-desc {
+        float: none;
+        line-height: .5rem;
+        font-size: .32rem;
+    }
+
+    .activities-section-row1 {
+        float: none;
+        margin-left: 0;
+        margin-right: 0;
+        width: 100%;
+    }
+
+    .activities-section-row2 {
+        width: 100%;
+        float: none;
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .activities-section-newsList {
+        height: 1rem;
+        line-height: 1rem;
+        width: 100%;
+    }
+
+    .news-item-title a {
+        font-size: .38rem;
+    }
+
+    .news-item-date {
+        font-size: .38rem;
+    }
+
+    .news-section-box {
+        float: none;
+        width: 100%;
+        height: 7.5rem;
+        padding: .8rem;
+        margin: .4rem 0;
+    }
+
+    .news-section-title {
+        margin-bottom: .5rem;
+    }
+
+    .news-section-title img {
+        width: .9rem;
+    }
+
+    .news-section-text {
+        font-size: .56rem;
+    }
+
+    .news-section-items a {
+        font-size: .38rem;
+        display:block;
+    }
+
+    .news-section-items {
+        height: 1rem;
+        line-height: 1rem;
+        max-width: 100%;
+    }
+
+      #yhud{margin-left: -1.8rem;}
+  #yhud2{margin-left: -2.15rem;}
+  .news-item-title{
+    max-width: 70%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .hoverAble:hover{opacity: 1;color:#000;}
+  #xwzx{margin-left:-0.8rem}
+  #xwzx2{margin-left:-1.2rem}
+  .hoverAble a:hover{
+    opacity: 1;
+    color: #000 !important;
+}
+}
+</style><div style="display:none" easysite="easysiteHiddenDiv">
+	<input type="hidden"  id="currentLoginUserLoginName"/>
+	<input type="hidden"  id="currentLoginUserLoginId"/>
+	<input type="hidden"  id="currentLoginUserIsSuperAdmin"/>
+		<script type="text/javascript" src="/uiFramework/js/counting/chanelCounting.js?a=15654"></script>
+	<script type=text/javascript src='/uiFramework/js/qrcode/jquery.qrcode.min.js'></script>
+	<script type=text/javascript src='/uiFramework/js/counting/articleCounting.js?random=15654'></script>
+</div>
+ </body>
+</html>

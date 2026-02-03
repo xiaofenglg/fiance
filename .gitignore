@@ -1,0 +1,30 @@
+# Log files
+*.log
+
+# Data files and reports
+*.xlsx
+*.parquet
+*.zip
+*.json
+
+# Ignore specific template files from being ignored
+!我的持仓_模板.xlsx
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Temporary files
+*.tmp
+body.tmp
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# IDE-specific
+.idea/
+.vscode/
+
+# Invalid Windows filename
+nul

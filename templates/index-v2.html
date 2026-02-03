@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>千将资本 | 银行理财智能决策平台</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/apple-mckinsey.css?v=10.3.4">
+</head>
+<body>
+
+<!-- ═══ Toast 通知容器 ═══ -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- ═══ 确认对话框 ═══ -->
+<div class="modal-overlay" id="modalOverlay">
+    <div class="modal-box">
+        <h3 id="modalTitle">确认操作</h3>
+        <p id="modalMessage">确定要执行此操作吗？</p>
+        <div class="modal-actions">
+            <button class="btn btn-secondary" onclick="closeModal()">取消</button>
+            <button class="btn btn-danger" id="modalConfirmBtn" onclick="confirmModal()">确认</button>
+        </div>
+    </div>
+</div>
+
+<!-- ═══ Market Ticker ═══ -->
+<div class="ticker-bar" id="tickerBar">
+    <div class="ticker-track" id="tickerTrack">
+        <span class="ticker-item">行情加载中...</span>
+    </div>
+</div>
+
+<!-- ═══ Header ═══ -->
+<header class="header">
+    <div class="header-left">
+        <div class="header-logo"><span>千将</span>资本</div>
+        <div class="header-subtitle">银行理财智能决策平台</div>
+    </div>
+    <div class="header-right">
+        <div class="header-freshness" id="dataFreshness" style="display:none">
+            <span class="hf-item"><span class="hf-label">净值截至</span><span class="hf-value" id="navDataDate">--</span></span>
+            <span class="hf-sep">|</span>
+            <span class="hf-item"><span class="hf-label">策略于</span><span class="hf-value" id="strategyRunTime">--</span></span>
+            <span class="hf-sep">|</span>
+            <span class="hf-item"><span class="hf-label">GPU</span><span class="hf-value" id="gpuStatusText">--</span><span id="gpuStatusDot" class="status-dot status-idle" style="margin-left:3px"></span></span>
+            <span class="hf-sep">|</span>
+            <span class="hf-item"><span class="hf-label">预测</span><span class="hf-value" id="predSourceText">--</span></span>
+        </div>
+        <span id="clock" class="text-mono text-sm text-muted"></span>
+        <span id="globalStatus" class="status-dot status-idle"></span>
+    </div>
+</header>
+
+<!-- ═══ 标签导航 ═══ -->
+<nav class="tab-nav">
+    <button class="tab-btn active" data-tab="overview">总览</button>
+    <button class="tab-btn" data-tab="recommendations">精选推荐</button>
+    <button class="tab-btn" data-tab="signals">实时信号</button>
+    <button class="tab-btn" data-tab="portfolio">我的持仓</button>
+    <button class="tab-btn" data-tab="patterns">释放规律</button>
+    <button class="tab-btn" data-tab="backtest">策略回测</button>
+    <button class="tab-btn" data-tab="datamanage">数据管理</button>
+</nav>
+
+<!-- ═══ 主内容区 ═══ -->
+<div class="main-content">
+
+<!-- ══════════════════════════════════════════
+     标签1：总览
+     ══════════════════════════════════════════ -->
+<div id="tab-overview" class="tab-panel active">
+
+    <!-- V10.1 宏观仪表板 (仅总览显示) -->
+    <div id="macro-dashboard" class="grid grid-3 mb-20">
+        <div class="card macro-card">
+            <div class="card-header"><span class="card-title">宏观环境</span></div>
+            <div id="macroGlobal" style="font-size:13px;line-height:1.6">
+                <div>美国10Y: <span style="color:#e0e3eb;font-weight:600">3.92%</span> <span class="td-neg">-2bps</span></div>
+                <div>USD/CNH: <span style="color:#e0e3eb;font-weight:600">7.24</span> <span class="td-pos">+0.01</span></div>
+                <div>信用利差: <span style="color:#e0e3eb;font-weight:600">85bps</span> <span style="color:#787b86">(收窄)</span></div>
+            </div>
+        </div>
+        <div class="card macro-card">
+            <div class="card-header"><span class="card-title">市场指标</span></div>
+            <div id="macroVitals" style="font-size:13px;line-height:1.6">
+                <div>平均收益率: <span id="macroAvgYield" style="font-weight:600">--</span></div>
+                <div>流动性深度: <span id="macroPoolDepth" style="font-weight:600">--</span></div>
+                <div>产品数量: <span id="macroProductCount" style="font-weight:600">--</span></div>
+            </div>
+        </div>
+        <div class="card macro-card">
+            <div class="card-header"><span class="card-title">风险雷达</span></div>
+            <div id="macroRisk" style="font-size:13px;line-height:1.6">
+                <div>VIX: <span style="color:#e0e3eb;font-weight:600">13.5</span> <span style="color:#26a69a">(中性)</span></div>
+                <div>动量: <span id="macroMomentum" style="font-weight:600">--</span></div>
+                <div>信号质量: <span id="macroSigQuality" style="font-weight:600">--</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- KPI 行 -->
+    <div class="grid grid-4 mb-20">
+        <div class="card kpi-card">
+            <div class="card-header">
+                <span class="card-title">产品库</span>
+                <span class="card-badge badge-blue" id="kpiLibBadge">--</span>
+            </div>
+            <div class="kpi-value" id="kpiLibCount">--</div>
+            <div class="kpi-label">高成功率产品 + <span id="kpiWatchCount">--</span> 观察池</div>
+        </div>
+        <div class="card kpi-card">
+            <div class="card-header">
+                <span class="card-title">实时信号</span>
+                <span class="card-badge badge-green" id="kpiBuySigBadge">--</span>
+            </div>
+            <div class="kpi-value" id="kpiOppCount">--</div>
+            <div class="kpi-label">买入信号: <span id="kpiBuyCount">--</span></div>
+        </div>
+        <div class="card kpi-card">
+            <div class="card-header">
+                <span class="card-title">平均收益</span>
+            </div>
+            <div class="kpi-value" id="kpiAvgRet">--</div>
+            <div class="kpi-label">活跃信号年化收益率</div>
+        </div>
+        <div class="card kpi-card">
+            <div class="card-header">
+                <span class="card-title">持仓</span>
+            </div>
+            <div class="kpi-value" id="kpiHoldCount">--</div>
+            <div class="kpi-label">持仓金额: <span id="kpiHoldAmt">--</span></div>
+            <div class="kpi-label">年化收益率: <span id="kpiHoldAnnRet" class="text-mono">--</span></div>
+            <div class="kpi-label">收益金额: <span id="kpiHoldProfit" class="text-mono">--</span></div>
+        </div>
+    </div>
+
+    <!-- 数据时效信息已移至 header-right -->
+
+    <!-- 图表行 -->
+    <div class="grid grid-2 mb-20">
+        <div class="card">
+            <div class="card-header"><span class="card-title">银行分布</span></div>
+            <div id="chartBankDist" class="chart-box-sm"></div>
+        </div>
+        <div class="card">
+            <div class="card-header"><span class="card-title">信号强度分布</span></div>
+            <div id="chartSignalDist" class="chart-box-sm"></div>
+        </div>
+    </div>
+
+    <!-- 策略引擎 -->
+    <div class="card">
+        <div class="card-header">
+            <span class="card-title">策略引擎</span>
+            <div class="btn-group">
+                <button class="btn btn-primary" id="btnRunStrategy" onclick="runStrategy(false)">运行策略</button>
+                <button class="btn btn-secondary" id="btnRefreshStrategy" onclick="runStrategy(true)">强制刷新</button>
+            </div>
+        </div>
+        <div class="progress-wrap" id="strategyProgressWrap" style="display:none">
+            <div class="progress-bar" id="strategyProgressBar" style="width:0%"></div>
+        </div>
+        <div class="progress-text" id="strategyProgressText"></div>
+    </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     标签2：精选推荐 (VIP Sniper Edition)
+     ══════════════════════════════════════════ -->
+<div id="tab-recommendations" class="tab-panel">
+
+    <!-- List A: 私行预约 -->
+    <div class="vip-card-gold" id="listACard">
+        <div class="card-header">
+            <span class="card-title">&#x1F451; 私行预约 (联系客户经理)</span>
+            <span class="card-badge badge-orange" id="listACount">--</span>
+        </div>
+        <div class="table-wrap" id="listATableWrap">
+            <div class="empty-state"><p>运行策略以生成推荐</p></div>
+        </div>
+    </div>
+
+    <!-- List B: 推荐交易 -->
+    <div class="vip-card-blue" id="listBCard">
+        <div class="card-header">
+            <span class="card-title">&#x1F680; 推荐交易</span>
+            <span class="card-badge badge-blue" id="listBCount">--</span>
+        </div>
+        <!-- 筛选栏 -->
+        <div class="filter-bar" id="listBFilterBar">
+            <div class="filter-search">
+                <input type="text" id="listBSearch" placeholder="搜索产品..." oninput="filterListB()">
+            </div>
+            <select class="filter-select" id="listBBankFilter" onchange="filterListB()">
+                <option value="">全部银行</option>
+            </select>
+            <span class="filter-count" id="listBFilterCount"></span>
+        </div>
+        <div class="table-wrap" id="listBTableWrap">
+            <div class="empty-state"><p>运行策略以生成推荐</p></div>
+        </div>
+
+        <!-- 售罄恢复区域 -->
+        <div class="sold-out-section" id="soldOutSection" style="display:none">
+            <div class="sold-out-toggle" onclick="toggleSoldOutList()">
+                &#x1F6D2; 查看/恢复售罄产品 (<span id="soldOutCount">0</span>)
+                <span id="soldOutArrow">&#x25B6;</span>
+            </div>
+            <div id="soldOutListWrap" style="display:none;margin-top:10px">
+                <div class="table-wrap" id="soldOutTableWrap" style="max-height:240px"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 折叠: 全部推荐 Top 20 (原始列表) -->
+    <div class="card">
+        <div class="collapsible-header" onclick="toggleUnclassified()">
+            <span class="card-title">全部推荐 Top 20 (原始列表)</span>
+            <span class="card-badge badge-green" id="recCount">--</span>
+        </div>
+        <div class="collapsible-body" id="recCollapsibleBody">
+            <div class="filter-bar" id="recFilterBar">
+                <div class="filter-search">
+                    <input type="text" id="recSearch" placeholder="搜索产品..." oninput="filterTable('rec')">
+                </div>
+                <select class="filter-select" id="recBankFilter" onchange="filterTable('rec')">
+                    <option value="">全部银行</option>
+                </select>
+                <select class="filter-select" id="recLiqFilter" onchange="filterTable('rec')">
+                    <option value="">全部流动性</option>
+                </select>
+                <select class="filter-select" id="recSortBy" onchange="sortTable('rec')">
+                    <option value="">默认排序</option>
+                    <option value="score_desc">综合得分 ↓</option>
+                    <option value="return_desc">收益率 ↓</option>
+                    <option value="success_desc">成功率 ↓</option>
+                </select>
+                <span class="filter-count" id="recFilterCount"></span>
+                <button class="btn btn-sm btn-secondary filter-export" onclick="exportTable('rec')">导出</button>
+            </div>
+            <div class="table-wrap" id="recTableWrap">
+                <div class="empty-state"><p>运行策略以生成推荐</p></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     标签3：实时信号
+     ══════════════════════════════════════════ -->
+<div id="tab-signals" class="tab-panel">
+    <div class="card">
+        <div class="card-header">
+            <span class="card-title">实时信号</span>
+            <span class="card-badge badge-blue" id="sigCount">--</span>
+        </div>
+        <!-- 筛选栏 -->
+        <div class="filter-bar" id="sigFilterBar">
+            <div class="filter-search">
+                <input type="text" id="sigSearch" placeholder="搜索产品..." oninput="filterTable('sig')">
+            </div>
+            <select class="filter-select" id="sigBankFilter" onchange="filterTable('sig')">
+                <option value="">全部银行</option>
+            </select>
+            <select class="filter-select" id="sigSourceFilter" onchange="filterTable('sig')">
+                <option value="">全部来源</option>
+                <option value="产品库">产品库</option>
+                <option value="观察池">观察池</option>
+            </select>
+            <select class="filter-select" id="sigSortBy" onchange="sortTable('sig')">
+                <option value="">默认排序</option>
+                <option value="return_desc">最新收益 ↓</option>
+                <option value="annret_desc">年化收益 ↓</option>
+                <option value="success_desc">成功率 ↓</option>
+            </select>
+            <span class="filter-count" id="sigFilterCount"></span>
+            <button class="btn btn-sm btn-secondary filter-export" onclick="exportTable('sig')">导出</button>
+        </div>
+        <div class="table-wrap" id="sigTableWrap">
+            <div class="empty-state"><p>运行策略以扫描信号</p></div>
+        </div>
+    </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     标签4：我的持仓
+     ══════════════════════════════════════════ -->
+<div id="tab-portfolio" class="tab-panel">
+
+    <!-- 持仓 KPI -->
+    <div class="grid grid-3 mb-20" id="portKpiRow" style="display:none">
+        <div class="card kpi-card">
+            <div class="card-header"><span class="card-title">总投入成本</span></div>
+            <div class="kpi-value"><span id="portTotalCost">--</span> <span class="kpi-label">元</span></div>
+        </div>
+        <div class="card kpi-card">
+            <div class="card-header"><span class="card-title">当前市值</span></div>
+            <div class="kpi-value"><span id="portTotalMV">--</span> <span class="kpi-label">元</span></div>
+        </div>
+        <div class="card kpi-card">
+            <div class="card-header"><span class="card-title">累计收益</span></div>
+            <div class="kpi-value"><span id="portTotalPnl">--</span> <span class="kpi-label">元</span></div>
+        </div>
+        <div class="card kpi-card">
+            <div class="card-header"><span class="card-title">累计收益率</span></div>
+            <div class="kpi-value"><span id="portTotalRet">--</span> <span class="kpi-label">%</span></div>
+        </div>
+        <div class="card kpi-card">
+            <div class="card-header"><span class="card-title">累计年化收益率</span></div>
+            <div class="kpi-value"><span id="portTotalAnnRet">--</span> <span class="kpi-label">%</span></div>
+        </div>
+        <div class="card kpi-card">
+            <div class="card-header"><span class="card-title">今日收益</span></div>
+            <div class="kpi-value"><span id="portTodayPnl">--</span> <span class="kpi-label">元</span></div>
+        </div>
+    </div>
+
+    <!-- 持仓明细表 -->
+    <div class="card mb-20">
+        <div class="card-header">
+            <span class="card-title">持仓明细</span>
+            <span class="card-badge badge-blue" id="portHoldingCount">--</span>
+        </div>
+        <div class="filter-bar" id="portFilterBar">
+            <div class="filter-search">
+                <input type="text" id="portSearch" placeholder="搜索产品..." oninput="filterTable('port')">
+            </div>
+            <select class="filter-select" id="portStatusFilter" onchange="filterTable('port')">
+                <option value="">全部状态</option>
+                <option value="持有中">持有中</option>
+                <option value="已清仓">已清仓</option>
+            </select>
+            <span class="filter-count" id="portFilterCount"></span>
+        </div>
+        <div class="table-wrap" id="portTableWrap">
+            <div class="empty-state"><p>暂无持仓数据</p></div>
+        </div>
+    </div>
+
+    <!-- 蒙特卡洛风险分析 -->
+    <div class="grid grid-4 mb-20" id="mcKpiRow" style="display:none">
+        <div class="card kpi-card">
+            <div class="card-header"><span class="card-title">VaR (95%)</span></div>
+            <div class="kpi-value td-neg" id="mcVar95">--</div>
+            <div class="kpi-label">在险价值</div>
+        </div>
+        <div class="card kpi-card">
+            <div class="card-header"><span class="card-title">CVaR (95%)</span></div>
+            <div class="kpi-value td-neg" id="mcCvar95">--</div>
+            <div class="kpi-label">条件在险价值</div>
+        </div>
+        <div class="card kpi-card">
+            <div class="card-header"><span class="card-title">期望收益</span></div>
+            <div class="kpi-value td-pos" id="mcExpRet">--</div>
+            <div class="kpi-label">30天期望收益率%</div>
+        </div>
+        <div class="card kpi-card">
+            <div class="card-header">
+                <span class="card-title">蒙特卡洛</span>
+            </div>
+            <div style="text-align:center;padding:8px">
+                <button class="btn btn-primary" id="btnRunMC" onclick="runMonteCarlo()">运行模拟</button>
+            </div>
+            <div class="kpi-label" id="mcSimCount">--</div>
+        </div>
+    </div>
+
+    <!-- MC 收益分布图 + 最优仓位 -->
+    <div class="grid grid-2 mb-20" id="mcChartsRow" style="display:none">
+        <div class="card">
+            <div class="card-header"><span class="card-title">收益分布 (蒙特卡洛)</span></div>
+            <div id="chartMcDist" class="chart-box"></div>
+        </div>
+        <div class="card">
+            <div class="card-header"><span class="card-title">最优仓位建议</span></div>
+            <div class="table-wrap" id="mcWeightsTable" style="max-height:260px">
+                <div class="empty-state"><p>运行蒙特卡洛模拟查看建议</p></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 产品选择器 -->
+    <div class="card mb-20" style="padding:12px 20px">
+        <div class="card-header" style="margin-bottom:0">
+            <span class="card-title">收益趋势</span>
+            <select class="filter-select" id="portChartProduct" onchange="updatePortChart()">
+                <option value="all">全部持仓</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- 累计收益 + 日收益 双图 -->
+    <div class="grid grid-2 mb-20">
+        <div class="card">
+            <div class="card-header"><span class="card-title">累计收益趋势</span></div>
+            <div id="chartCumulativeReturns" class="chart-box"></div>
+        </div>
+        <div class="card">
+            <div class="card-header"><span class="card-title">日收益趋势</span></div>
+            <div id="chartDailyReturns" class="chart-box"></div>
+        </div>
+    </div>
+
+    <!-- 交易录入行 -->
+    <div class="grid grid-2 mb-20">
+        <!-- 手工录入 -->
+        <div class="card">
+            <div class="card-header"><span class="card-title">手工录入交易</span></div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">银行</label>
+                    <select class="form-select" id="tradeBank">
+                        <option value="">选择银行</option>
+                        <option value="民生银行">民生银行</option>
+                        <option value="华夏银行">华夏银行</option>
+                        <option value="中信银行">中信银行</option>
+                        <option value="交通银行">交通银行</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">产品代码</label>
+                    <input type="text" class="form-input" id="tradeCode" placeholder="输入代码" oninput="onTradeCodeInput()">
+                    <div id="tradeSuggestions" style="display:none;position:absolute;z-index:100;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-sm);max-height:200px;overflow-y:auto;width:100%;box-shadow:var(--shadow-lg)"></div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">产品名称</label>
+                    <input type="text" class="form-input" id="tradeName" placeholder="自动填充">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">交易类型</label>
+                    <select class="form-select" id="tradeType">
+                        <option value="买入">买入</option>
+                        <option value="卖出">卖出</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">金额 (元)</label>
+                    <input type="number" class="form-input" id="tradeAmount" placeholder="0.00">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">日期</label>
+                    <input type="date" class="form-input" id="tradeDate">
+                </div>
+            </div>
+            <button class="btn btn-primary mt-16" onclick="submitTrade()">提交交易</button>
+        </div>
+
+        <!-- 图片识别 -->
+        <div class="card">
+            <div class="card-header"><span class="card-title">图片识别持仓</span></div>
+            <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()"
+                 ondragover="event.preventDefault();this.classList.add('drag-over')"
+                 ondragleave="this.classList.remove('drag-over')"
+                 ondrop="handleDrop(event)">
+                <div class="upload-icon">&#128247;</div>
+                <p>点击或拖拽上传截图</p>
+                <p class="text-sm text-muted">支持 JPG / PNG</p>
+                <input type="file" id="fileInput" accept="image/*" onchange="handleFileUpload(this.files)">
+            </div>
+            <div id="ocrResultWrap" style="display:none" class="mt-16">
+                <div class="card-header"><span class="card-title">识别结果</span></div>
+                <div class="table-wrap" id="ocrResultTable" style="max-height:240px"></div>
+                <button class="btn btn-primary mt-16" onclick="submitOcrTrades()">确认提交</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 交易记录 -->
+    <div class="card">
+        <div class="card-header">
+            <span class="card-title">交易记录</span>
+            <span class="card-badge badge-blue" id="tradeRecordCount">--</span>
+        </div>
+        <div class="filter-bar" id="tradeFilterBar">
+            <div class="filter-search">
+                <input type="text" id="tradeSearch" placeholder="搜索交易..." oninput="filterTable('trade')">
+            </div>
+            <select class="filter-select" id="tradeTypeFilter" onchange="filterTable('trade')">
+                <option value="">全部类型</option>
+                <option value="买入">买入</option>
+                <option value="卖出">卖出</option>
+            </select>
+            <span class="filter-count" id="tradeFilterCount"></span>
+        </div>
+        <div class="table-wrap" id="tradeTableWrap" style="max-height:400px">
+            <div class="empty-state"><p>暂无交易记录</p></div>
+        </div>
+    </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     标签5：释放规律
+     ══════════════════════════════════════════ -->
+<div id="tab-patterns" class="tab-panel">
+
+    <!-- 图表行 -->
+    <div class="grid grid-2 mb-20">
+        <div class="card">
+            <div class="card-header"><span class="card-title">置信度分布</span></div>
+            <div id="chartPatternConf" class="chart-box"></div>
+        </div>
+        <div class="card">
+            <div class="card-header"><span class="card-title">周期分布</span></div>
+            <div id="chartPatternPeriod" class="chart-box"></div>
+        </div>
+    </div>
+
+    <!-- AI 预测置信度热力图 -->
+    <div class="card mb-20" id="aiPredHeatmapCard" style="display:none">
+        <div class="card-header"><span class="card-title">AI 释放概率预测 (未来10天)</span></div>
+        <div id="chartPredHeatmap" class="chart-box-xl"></div>
+    </div>
+
+    <!-- 关联分析区域 -->
+    <div class="card mb-20">
+        <div class="card-header">
+            <span class="card-title">跨产品关联分析</span>
+            <div class="btn-group">
+                <button class="btn btn-secondary" id="btnRunCorrelation" onclick="runCorrelation()">运行分析</button>
+            </div>
+        </div>
+        <div id="corrResultSection" style="display:none">
+            <div class="grid grid-4 mb-20">
+                <div class="card kpi-card">
+                    <div class="card-header"><span class="card-title">分散化评分</span></div>
+                    <div class="kpi-value" id="corrDivScore">--</div>
+                    <div class="kpi-label">0=集中 1=分散</div>
+                </div>
+                <div class="card kpi-card">
+                    <div class="card-header"><span class="card-title">聚类数</span></div>
+                    <div class="kpi-value" id="corrNClusters">--</div>
+                    <div class="kpi-label">产品群组</div>
+                </div>
+                <div class="card kpi-card">
+                    <div class="card-header"><span class="card-title">系统性风险</span></div>
+                    <div class="kpi-value" id="corrSysRisk">--</div>
+                    <div class="kpi-label">%</div>
+                </div>
+                <div class="card kpi-card">
+                    <div class="card-header"><span class="card-title">分析产品</span></div>
+                    <div class="kpi-value" id="corrNProducts">--</div>
+                    <div class="kpi-label">个</div>
+                </div>
+            </div>
+            <div class="grid grid-2 mb-20">
+                <div class="card">
+                    <div class="card-header"><span class="card-title">相关性矩阵</span></div>
+                    <div id="chartCorrMatrix" class="chart-box-xl"></div>
+                </div>
+                <div class="card">
+                    <div class="card-header"><span class="card-title">聚类分布</span></div>
+                    <div id="chartCluster" class="chart-box-xl"></div>
+                </div>
+            </div>
+            <div class="card mb-20">
+                <div class="card-header"><span class="card-title">配置建议</span></div>
+                <div class="table-wrap" id="corrRecommTable"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 规律表格 -->
+    <div class="card">
+        <div class="card-header">
+            <span class="card-title">释放规律</span>
+            <span class="card-badge badge-orange" id="patCount">--</span>
+        </div>
+        <div class="filter-bar" id="patFilterBar">
+            <div class="filter-search">
+                <input type="text" id="patSearch" placeholder="搜索..." oninput="filterTable('pat')">
+            </div>
+            <select class="filter-select" id="patBankFilter" onchange="filterTable('pat')">
+                <option value="">全部银行</option>
+            </select>
+            <select class="filter-select" id="patConfFilter" onchange="filterTable('pat')">
+                <option value="">全部置信度</option>
+                <option value="high">高 (>=0.7)</option>
+                <option value="medium">中 (>=0.4)</option>
+                <option value="low">低 (<0.4)</option>
+            </select>
+            <select class="filter-select" id="patPeriodFilter" onchange="filterTable('pat')">
+                <option value="">全部周期</option>
+                <option value="yes">有周期</option>
+                <option value="no">无周期</option>
+            </select>
+            <span class="filter-count" id="patFilterCount"></span>
+            <button class="btn btn-sm btn-secondary filter-export" onclick="exportTable('pat')">导出</button>
+        </div>
+        <div class="table-wrap" id="patTableWrap">
+            <div class="empty-state"><p>运行策略以学习规律</p></div>
+        </div>
+    </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     标签6：策略回测
+     ══════════════════════════════════════════ -->
+<div id="tab-backtest" class="tab-panel">
+
+    <!-- 回测引擎 -->
+    <div class="card mb-20">
+        <div class="card-header">
+            <span class="card-title">回测引擎</span>
+            <div class="btn-group">
+                <button class="btn btn-primary" id="btnRunBacktest" onclick="runBacktest()">运行回测</button>
+                <button class="btn btn-secondary" id="btnRunSweep" onclick="runParamSweep()">参数寻优</button>
+            </div>
+        </div>
+        <div class="progress-wrap" id="btProgressWrap" style="display:none">
+            <div class="progress-bar" id="btProgressBar" style="width:0%"></div>
+        </div>
+        <div class="progress-text" id="btProgressText"></div>
+    </div>
+
+    <!-- 参数寻优结果 -->
+    <div id="sweepResultsSection" style="display:none">
+        <!-- 寻优 KPI -->
+        <div class="grid grid-4 mb-20">
+            <div class="card kpi-card">
+                <div class="card-header"><span class="card-title">最优夏普</span></div>
+                <div class="kpi-value td-pos" id="swBestSharpe">--</div>
+                <div class="kpi-label">全局最优</div>
+            </div>
+            <div class="card kpi-card">
+                <div class="card-header"><span class="card-title">最优年化</span></div>
+                <div class="kpi-value td-pos" id="swBestReturn">--</div>
+                <div class="kpi-label">%</div>
+            </div>
+            <div class="card kpi-card">
+                <div class="card-header"><span class="card-title">最优胜率</span></div>
+                <div class="kpi-value" id="swBestWinRate">--</div>
+                <div class="kpi-label">%</div>
+            </div>
+            <div class="card kpi-card">
+                <div class="card-header"><span class="card-title">参数稳定性</span></div>
+                <div class="kpi-value" id="swStability">--</div>
+                <div class="kpi-label">Top10 一致性</div>
+            </div>
+        </div>
+
+        <!-- 最优参数展示 -->
+        <div class="card mb-20">
+            <div class="card-header"><span class="card-title">最优参数</span></div>
+            <div class="table-wrap" id="swBestParamsTable"></div>
+        </div>
+
+        <!-- 参数热力图 -->
+        <div class="grid grid-2 mb-20">
+            <div class="card">
+                <div class="card-header"><span class="card-title">夏普比率热力图 (买入阈值 x 卖出阈值)</span></div>
+                <div id="chartSweepSharpe" class="chart-box-xl"></div>
+            </div>
+            <div class="card">
+                <div class="card-header"><span class="card-title">年化收益热力图</span></div>
+                <div id="chartSweepReturn" class="chart-box-xl"></div>
+            </div>
+        </div>
+
+        <!-- 鲁棒性分析 Top10 -->
+        <div class="card mb-20">
+            <div class="card-header"><span class="card-title">鲁棒性分析 — Top 10 参数集</span></div>
+            <div class="table-wrap" id="swTop10Table" style="max-height:400px"></div>
+        </div>
+    </div>
+
+    <!-- 回测 KPI -->
+    <div class="grid grid-4 mb-20" id="btKpiRow" style="display:none">
+        <div class="card kpi-card">
+            <div class="card-header"><span class="card-title">年化收益</span></div>
+            <div class="kpi-value" id="btAnnRet">--</div>
+            <div class="kpi-label">总收益: <span id="btTotalRet">--</span></div>
+        </div>
+        <div class="card kpi-card">
+            <div class="card-header"><span class="card-title">夏普比率</span></div>
+            <div class="kpi-value" id="btSharpe">--</div>
+            <div class="kpi-label">盈亏比: <span id="btPF">--</span></div>
+        </div>
+        <div class="card kpi-card">
+            <div class="card-header"><span class="card-title">最大回撤</span></div>
+            <div class="kpi-value" id="btMaxDD">--</div>
+            <div class="kpi-label"><span id="btDDDate">--</span></div>
+        </div>
+        <div class="card kpi-card">
+            <div class="card-header"><span class="card-title">胜率</span></div>
+            <div class="kpi-value" id="btWinRate">--</div>
+            <div class="kpi-label">交易: <span id="btTrades">--</span> (W<span id="btWins">--</span>/L<span id="btLosses">--</span>)</div>
+        </div>
+    </div>
+
+    <!-- 净值曲线 -->
+    <div class="card mb-20" id="btNavRow" style="display:none">
+        <div class="card-header"><span class="card-title">组合净值曲线</span></div>
+        <div id="chartNav" class="chart-box-xl"></div>
+    </div>
+
+    <!-- 月度收益 + 交易日志 -->
+    <div class="grid grid-2 mb-20" id="btDetailRow" style="display:none">
+        <div class="card">
+            <div class="card-header"><span class="card-title">月度收益</span></div>
+            <div id="chartMonthly" class="chart-box"></div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <span class="card-title">交易日志</span>
+                <span class="card-badge badge-blue" id="btTradeCount">--</span>
+            </div>
+            <div class="filter-bar" id="btTradeFilterBar">
+                <div class="filter-search">
+                    <input type="text" id="btTradeSearch" placeholder="搜索..." oninput="filterTable('btTrade')">
+                </div>
+                <span class="filter-count" id="btTradeFilterCount"></span>
+            </div>
+            <div class="table-wrap" id="btTradeTableWrap" style="max-height:360px">
+                <div class="empty-state"><p>运行回测查看交易</p></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 分银行绩效 -->
+    <div class="card" id="btBankRow" style="display:none">
+        <div class="card-header"><span class="card-title">分银行绩效</span></div>
+        <div id="chartBankPerf" class="chart-box-sm"></div>
+    </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     标签7：数据管理
+     ══════════════════════════════════════════ -->
+<div id="tab-datamanage" class="tab-panel">
+
+    <!-- 净值数据库状态 -->
+    <div class="card mb-20">
+        <div class="card-header">
+            <span class="card-title">净值数据库状态</span>
+            <button class="btn btn-sm btn-secondary" onclick="loadDbStats(false, true)">刷新</button>
+        </div>
+        <div class="table-wrap" id="dbStatsTableWrap">
+            <div class="empty-state"><p>加载中...</p></div>
+        </div>
+    </div>
+
+    <!-- 净值抓取 -->
+    <div class="card">
+        <div class="card-header">
+            <span class="card-title">净值抓取</span>
+            <a href="javascript:void(0)" id="toggleAllBanks" style="font-size:12px;margin-left:12px;color:var(--accent-blue)">全选 / 取消全选</a>
+        </div>
+
+        <div class="checkbox-group mb-20" id="crawlBankList">
+            <span style="color:var(--text-muted);font-size:12px">加载中...</span>
+        </div>
+
+        <div class="btn-group mb-16">
+            <button class="btn btn-primary" id="btnCrawlIncr" onclick="runCrawl(false)">开始抓取</button>
+            <button class="btn btn-secondary" id="btnCrawlFull" onclick="confirmFullCrawl()">全部全量</button>
+            <button class="btn btn-danger" id="btnCrawlStop" onclick="stopCrawl()" style="display:none">全部停止</button>
+        </div>
+
+        <div class="progress-wrap progress-lg" id="crawlProgressWrap" style="display:none">
+            <div class="progress-bar" id="crawlProgressBar" style="width:0%">
+                <span class="progress-pct" id="crawlProgressPct"></span>
+            </div>
+        </div>
+        <div class="progress-text" id="crawlProgressText"></div>
+        <div id="crawlBankProgressList"></div>
+        <div class="progress-text" id="crawlElapsed" style="font-size:11px;color:var(--text-muted)"></div>
+
+        <!-- 抓取结果 -->
+        <div id="crawlResultWrap" style="display:none" class="mt-16">
+            <div class="table-wrap" id="crawlResultTable"></div>
+        </div>
+    </div>
+</div>
+
+</div><!-- /main-content -->
+
+<!-- ECharts CDN -->
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+<script src="/static/js/dashboard-v2.js?v={{ js_ver }}"></script>
+</body>
+</html>

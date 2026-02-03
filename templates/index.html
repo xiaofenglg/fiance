@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>千将资本 | 银行理财策略仪表板</title>
+    <link rel="stylesheet" href="/static/css/mckinsey.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- ═══ Header ═══ -->
+<header class="header">
+    <div class="header-left">
+        <div class="header-logo"><span>千将</span>资本</div>
+        <div class="header-subtitle">Bank Wealth Management Strategy Dashboard</div>
+    </div>
+    <div class="header-right">
+        <span id="clock" style="font-family:var(--font-mono);font-size:12px;color:var(--text-muted)"></span>
+        <span id="globalStatus" class="status-dot status-idle"></span>
+    </div>
+</header>
+
+<!-- ═══ Tab Nav ═══ -->
+<nav class="tab-nav">
+    <button class="tab-btn active" data-tab="overview">Overview</button>
+    <button class="tab-btn" data-tab="recommendations">Top 20</button>
+    <button class="tab-btn" data-tab="opportunities">Signals</button>
+    <button class="tab-btn" data-tab="portfolio">Portfolio</button>
+    <button class="tab-btn" data-tab="patterns">Patterns</button>
+    <button class="tab-btn" data-tab="backtest">Backtest</button>
+</nav>
+
+<!-- ═══ Main Content ═══ -->
+<div class="main-content">
+
+<!-- ──────── TAB: Overview ──────── -->
+<div id="tab-overview" class="tab-panel active">
+
+    <!-- KPI Row -->
+    <div class="grid grid-4" style="margin-bottom:20px">
+        <div class="card">
+            <div class="card-header"><span class="card-title">Product Library</span><span class="card-badge badge-blue" id="kpiLibBadge">--</span></div>
+            <div class="kpi-value" id="kpiLibCount">--</div>
+            <div class="kpi-label">High success-rate products + <span id="kpiWatchCount">--</span> watchlist</div>
+        </div>
+        <div class="card">
+            <div class="card-header"><span class="card-title">Live Signals</span><span class="card-badge badge-green" id="kpiBuySigBadge">--</span></div>
+            <div class="kpi-value" id="kpiOppCount">--</div>
+            <div class="kpi-label">Buy signals: <span id="kpiBuyCount">--</span></div>
+        </div>
+        <div class="card">
+            <div class="card-header"><span class="card-title">Avg Return</span></div>
+            <div class="kpi-value" id="kpiAvgRet">--</div>
+            <div class="kpi-label">Annualized % across active signals</div>
+        </div>
+        <div class="card">
+            <div class="card-header"><span class="card-title">Positions</span></div>
+            <div class="kpi-value" id="kpiHoldCount">--</div>
+            <div class="kpi-label">Holdings amount: <span id="kpiHoldAmt">--</span></div>
+        </div>
+    </div>
+
+    <!-- Charts Row -->
+    <div class="grid grid-2" style="margin-bottom:20px">
+        <div class="card">
+            <div class="card-header"><span class="card-title">Bank Distribution</span></div>
+            <div id="chartBankDist" class="chart-box-sm"></div>
+        </div>
+        <div class="card">
+            <div class="card-header"><span class="card-title">Signal Strength Distribution</span></div>
+            <div id="chartSignalDist" class="chart-box-sm"></div>
+        </div>
+    </div>
+
+    <!-- Run Strategy -->
+    <div class="card">
+        <div class="card-header">
+            <span class="card-title">Strategy Engine</span>
+            <div style="display:flex;gap:8px">
+                <button class="btn btn-primary" id="btnRunStrategy" onclick="runStrategy(false)">Run Strategy</button>
+                <button class="btn" id="btnRefreshStrategy" onclick="runStrategy(true)">Force Refresh</button>
+            </div>
+        </div>
+        <div class="progress-wrap" id="strategyProgressWrap" style="display:none">
+            <div class="progress-bar" id="strategyProgressBar" style="width:0%"></div>
+        </div>
+        <div class="progress-text" id="strategyProgressText"></div>
+    </div>
+</div>
+
+<!-- ──────── TAB: Recommendations ──────── -->
+<div id="tab-recommendations" class="tab-panel">
+    <div class="card">
+        <div class="card-header"><span class="card-title">Top 20 Curated Picks</span><span class="card-badge badge-green" id="recCount">--</span></div>
+        <div class="table-wrap" id="recTableWrap">
+            <div class="empty-state"><p>Run strategy to generate recommendations</p></div>
+        </div>
+    </div>
+</div>
+
+<!-- ──────── TAB: Signals ──────── -->
+<div id="tab-opportunities" class="tab-panel">
+    <div class="card">
+        <div class="card-header"><span class="card-title">Real-Time Opportunity Signals</span><span class="card-badge badge-blue" id="oppCount">--</span></div>
+        <div class="table-wrap" id="oppTableWrap">
+            <div class="empty-state"><p>Run strategy to scan signals</p></div>
+        </div>
+    </div>
+</div>
+
+<!-- ──────── TAB: Portfolio ──────── -->
+<div id="tab-portfolio" class="tab-panel">
+    <div class="card">
+        <div class="card-header"><span class="card-title">Portfolio Analysis</span></div>
+        <div class="table-wrap" id="portTableWrap">
+            <div class="empty-state"><p>Run strategy to analyze portfolio</p></div>
+        </div>
+    </div>
+</div>
+
+<!-- ──────── TAB: Patterns ──────── -->
+<div id="tab-patterns" class="tab-panel">
+    <div class="grid grid-2" style="margin-bottom:20px">
+        <div class="card">
+            <div class="card-header"><span class="card-title">Release Pattern Confidence</span></div>
+            <div id="chartPatternConf" class="chart-box"></div>
+        </div>
+        <div class="card">
+            <div class="card-header"><span class="card-title">Period Distribution</span></div>
+            <div id="chartPatternPeriod" class="chart-box"></div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header"><span class="card-title">Learned Release Patterns</span><span class="card-badge badge-amber" id="patCount">--</span></div>
+        <div class="table-wrap" id="patTableWrap">
+            <div class="empty-state"><p>Run strategy to learn patterns</p></div>
+        </div>
+    </div>
+</div>
+
+<!-- ──────── TAB: Backtest ──────── -->
+<div id="tab-backtest" class="tab-panel">
+
+    <!-- Backtest Controls -->
+    <div class="card" style="margin-bottom:20px">
+        <div class="card-header">
+            <span class="card-title">Backtest Engine</span>
+            <button class="btn btn-primary" id="btnRunBacktest" onclick="runBacktest()">Run Backtest</button>
+        </div>
+        <div class="progress-wrap" id="btProgressWrap" style="display:none">
+            <div class="progress-bar" id="btProgressBar" style="width:0%"></div>
+        </div>
+        <div class="progress-text" id="btProgressText"></div>
+    </div>
+
+    <!-- Backtest KPIs -->
+    <div class="grid grid-4" id="btKpiRow" style="margin-bottom:20px;display:none">
+        <div class="card">
+            <div class="card-header"><span class="card-title">Annualized Return</span></div>
+            <div class="kpi-value" id="btAnnRet">--</div>
+            <div class="kpi-label">Total: <span id="btTotalRet">--</span></div>
+        </div>
+        <div class="card">
+            <div class="card-header"><span class="card-title">Sharpe Ratio</span></div>
+            <div class="kpi-value" id="btSharpe">--</div>
+            <div class="kpi-label">Profit Factor: <span id="btPF">--</span></div>
+        </div>
+        <div class="card">
+            <div class="card-header"><span class="card-title">Max Drawdown</span></div>
+            <div class="kpi-value" id="btMaxDD">--</div>
+            <div class="kpi-label"><span id="btDDDate">--</span></div>
+        </div>
+        <div class="card">
+            <div class="card-header"><span class="card-title">Win Rate</span></div>
+            <div class="kpi-value" id="btWinRate">--</div>
+            <div class="kpi-label">Trades: <span id="btTrades">--</span> (W<span id="btWins">--</span>/L<span id="btLosses">--</span>)</div>
+        </div>
+    </div>
+
+    <!-- NAV Chart -->
+    <div class="grid grid-1" style="margin-bottom:20px" id="btChartRow" style="display:none">
+        <div class="card">
+            <div class="card-header"><span class="card-title">Portfolio NAV Curve</span></div>
+            <div id="chartNav" class="chart-box-lg"></div>
+        </div>
+    </div>
+
+    <!-- Monthly Returns + Trade Log -->
+    <div class="grid grid-2" id="btDetailRow" style="display:none">
+        <div class="card">
+            <div class="card-header"><span class="card-title">Monthly Returns</span></div>
+            <div id="chartMonthly" class="chart-box"></div>
+        </div>
+        <div class="card">
+            <div class="card-header"><span class="card-title">Trade Log</span><span class="card-badge badge-blue" id="btTradeCount">--</span></div>
+            <div class="table-wrap" id="btTradeTableWrap" style="max-height:360px">
+                <div class="empty-state"><p>Run backtest to see trades</p></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bank Stats -->
+    <div class="grid grid-1" id="btBankRow" style="margin-top:20px;display:none">
+        <div class="card">
+            <div class="card-header"><span class="card-title">Performance by Bank</span></div>
+            <div id="chartBankPerf" class="chart-box-sm"></div>
+        </div>
+    </div>
+</div>
+
+</div><!-- /main-content -->
+
+<!-- ECharts CDN -->
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+<script src="/static/js/dashboard.js"></script>
+</body>
+</html>

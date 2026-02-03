@@ -1,0 +1,3 @@
+@echo off
+echo Starting Chrome with debug port using default profile...
+"C:\Program Files\Google\Chrome\Application\chrome.exe" --remote-debugging-port=9222 https://www.cebwm.com/wealth/grlc/index.html

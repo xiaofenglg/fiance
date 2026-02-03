@@ -1,0 +1,32 @@
+=== 各银行费率采集状态 ===
+
+中信银行:
+  NAV产品数: 3234
+  费率数据库: 0 (prospectus: 0, name_parse: 0)
+  实际覆盖率: 0%
+
+中邮理财:
+  NAV产品数: 2787
+  费率数据库: 0 (prospectus: 0, name_parse: 0)
+  实际覆盖率: 0%
+
+华夏银行:
+  NAV产品数: 6035
+  费率数据库: 0 (prospectus: 0, name_parse: 0)
+  实际覆盖率: 0%
+
+宁银理财:
+  NAV产品数: 897
+  费率数据库: 0 (prospectus: 0, name_parse: 0)
+  实际覆盖率: 0%
+
+民生银行:
+  NAV产品数: 3408
+  费率数据库: 0 (prospectus: 0, name_parse: 0)
+  实际覆盖率: 0%
+
+浦银理财:
+  NAV产品数: 4161
+  费率数据库: 0 (prospectus: 0, name_parse: 0)
+  实际覆盖率: 0%
+

@@ -1,0 +1,15 @@
+HTTP/1.1 200 OK
+Server: nginx
+Date: Sun, 01 Feb 2026 13:06:15 GMT
+Content-Type: text/html
+Content-Length: 13145
+Last-Modified: Sat, 31 Jan 2026 19:02:03 GMT
+ETag: "697e51ab-3359"
+Set-Cookie: HttpOnly; Secure
+Set-Cookie: Secure; Secure
+Cache-Control: no-store
+X-Frame-Options: SAMEORGIN
+Accept-Ranges: bytes
+Connection: Keep-alive
+Via: 1.1 ID-7203207600255110 uproxy-5
+
