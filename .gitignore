@@ -6,6 +6,7 @@
 *.parquet
 *.zip
 *.json
+*.sqlite3
 
 # Ignore specific template files from being ignored
 !我的持仓_模板.xlsx
