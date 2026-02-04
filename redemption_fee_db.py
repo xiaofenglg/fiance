@@ -21,8 +21,12 @@ import re
 import json
 import logging
 from datetime import datetime
+from threading import RLock
 
 logger = logging.getLogger(__name__)
+
+# 线程安全锁（可重入）
+_db_lock = RLock()
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 FEE_DB_PATH = os.path.join(BASE_DIR, "赎回费数据库.json")
@@ -72,43 +76,47 @@ _fee_db_cache = None
 
 
 def load_fee_db():
-    """加载赎回费数据库
+    """加载赎回费数据库（线程安全）
 
     Returns:
         dict: {"version": int, "products": {key: ProductFeeInfo}}
     """
     global _fee_db_cache
-    if _fee_db_cache is not None:
-        return _fee_db_cache
-    if not os.path.exists(FEE_DB_PATH):
-        _fee_db_cache = _empty_db()
-        return _fee_db_cache
-    try:
-        with open(FEE_DB_PATH, 'r', encoding='utf-8') as f:
-            db = json.load(f)
-        if not isinstance(db, dict) or 'products' not in db:
-            db = _empty_db()
-        _fee_db_cache = db
-        return db
-    except Exception as e:
-        logger.warning(f"加载赎回费数据库失败: {e}")
-        _fee_db_cache = _empty_db()
-        return _fee_db_cache
+    with _db_lock:
+        if _fee_db_cache is not None:
+            return _fee_db_cache
+        if not os.path.exists(FEE_DB_PATH):
+            _fee_db_cache = _empty_db()
+            return _fee_db_cache
+        try:
+            with open(FEE_DB_PATH, 'r', encoding='utf-8') as f:
+                db = json.load(f)
+            if not isinstance(db, dict) or 'products' not in db:
+                db = _empty_db()
+            _fee_db_cache = db
+            return db
+        except Exception as e:
+            logger.warning(f"加载赎回费数据库失败: {e}")
+            _fee_db_cache = _empty_db()
+            return _fee_db_cache
 
 
 def save_fee_db(db=None):
-    """保存赎回费数据库到文件"""
+    """保存赎回费数据库到文件（线程安全）"""
     global _fee_db_cache
-    if db is None:
-        db = _fee_db_cache
-    if db is None:
-        return
-    try:
-        with open(FEE_DB_PATH, 'w', encoding='utf-8') as f:
-            json.dump(db, f, ensure_ascii=False, indent=2)
-        _fee_db_cache = db
-    except Exception as e:
-        logger.error(f"保存赎回费数据库失败: {e}")
+    with _db_lock:
+        if db is None:
+            db = _fee_db_cache
+        if db is None:
+            return
+        try:
+            # 复制一份再保存，避免迭代时被修改
+            db_copy = {'version': db.get('version', 1), 'products': dict(db.get('products', {}))}
+            with open(FEE_DB_PATH, 'w', encoding='utf-8') as f:
+                json.dump(db_copy, f, ensure_ascii=False, indent=2)
+            _fee_db_cache = db
+        except Exception as e:
+            logger.error(f"保存赎回费数据库失败: {e}")
 
 
 def invalidate_cache():
@@ -238,7 +246,7 @@ def calculate_fee_cost(bank, product_code, holding_days, amount):
 
 
 def update_fee_info(bank, product_code, fee_info):
-    """更新单个产品的费用信息
+    """更新单个产品的费用信息（线程安全）
 
     Args:
         bank: 银行名称
@@ -257,19 +265,19 @@ def update_fee_info(bank, product_code, fee_info):
     # 数据源优先级: manual > prospectus > api_detail > name_parse
     SOURCE_PRIORITY = {'manual': 4, 'prospectus': 3, 'api_detail': 2, 'name_parse': 1}
 
-    db = load_fee_db()
-    key = _make_key(bank, product_code)
+    with _db_lock:
+        db = load_fee_db()
+        key = _make_key(bank, product_code)
 
-    existing = db['products'].get(key)
-    if existing:
-        existing_priority = SOURCE_PRIORITY.get(existing.get('source', ''), 0)
-        new_priority = SOURCE_PRIORITY.get(fee_info.get('source', ''), 0)
-        if new_priority < existing_priority:
-            return  # 低优先级数据不覆盖高优先级
+        existing = db['products'].get(key)
+        if existing:
+            existing_priority = SOURCE_PRIORITY.get(existing.get('source', ''), 0)
+            new_priority = SOURCE_PRIORITY.get(fee_info.get('source', ''), 0)
+            if new_priority < existing_priority:
+                return  # 低优先级数据不覆盖高优先级
 
-    fee_info['last_updated'] = datetime.now().isoformat()
-    db['products'][key] = fee_info
-    _fee_db_cache.update(db)  # 更新缓存
+        fee_info['last_updated'] = datetime.now().isoformat()
+        db['products'][key] = fee_info
 
 
 def has_fee_data(bank, product_code):
