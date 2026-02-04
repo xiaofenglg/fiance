@@ -1,0 +1,505 @@
+# -*- coding: utf-8 -*-
+"""
+Hierarchical Risk Parity (HRP) 组合优化器
+
+替代 Kelly Criterion,实现更稳健的组合优化。
+
+HRP 优点:
+- 不需要协方差矩阵求逆 (避免 MVO 的不稳定性)
+- 层次聚类捕捉资产相关性结构
+- 风险分散更均衡
+
+参考:
+López de Prado, M. (2016). Building Diversified Portfolios that Outperform Out-of-Sample.
+Journal of Portfolio Management, 42(4), 59-69.
+
+需要安装: riskfolio-lib
+"""
+
+import logging
+from dataclasses import dataclass
+from typing import Dict, List, Optional, Tuple
+
+import numpy as np
+import pandas as pd
+from scipy.cluster.hierarchy import dendrogram, linkage
+from scipy.spatial.distance import squareform
+
+logger = logging.getLogger(__name__)
+
+# riskfolio-lib 可选依赖
+_rp_available = False
+try:
+    import riskfolio as rp
+
+    _rp_available = True
+except ImportError:
+    logger.debug("riskfolio-lib 未安装,将使用内置 HRP 实现")
+
+
+@dataclass
+class HRPResult:
+    """HRP 优化结果"""
+
+    weights: Dict[int, float]  # {product_idx: weight}
+    raw_weights: np.ndarray  # 原始权重数组
+    risk_contribution: Dict[int, float]  # 风险贡献
+    cluster_labels: Optional[np.ndarray]  # 聚类标签
+
+
+class HRPOptimizer:
+    """Hierarchical Risk Parity 组合优化器"""
+
+    def __init__(
+        self,
+        risk_measure: str = "MV",
+        linkage_method: str = "ward",
+        max_weight: float = 0.25,
+        min_weight: float = 0.05,
+        rf_rate: float = 0.02,
+    ):
+        """
+        Args:
+            risk_measure: 风险度量 ("MV", "MAD", "CVaR", "CDaR")
+            linkage_method: 聚类方法 ("single", "complete", "average", "ward")
+            max_weight: 单个资产最大权重
+            min_weight: 单个资产最小权重
+            rf_rate: 年化无风险利率
+        """
+        self.risk_measure = risk_measure
+        self.linkage_method = linkage_method
+        self.max_weight = max_weight
+        self.min_weight = min_weight
+        self.rf_rate = rf_rate
+
+    def optimize(
+        self,
+        returns: pd.DataFrame,
+        signals: Optional[Dict[int, float]] = None,
+        use_riskfolio: bool = True,
+    ) -> HRPResult:
+        """基于 HRP 算法优化权重
+
+        Args:
+            returns: 候选产品的历史收益率 [n_dates, n_products]
+                    列名应为产品索引
+            signals: 模型信号 {product_idx: signal_strength}
+
+        Returns:
+            HRPResult 优化结果
+        """
+        if returns.empty:
+            return HRPResult(
+                weights={}, raw_weights=np.array([]), risk_contribution={}, cluster_labels=None
+            )
+
+        n_assets = returns.shape[1]
+
+        if _rp_available and use_riskfolio:
+            result = self._optimize_riskfolio(returns, signals)
+        else:
+            result = self._optimize_native(returns, signals)
+
+        return result
+
+    def _optimize_riskfolio(
+        self, returns: pd.DataFrame, signals: Optional[Dict[int, float]] = None
+    ) -> HRPResult:
+        """使用 riskfolio-lib 进行 HRP 优化
+
+        Args:
+            returns: 收益率 DataFrame
+            signals: 信号强度
+
+        Returns:
+            HRPResult
+        """
+        try:
+            # 创建 Portfolio 对象
+            port = rp.Portfolio(returns=returns)
+
+            # 计算资产统计量
+            port.assets_stats(method_mu="hist", method_cov="hist")
+
+            # HRP 优化
+            w = port.optimization(
+                model="HRP",
+                codependence="pearson",
+                rm=self.risk_measure,
+                rf=self.rf_rate / 252,  # 日无风险利率
+                linkage=self.linkage_method,
+                leaf_order=True,
+            )
+
+            if w is None or w.empty:
+                logger.warning("[HRP] riskfolio 优化失败,使用等权")
+                return self._equal_weight_result(returns, signals)
+
+            # 转换为字典
+            raw_weights = w.values.flatten()
+            product_indices = [int(c) for c in returns.columns]
+
+            # 应用信号调整和权重约束
+            adjusted_weights = self._apply_constraints(
+                raw_weights, product_indices, signals
+            )
+
+            # 计算风险贡献
+            risk_contrib = self._compute_risk_contribution(returns, adjusted_weights)
+
+            return HRPResult(
+                weights=adjusted_weights,
+                raw_weights=raw_weights,
+                risk_contribution=risk_contrib,
+                cluster_labels=None,
+            )
+
+        except Exception as e:
+            logger.error(f"[HRP] riskfolio 优化异常: {e}")
+            return self._equal_weight_result(returns, signals)
+
+    def _optimize_native(
+        self, returns: pd.DataFrame, signals: Optional[Dict[int, float]] = None
+    ) -> HRPResult:
+        """原生 HRP 实现 (不依赖 riskfolio)
+
+        Args:
+            returns: 收益率 DataFrame
+            signals: 信号强度
+
+        Returns:
+            HRPResult
+        """
+        try:
+            returns_np = returns.values
+            n_assets = returns.shape[1]
+            product_indices = [int(c) for c in returns.columns]
+
+            # 1. 计算相关矩阵和距离矩阵
+            corr = np.corrcoef(returns_np.T)
+            corr = np.nan_to_num(corr, nan=0.0)
+            np.fill_diagonal(corr, 1.0)
+
+            # 距离矩阵: d = sqrt(0.5 * (1 - corr))
+            dist = np.sqrt(0.5 * (1 - corr))
+            np.fill_diagonal(dist, 0)
+
+            # 2. 层次聚类
+            condensed_dist = squareform(dist, checks=False)
+            link = linkage(condensed_dist, method=self.linkage_method)
+
+            # 3. 准序列化 (Quasi-Diagonalization)
+            sort_ix = self._get_quasi_diag(link)
+
+            # 4. 递归二分 (Recursive Bisection)
+            cov = np.cov(returns_np.T)
+            cov = np.nan_to_num(cov, nan=0.0)
+            np.fill_diagonal(cov, np.maximum(np.diag(cov), 1e-6))
+
+            raw_weights = self._recursive_bisection(cov, sort_ix)
+
+            # 应用约束
+            adjusted_weights = self._apply_constraints(
+                raw_weights, product_indices, signals
+            )
+
+            # 风险贡献
+            risk_contrib = self._compute_risk_contribution(returns, adjusted_weights)
+
+            return HRPResult(
+                weights=adjusted_weights,
+                raw_weights=raw_weights,
+                risk_contribution=risk_contrib,
+                cluster_labels=None,
+            )
+
+        except Exception as e:
+            logger.error(f"[HRP] 原生优化异常: {e}")
+            return self._equal_weight_result(returns, signals)
+
+    def _get_quasi_diag(self, link: np.ndarray) -> List[int]:
+        """获取准对角化排序
+
+        Args:
+            link: 聚类链接矩阵
+
+        Returns:
+            排序后的索引
+        """
+        link = link.astype(int)
+        sort_ix = pd.Series([link[-1, 0], link[-1, 1]])
+        num_items = link[-1, 3]
+
+        while sort_ix.max() >= num_items:
+            sort_ix.index = range(0, sort_ix.shape[0] * 2, 2)
+            df0 = sort_ix[sort_ix >= num_items]
+            i = df0.index
+            j = df0.values - num_items
+            sort_ix[i] = link[j, 0]
+            df0 = pd.Series(link[j, 1], index=i + 1)
+            sort_ix = pd.concat([sort_ix, df0])
+            sort_ix = sort_ix.sort_index()
+            sort_ix.index = range(sort_ix.shape[0])
+
+        return sort_ix.tolist()
+
+    def _recursive_bisection(
+        self, cov: np.ndarray, sort_ix: List[int]
+    ) -> np.ndarray:
+        """递归二分算法
+
+        Args:
+            cov: 协方差矩阵
+            sort_ix: 排序索引
+
+        Returns:
+            权重数组
+        """
+        n = len(sort_ix)
+        w = np.ones(n)
+
+        # 递归分配
+        clusters = [sort_ix]
+
+        while clusters:
+            new_clusters = []
+            for cluster in clusters:
+                if len(cluster) <= 1:
+                    continue
+
+                # 分成两半
+                mid = len(cluster) // 2
+                left = cluster[:mid]
+                right = cluster[mid:]
+
+                # 计算每个子簇的方差
+                var_left = self._cluster_variance(cov, left)
+                var_right = self._cluster_variance(cov, right)
+
+                # 分配权重 (反比于方差)
+                alpha = 1 - var_left / (var_left + var_right + 1e-10)
+
+                for i in left:
+                    w[i] *= alpha
+                for i in right:
+                    w[i] *= 1 - alpha
+
+                if len(left) > 1:
+                    new_clusters.append(left)
+                if len(right) > 1:
+                    new_clusters.append(right)
+
+            clusters = new_clusters
+
+        # 归一化
+        w = w / w.sum()
+        return w
+
+    def _cluster_variance(self, cov: np.ndarray, indices: List[int]) -> float:
+        """计算子簇方差
+
+        Args:
+            cov: 协方差矩阵
+            indices: 资产索引
+
+        Returns:
+            子簇方差
+        """
+        sub_cov = cov[np.ix_(indices, indices)]
+        # 逆方差权重
+        inv_diag = 1 / (np.diag(sub_cov) + 1e-10)
+        inv_diag = inv_diag / inv_diag.sum()
+        var = np.dot(inv_diag, np.dot(sub_cov, inv_diag))
+        return var
+
+    def _apply_constraints(
+        self,
+        raw_weights: np.ndarray,
+        product_indices: List[int],
+        signals: Optional[Dict[int, float]] = None,
+    ) -> Dict[int, float]:
+        """应用权重约束和信号调整
+
+        Args:
+            raw_weights: 原始权重
+            product_indices: 产品索引
+            signals: 信号强度
+
+        Returns:
+            调整后的权重字典
+        """
+        weights = raw_weights.copy()
+
+        # 1. 信号调整 (可选)
+        if signals:
+            for i, idx in enumerate(product_indices):
+                signal = signals.get(idx, 0.5)
+                # 信号强度作为乘数 (0.5-1.5 范围)
+                multiplier = 0.5 + signal
+                weights[i] *= multiplier
+
+        # 2. 归一化
+        weights = weights / weights.sum()
+
+        # 3. 应用权重约束
+        weights = np.clip(weights, self.min_weight, self.max_weight)
+
+        # 4. 再次归一化
+        weights = weights / weights.sum()
+
+        # 转换为字典
+        result = {}
+        for i, idx in enumerate(product_indices):
+            if weights[i] >= self.min_weight:
+                result[idx] = float(weights[i])
+
+        return result
+
+    def _compute_risk_contribution(
+        self, returns: pd.DataFrame, weights: Dict[int, float]
+    ) -> Dict[int, float]:
+        """计算风险贡献
+
+        Args:
+            returns: 收益率
+            weights: 权重
+
+        Returns:
+            风险贡献字典
+        """
+        if not weights:
+            return {}
+
+        product_indices = list(weights.keys())
+        w = np.array([weights.get(idx, 0) for idx in product_indices])
+
+        # 提取相关列
+        cols = [str(idx) for idx in product_indices if str(idx) in returns.columns]
+        if not cols:
+            return {}
+
+        ret = returns[cols].values
+        cov = np.cov(ret.T)
+
+        if cov.ndim == 0:
+            return {product_indices[0]: 1.0}
+
+        # 边际风险贡献
+        port_vol = np.sqrt(np.dot(w, np.dot(cov, w)))
+        if port_vol < 1e-10:
+            return {idx: 1.0 / len(weights) for idx in product_indices}
+
+        marginal_contrib = np.dot(cov, w) / port_vol
+        risk_contrib = w * marginal_contrib
+        risk_contrib = risk_contrib / risk_contrib.sum()
+
+        return {idx: float(risk_contrib[i]) for i, idx in enumerate(product_indices)}
+
+    def _equal_weight_result(
+        self, returns: pd.DataFrame, signals: Optional[Dict[int, float]] = None
+    ) -> HRPResult:
+        """等权回退
+
+        Args:
+            returns: 收益率
+            signals: 信号
+
+        Returns:
+            等权 HRPResult
+        """
+        n = returns.shape[1]
+        if n == 0:
+            return HRPResult(weights={}, raw_weights=np.array([]), risk_contribution={}, cluster_labels=None)
+
+        product_indices = [int(c) for c in returns.columns]
+        raw_weights = np.ones(n) / n
+
+        weights = self._apply_constraints(raw_weights, product_indices, signals)
+        risk_contrib = {idx: 1.0 / len(weights) for idx in weights}
+
+        return HRPResult(
+            weights=weights,
+            raw_weights=raw_weights,
+            risk_contribution=risk_contrib,
+            cluster_labels=None,
+        )
+
+
+def optimize_portfolio(
+    returns: np.ndarray,
+    masks: np.ndarray,
+    product_indices: List[int],
+    signals: Optional[Dict[int, float]] = None,
+    lookback: int = 60,
+    current_idx: int = -1,
+    **kwargs,
+) -> Dict[int, float]:
+    """便捷函数: 优化组合权重
+
+    Args:
+        returns: [n_products, n_dates] 收益率矩阵
+        masks: [n_products, n_dates] 掩码
+        product_indices: 候选产品索引列表
+        signals: 信号强度
+        lookback: 回望窗口
+        current_idx: 当前日期索引
+        **kwargs: HRPOptimizer 参数
+
+    Returns:
+        权重字典
+    """
+    n_p, n_d = returns.shape
+    if current_idx < 0:
+        current_idx = n_d + current_idx
+
+    start_idx = max(0, current_idx - lookback + 1)
+
+    # 构建收益率 DataFrame
+    records = {}
+    for idx in product_indices:
+        if idx < n_p:
+            ret = returns[idx, start_idx : current_idx + 1]
+            mask = masks[idx, start_idx : current_idx + 1]
+            valid_ret = np.where(mask > 0, ret, np.nan)
+            records[str(idx)] = valid_ret
+
+    df = pd.DataFrame(records)
+    df = df.dropna(how="all", axis=1)  # 删除全空列
+
+    if df.empty:
+        return {}
+
+    optimizer = HRPOptimizer(**kwargs)
+    result = optimizer.optimize(df, signals)
+
+    return result.weights
+
+
+def check_riskfolio_available() -> bool:
+    """检查 riskfolio-lib 是否可用"""
+    return _rp_available
+
+
+if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO)
+
+    print(f"riskfolio-lib 可用: {check_riskfolio_available()}")
+
+    # 测试
+    np.random.seed(42)
+    n_assets, n_days = 10, 100
+
+    # 生成模拟收益率
+    returns = np.random.randn(n_days, n_assets) * 2 + 3
+    returns_df = pd.DataFrame(returns, columns=[str(i) for i in range(n_assets)])
+
+    # 模拟信号
+    signals = {i: 0.5 + 0.5 * np.random.rand() for i in range(n_assets)}
+
+    optimizer = HRPOptimizer()
+    result = optimizer.optimize(returns_df, signals)
+
+    print("\nHRP 优化结果:")
+    print(f"权重: {result.weights}")
+    print(f"风险贡献: {result.risk_contribution}")
+    print(f"权重和: {sum(result.weights.values()):.4f}")
