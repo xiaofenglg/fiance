@@ -29,8 +29,10 @@ logger = logging.getLogger(__name__)
 
 # riskfolio-lib 可选依赖
 _rp_available = False
+_HCPortfolio = None
 try:
     import riskfolio as rp
+    from riskfolio import HCPortfolio as _HCPortfolio
 
     _rp_available = True
 except ImportError:
@@ -93,6 +95,13 @@ class HRPOptimizer:
                 weights={}, raw_weights=np.array([]), risk_contribution={}, cluster_labels=None
             )
 
+        # 数据清洗: 移除包含 NaN/Inf 的列和行
+        returns = self._clean_returns(returns)
+
+        if returns.empty or returns.shape[1] < 2:
+            logger.warning("[HRP] 清洗后数据不足,使用等权")
+            return self._equal_weight_result(returns, signals)
+
         n_assets = returns.shape[1]
 
         if _rp_available and use_riskfolio:
@@ -101,6 +110,59 @@ class HRPOptimizer:
             result = self._optimize_native(returns, signals)
 
         return result
+
+    def _clean_returns(self, returns: pd.DataFrame) -> pd.DataFrame:
+        """清洗收益率数据,移除 NaN 和 Inf
+
+        Args:
+            returns: 原始收益率
+
+        Returns:
+            清洗后的收益率
+        """
+        original_cols = len(returns.columns)
+        original_rows = len(returns)
+
+        # 1. 替换 Inf 为 NaN
+        returns = returns.replace([np.inf, -np.inf], np.nan)
+
+        # 2. 删除全空列
+        returns = returns.dropna(axis=1, how='all')
+        step2_cols = len(returns.columns)
+
+        # 3. 删除含有过多 NaN 的列 (超过 80% - 放宽限制)
+        nan_ratio = returns.isna().sum() / len(returns)
+        valid_cols = nan_ratio[nan_ratio < 0.8].index
+        returns = returns[valid_cols]
+        step3_cols = len(returns.columns)
+
+        # 4. 前向+后向填充少量 NaN
+        returns = returns.ffill().bfill()
+
+        # 5. 如果还有 NaN,用列均值填充
+        for col in returns.columns:
+            if returns[col].isna().any():
+                col_mean = returns[col].mean()
+                if np.isnan(col_mean):
+                    col_mean = 0.0
+                returns[col] = returns[col].fillna(col_mean)
+
+        # 6. 最终检查,删除仍有问题的列
+        returns = returns.dropna(axis=1, how='any')
+        step6_cols = len(returns.columns)
+
+        # 7. 删除方差为0的列 (常数列会导致相关矩阵问题)
+        valid_cols = []
+        for col in returns.columns:
+            if returns[col].std() > 1e-8:
+                valid_cols.append(col)
+        returns = returns[valid_cols]
+        step7_cols = len(returns.columns)
+
+        logger.debug(f"[HRP] 数据清洗: {original_cols}列x{original_rows}行 -> "
+                    f"步骤2:{step2_cols}, 步骤3:{step3_cols}, 步骤6:{step6_cols}, 最终:{step7_cols}")
+
+        return returns
 
     def _optimize_riskfolio(
         self, returns: pd.DataFrame, signals: Optional[Dict[int, float]] = None
@@ -115,11 +177,8 @@ class HRPOptimizer:
             HRPResult
         """
         try:
-            # 创建 Portfolio 对象
-            port = rp.Portfolio(returns=returns)
-
-            # 计算资产统计量
-            port.assets_stats(method_mu="hist", method_cov="hist")
+            # 创建 HCPortfolio 对象 (用于层次聚类优化)
+            port = _HCPortfolio(returns=returns)
 
             # HRP 优化
             w = port.optimization(
@@ -342,15 +401,19 @@ class HRPOptimizer:
         weights = weights / weights.sum()
 
         # 3. 应用权重约束
-        weights = np.clip(weights, self.min_weight, self.max_weight)
+        # 注意: 当产品数>1/min_weight时，需要动态调整最小权重
+        n_assets = len(weights)
+        effective_min = min(self.min_weight, 0.5 / n_assets)  # 确保至少能保留一半资产
+        weights = np.clip(weights, effective_min, self.max_weight)
 
         # 4. 再次归一化
         weights = weights / weights.sum()
 
-        # 转换为字典
+        # 转换为字典 (使用effective_min作为阈值)
         result = {}
+        weight_threshold = effective_min * 0.5  # 允许略低于阈值的权重
         for i, idx in enumerate(product_indices):
-            if weights[i] >= self.min_weight:
+            if weights[i] >= weight_threshold:
                 result[idx] = float(weights[i])
 
         return result
@@ -454,19 +517,30 @@ def optimize_portfolio(
 
     start_idx = max(0, current_idx - lookback + 1)
 
-    # 构建收益率 DataFrame
+    # 构建收益率 DataFrame - 只选择有足够有效数据的产品
     records = {}
+    valid_product_count = 0
     for idx in product_indices:
         if idx < n_p:
             ret = returns[idx, start_idx : current_idx + 1]
             mask = masks[idx, start_idx : current_idx + 1]
+
+            # 检查该产品在窗口内有多少有效数据
+            valid_days = np.sum(mask > 0)
+            if valid_days < lookback * 0.3:  # 至少需要30%的有效数据
+                continue
+
             valid_ret = np.where(mask > 0, ret, np.nan)
             records[str(idx)] = valid_ret
+            valid_product_count += 1
+
+    logger.debug(f"[HRP] 构建DataFrame: {len(product_indices)} 候选 -> {valid_product_count} 有效产品")
 
     df = pd.DataFrame(records)
     df = df.dropna(how="all", axis=1)  # 删除全空列
 
-    if df.empty:
+    if df.empty or len(df.columns) < 2:
+        logger.warning(f"[HRP] DataFrame 为空或产品不足: {len(df.columns)} 列")
         return {}
 
     optimizer = HRPOptimizer(**kwargs)
