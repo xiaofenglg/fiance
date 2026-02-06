@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Hierarchical Risk Parity (HRP) 组合优化器
+Hierarchical Risk Parity (HRP) 组合优化器 — V2 Phase 3
 
 替代 Kelly Criterion,实现更稳健的组合优化。
 
@@ -9,9 +9,17 @@ HRP 优点:
 - 层次聚类捕捉资产相关性结构
 - 风险分散更均衡
 
+Phase 3 改进:
+- Ledoit-Wolf 协方差收缩 (更鲁棒的协方差估计)
+- IVP (Inverse Variance Portfolio) 回退机制
+- 增强的后处理约束
+
 参考:
 López de Prado, M. (2016). Building Diversified Portfolios that Outperform Out-of-Sample.
 Journal of Portfolio Management, 42(4), 59-69.
+
+Ledoit, O., & Wolf, M. (2004). A well-conditioned estimator for large-dimensional
+covariance matrices. Journal of Multivariate Analysis, 88(2), 365-411.
 
 需要安装: riskfolio-lib
 """
@@ -26,6 +34,106 @@ from scipy.cluster.hierarchy import dendrogram, linkage
 from scipy.spatial.distance import squareform
 
 logger = logging.getLogger(__name__)
+
+
+# ═════════════════════════════════════════════════════════════════════════════
+# Phase 3: Ledoit-Wolf 协方差收缩
+# ═════════════════════════════════════════════════════════════════════════════
+
+def ledoit_wolf_shrinkage(returns: np.ndarray) -> Tuple[np.ndarray, float]:
+    """Ledoit-Wolf 协方差收缩估计
+
+    实现 Ledoit & Wolf (2004) 的收缩估计器。
+    目标: 在样本协方差矩阵和结构化目标(对角矩阵)之间寻找最优权衡。
+
+    公式: Σ_shrunk = δ * F + (1 - δ) * S
+    其中:
+    - S: 样本协方差矩阵
+    - F: 收缩目标 (缩放的单位矩阵)
+    - δ: 最优收缩强度
+
+    Args:
+        returns: [n_samples, n_assets] 收益率矩阵
+
+    Returns:
+        (shrunk_cov, shrinkage_intensity)
+        - shrunk_cov: 收缩后的协方差矩阵
+        - shrinkage_intensity: 收缩强度 δ ∈ [0, 1]
+    """
+    n_samples, n_assets = returns.shape
+
+    if n_samples < 2 or n_assets < 1:
+        return np.eye(max(n_assets, 1)), 1.0
+
+    # 1. 计算样本协方差矩阵
+    X = returns - returns.mean(axis=0)
+    sample_cov = np.dot(X.T, X) / n_samples
+
+    # 2. 计算收缩目标 F (缩放的单位矩阵)
+    # 使用样本协方差的平均方差作为目标
+    trace = np.trace(sample_cov)
+    mu = trace / n_assets
+    F = mu * np.eye(n_assets)
+
+    # 3. 计算最优收缩强度 δ
+    # Ledoit-Wolf 公式
+    delta = sample_cov - F
+
+    # 估计 π (方差项的预期平方误差)
+    X2 = X ** 2
+    sample_cov2 = np.dot(X2.T, X2) / n_samples
+    pi_mat = sample_cov2 - sample_cov ** 2
+    pi = np.sum(pi_mat)
+
+    # 估计 rho (收缩目标的贡献)
+    rho_diag = np.sum(np.diag(pi_mat))
+    rho_off = pi - rho_diag
+
+    # 估计 gamma (delta 的 Frobenius 范数)
+    gamma = np.sum(delta ** 2)
+
+    # 计算最优 δ (收缩强度)
+    kappa = (pi - rho_off) / gamma if gamma > 1e-10 else 1.0
+    shrinkage = max(0, min(1, kappa / n_samples))
+
+    # 4. 应用收缩
+    shrunk_cov = shrinkage * F + (1 - shrinkage) * sample_cov
+
+    # 确保正定性
+    min_eigenvalue = np.min(np.linalg.eigvalsh(shrunk_cov))
+    if min_eigenvalue < 1e-8:
+        shrunk_cov += (1e-8 - min_eigenvalue) * np.eye(n_assets)
+
+    logger.debug(f"[Ledoit-Wolf] shrinkage intensity: {shrinkage:.4f}")
+
+    return shrunk_cov, shrinkage
+
+
+def inverse_variance_portfolio(cov: np.ndarray) -> np.ndarray:
+    """逆方差组合 (IVP) — Phase 3 回退机制
+
+    当 HRP 失败时使用的简单但稳健的组合方法。
+    权重与方差成反比: w_i = (1/σ²_i) / Σ(1/σ²_j)
+
+    Args:
+        cov: [n_assets, n_assets] 协方差矩阵
+
+    Returns:
+        [n_assets] 权重向量
+    """
+    n_assets = cov.shape[0]
+
+    # 提取方差 (对角线元素)
+    variances = np.diag(cov)
+
+    # 避免除零
+    variances = np.maximum(variances, 1e-10)
+
+    # 逆方差权重
+    inv_var = 1.0 / variances
+    weights = inv_var / np.sum(inv_var)
+
+    return weights
 
 # riskfolio-lib 可选依赖
 _rp_available = False
@@ -56,8 +164,8 @@ class HRPOptimizer:
         self,
         risk_measure: str = "MV",
         linkage_method: str = "ward",
-        max_weight: float = 0.25,
-        min_weight: float = 0.05,
+        max_weight: float = 0.15,  # 降低最大权重以提高分散度
+        min_weight: float = 0.02,  # 降低最小权重以允许更多产品
         rf_rate: float = 0.02,
     ):
         """
@@ -112,14 +220,7 @@ class HRPOptimizer:
         return result
 
     def _clean_returns(self, returns: pd.DataFrame) -> pd.DataFrame:
-        """清洗收益率数据,移除 NaN 和 Inf
-
-        Args:
-            returns: 原始收益率
-
-        Returns:
-            清洗后的收益率
-        """
+        """清洗收益率数据,移除 NaN 和 Inf (不捏造数据)"""
         original_cols = len(returns.columns)
         original_rows = len(returns)
 
@@ -127,40 +228,24 @@ class HRPOptimizer:
         returns = returns.replace([np.inf, -np.inf], np.nan)
 
         # 2. 删除全空列
-        returns = returns.dropna(axis=1, how='all')
-        step2_cols = len(returns.columns)
+        returns = returns.dropna(axis=1, how="all")
 
-        # 3. 删除含有过多 NaN 的列 (超过 80% - 放宽限制)
+        # 3. 删除含有过多 NaN 的列 (超过 70%)
         nan_ratio = returns.isna().sum() / len(returns)
-        valid_cols = nan_ratio[nan_ratio < 0.8].index
+        valid_cols = nan_ratio[nan_ratio < 0.7].index
         returns = returns[valid_cols]
-        step3_cols = len(returns.columns)
 
-        # 4. 前向+后向填充少量 NaN
-        returns = returns.ffill().bfill()
-
-        # 5. 如果还有 NaN,用列均值填充
-        for col in returns.columns:
-            if returns[col].isna().any():
-                col_mean = returns[col].mean()
-                if np.isnan(col_mean):
-                    col_mean = 0.0
-                returns[col] = returns[col].fillna(col_mean)
-
-        # 6. 最终检查,删除仍有问题的列
-        returns = returns.dropna(axis=1, how='any')
-        step6_cols = len(returns.columns)
-
-        # 7. 删除方差为0的列 (常数列会导致相关矩阵问题)
+        # 4. 删除方差为0的列 (常数列会导致相关矩阵问题)
+        # pd.std() 默认忽略 NaN
         valid_cols = []
         for col in returns.columns:
             if returns[col].std() > 1e-8:
                 valid_cols.append(col)
         returns = returns[valid_cols]
-        step7_cols = len(returns.columns)
 
-        logger.debug(f"[HRP] 数据清洗: {original_cols}列x{original_rows}行 -> "
-                    f"步骤2:{step2_cols}, 步骤3:{step3_cols}, 步骤6:{step6_cols}, 最终:{step7_cols}")
+        logger.debug(
+            f"[HRP] 数据清洗: {original_cols}列x{original_rows}行 -> {len(returns.columns)}列 (无数据填充)"
+        )
 
         return returns
 
@@ -176,7 +261,15 @@ class HRPOptimizer:
         Returns:
             HRPResult
         """
+        n_assets = returns.shape[1]
+        product_indices = [int(c) for c in returns.columns]
+
         try:
+            # 对于大量资产，直接使用 IVP (riskfolio HRP 可能很慢)
+            if n_assets > 200:
+                logger.info(f"[HRP] 资产数 {n_assets} > 200, 直接使用 IVP")
+                return self._ivp_fallback(returns, product_indices, signals)
+
             # 创建 HCPortfolio 对象 (用于层次聚类优化)
             port = _HCPortfolio(returns=returns)
 
@@ -191,12 +284,18 @@ class HRPOptimizer:
             )
 
             if w is None or w.empty:
-                logger.warning("[HRP] riskfolio 优化失败,使用等权")
-                return self._equal_weight_result(returns, signals)
+                logger.warning("[HRP] riskfolio 优化失败,使用 IVP 回退")
+                return self._ivp_fallback(returns, product_indices, signals)
 
             # 转换为字典
             raw_weights = w.values.flatten()
-            product_indices = [int(c) for c in returns.columns]
+
+            # 检查权重有效性
+            if np.any(np.isnan(raw_weights)) or np.sum(raw_weights) < 1e-10:
+                logger.warning("[HRP] riskfolio 产生无效权重,使用 IVP 回退")
+                return self._ivp_fallback(returns, product_indices, signals)
+
+            logger.info(f"[HRP] riskfolio 优化成功, 非零权重: {np.sum(raw_weights > 1e-6)}/{n_assets}")
 
             # 应用信号调整和权重约束
             adjusted_weights = self._apply_constraints(
@@ -214,33 +313,45 @@ class HRPOptimizer:
             )
 
         except Exception as e:
-            logger.error(f"[HRP] riskfolio 优化异常: {e}")
-            return self._equal_weight_result(returns, signals)
+            logger.warning(f"[HRP] riskfolio 优化异常: {e}, 使用 IVP 回退")
+            return self._ivp_fallback(returns, product_indices, signals)
 
     def _optimize_native(
         self, returns: pd.DataFrame, signals: Optional[Dict[int, float]] = None
     ) -> HRPResult:
-        """原生 HRP 实现 (不依赖 riskfolio)
+        """原生 HRP 实现 (不依赖 riskfolio) — Phase 3 改进版
 
-        Args:
-            returns: 收益率 DataFrame
-            signals: 信号强度
-
-        Returns:
-            HRPResult
+        改进点:
+        1. 使用 Ledoit-Wolf 协方差收缩 (更鲁棒)
+        2. IVP 回退机制 (当 HRP 失败时)
         """
-        try:
-            returns_np = returns.values
-            n_assets = returns.shape[1]
-            product_indices = [int(c) for c in returns.columns]
+        n_assets = returns.shape[1]
+        product_indices = [int(c) for c in returns.columns]
 
-            # 1. 计算相关矩阵和距离矩阵
-            corr = np.corrcoef(returns_np.T)
-            corr = np.nan_to_num(corr, nan=0.0)
+        try:
+            # ═══════════════════════════════════════════════════════════
+            # Phase 3: 使用 Ledoit-Wolf 协方差收缩
+            # ═══════════════════════════════════════════════════════════
+
+            # 准备收益率矩阵 (处理 NaN)
+            returns_clean = returns.fillna(0).values
+            n_samples = returns_clean.shape[0]
+
+            # 使用 Ledoit-Wolf 收缩估计协方差矩阵
+            cov, shrinkage_intensity = ledoit_wolf_shrinkage(returns_clean)
+            logger.info(f"[HRP] Ledoit-Wolf 收缩强度: {shrinkage_intensity:.4f}")
+
+            # 从协方差矩阵计算相关矩阵
+            std_dev = np.sqrt(np.diag(cov))
+            std_dev = np.maximum(std_dev, 1e-8)
+            corr = cov / np.outer(std_dev, std_dev)
             np.fill_diagonal(corr, 1.0)
 
+            # 确保相关系数在 [-1, 1] 范围内
+            corr = np.clip(corr, -1.0, 1.0)
+
             # 距离矩阵: d = sqrt(0.5 * (1 - corr))
-            dist = np.sqrt(0.5 * (1 - corr))
+            dist = np.sqrt(0.5 * np.clip(1 - corr, 0, 2))
             np.fill_diagonal(dist, 0)
 
             # 2. 层次聚类
@@ -251,11 +362,12 @@ class HRPOptimizer:
             sort_ix = self._get_quasi_diag(link)
 
             # 4. 递归二分 (Recursive Bisection)
-            cov = np.cov(returns_np.T)
-            cov = np.nan_to_num(cov, nan=0.0)
-            np.fill_diagonal(cov, np.maximum(np.diag(cov), 1e-6))
-
+            # 使用 Ledoit-Wolf 收缩后的协方差矩阵
             raw_weights = self._recursive_bisection(cov, sort_ix)
+
+            # 检查权重有效性
+            if np.any(np.isnan(raw_weights)) or np.sum(raw_weights) < 1e-10:
+                raise ValueError("HRP 产生无效权重")
 
             # 应用约束
             adjusted_weights = self._apply_constraints(
@@ -273,8 +385,12 @@ class HRPOptimizer:
             )
 
         except Exception as e:
-            logger.error(f"[HRP] 原生优化异常: {e}")
-            return self._equal_weight_result(returns, signals)
+            logger.warning(f"[HRP] 原生优化异常: {e}, 使用 IVP 回退")
+
+            # ═══════════════════════════════════════════════════════════
+            # Phase 3: IVP 回退机制
+            # ═══════════════════════════════════════════════════════════
+            return self._ivp_fallback(returns, product_indices, signals)
 
     def _get_quasi_diag(self, link: np.ndarray) -> List[int]:
         """获取准对角化排序
@@ -371,6 +487,56 @@ class HRPOptimizer:
         var = np.dot(inv_diag, np.dot(sub_cov, inv_diag))
         return var
 
+    def _ivp_fallback(
+        self,
+        returns: pd.DataFrame,
+        product_indices: List[int],
+        signals: Optional[Dict[int, float]] = None,
+    ) -> HRPResult:
+        """IVP (Inverse Variance Portfolio) 回退机制 — Phase 3
+
+        当 HRP 优化失败时使用的稳健回退方法。
+        权重与方差成反比,对协方差矩阵奇异性不敏感。
+
+        Args:
+            returns: 收益率 DataFrame
+            product_indices: 产品索引列表
+            signals: 信号强度
+
+        Returns:
+            HRPResult 使用 IVP 权重
+        """
+        try:
+            n_assets = len(product_indices)
+
+            # 使用 Ledoit-Wolf 收缩估计协方差
+            returns_clean = returns.fillna(0).values
+            cov, shrinkage = ledoit_wolf_shrinkage(returns_clean)
+
+            # 计算 IVP 权重
+            raw_weights = inverse_variance_portfolio(cov)
+
+            logger.info(f"[HRP] IVP 回退成功, 收缩强度: {shrinkage:.4f}")
+
+            # 应用约束和信号调整
+            adjusted_weights = self._apply_constraints(
+                raw_weights, product_indices, signals
+            )
+
+            # 风险贡献 (IVP 的风险贡献近似相等)
+            risk_contrib = {idx: 1.0 / len(adjusted_weights) for idx in adjusted_weights}
+
+            return HRPResult(
+                weights=adjusted_weights,
+                raw_weights=raw_weights,
+                risk_contribution=risk_contrib,
+                cluster_labels=None,
+            )
+
+        except Exception as e:
+            logger.error(f"[HRP] IVP 回退也失败: {e}, 使用等权")
+            return self._equal_weight_result(returns, signals)
+
     def _apply_constraints(
         self,
         raw_weights: np.ndarray,
@@ -388,6 +554,17 @@ class HRPOptimizer:
             调整后的权重字典
         """
         weights = raw_weights.copy()
+        n_assets = len(weights)
+
+        if n_assets == 0:
+            return {}
+
+        # 处理 NaN 和无效值
+        weights = np.nan_to_num(weights, nan=0.0, posinf=0.0, neginf=0.0)
+
+        # 如果所有权重都是0，使用等权
+        if np.sum(weights) < 1e-10:
+            weights = np.ones(n_assets) / n_assets
 
         # 1. 信号调整 (可选)
         if signals:
@@ -398,38 +575,51 @@ class HRPOptimizer:
                 weights[i] *= multiplier
 
         # 2. 归一化
-        weights = weights / weights.sum()
+        weight_sum = np.sum(weights)
+        if weight_sum > 1e-10:
+            weights = weights / weight_sum
+        else:
+            weights = np.ones(n_assets) / n_assets
 
         # 3. 应用权重约束
-        # 注意: 当产品数>1/min_weight时，需要动态调整最小权重
-        n_assets = len(weights)
-        effective_min = min(self.min_weight, 0.5 / n_assets)  # 确保至少能保留一半资产
-        weights = np.clip(weights, effective_min, self.max_weight)
+        # 当产品数很多时，动态调整约束以确保合理的权重分布
+        if n_assets > 100:
+            # 对于大量资产，放宽约束
+            effective_min = max(1e-6, 0.3 / n_assets)
+            effective_max = min(self.max_weight, 3.0 / n_assets)
+        else:
+            effective_min = min(self.min_weight, 0.5 / n_assets)
+            effective_max = self.max_weight
+
+        weights = np.clip(weights, effective_min, effective_max)
 
         # 4. 再次归一化
-        weights = weights / weights.sum()
+        weight_sum = np.sum(weights)
+        if weight_sum > 1e-10:
+            weights = weights / weight_sum
+        else:
+            weights = np.ones(n_assets) / n_assets
 
-        # 转换为字典 (使用effective_min作为阈值)
+        # 5. 转换为字典 - 保留所有非零权重
         result = {}
-        weight_threshold = effective_min * 0.5  # 允许略低于阈值的权重
         for i, idx in enumerate(product_indices):
-            if weights[i] >= weight_threshold:
+            if weights[i] > 1e-8:
                 result[idx] = float(weights[i])
+
+        # 6. 如果结果为空，返回等权的前 N 个产品
+        if not result:
+            logger.warning(f"[HRP] _apply_constraints 产生空权重，使用等权回退")
+            n_keep = min(n_assets, 50)  # 最多保留50个
+            equal_weight = 1.0 / n_keep
+            for i in range(n_keep):
+                result[product_indices[i]] = equal_weight
 
         return result
 
     def _compute_risk_contribution(
         self, returns: pd.DataFrame, weights: Dict[int, float]
     ) -> Dict[int, float]:
-        """计算风险贡献
-
-        Args:
-            returns: 收益率
-            weights: 权重
-
-        Returns:
-            风险贡献字典
-        """
+        """计算风险贡献"""
         if not weights:
             return {}
 
@@ -441,11 +631,13 @@ class HRPOptimizer:
         if not cols:
             return {}
 
-        ret = returns[cols].values
-        cov = np.cov(ret.T)
+        # 使用 pairwise covariance 处理缺失值
+        cov_df = returns[cols].cov(min_periods=30)
+        cov = cov_df.fillna(0).values
+        np.fill_diagonal(cov, np.maximum(np.diag(cov), 1e-8))
 
-        if cov.ndim == 0:
-            return {product_indices[0]: 1.0}
+        if cov.ndim == 0 or len(cols) == 1:
+            return {product_indices[0] if product_indices else 0: 1.0}
 
         # 边际风险贡献
         port_vol = np.sqrt(np.dot(w, np.dot(cov, w)))
@@ -540,7 +732,13 @@ def optimize_portfolio(
     df = df.dropna(how="all", axis=1)  # 删除全空列
 
     if df.empty or len(df.columns) < 2:
-        logger.warning(f"[HRP] DataFrame 为空或产品不足: {len(df.columns)} 列")
+        logger.warning(f"[HRP] DataFrame 为空或产品不足: {len(df.columns)} 列, 使用信号排序等权")
+        # 使用信号强度排序的等权作为回退
+        if signals and product_indices:
+            sorted_indices = sorted(product_indices, key=lambda x: signals.get(x, 0), reverse=True)
+            n_top = min(20, len(sorted_indices))  # 最多20个
+            equal_weight = 1.0 / n_top
+            return {idx: equal_weight for idx in sorted_indices[:n_top]}
         return {}
 
     optimizer = HRPOptimizer(**kwargs)

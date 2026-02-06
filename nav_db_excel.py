@@ -183,6 +183,126 @@ def get_nav_database() -> NAVDatabaseExcel:
     return _instance
 
 
+# ── SQLite 写入功能 ──
+
+_SQLITE_DB = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'aifinance.sqlite3')
+
+# 银行简称到全称映射
+_BANK_NAME_MAP = {
+    '民生': '民生银行',
+    '华夏': '华夏银行',
+    '中信': '中信银行',
+    '浦银': '浦银理财',
+    '宁银': '宁银理财',
+    '中邮': '中邮理财',
+}
+
+
+def update_nav_database(bank_short: str, products: List[Dict], db_path: str = None) -> Dict:
+    """
+    将抓取的净值数据保存到 SQLite 数据库
+
+    Args:
+        bank_short: 银行简称 (民生/华夏/中信/浦银/宁银/中邮)
+        products: 产品列表，每个产品包含:
+            - product_code: 产品代码
+            - product_name: 产品名称
+            - nav_history: 净值历史列表 [{date: str, nav: float}, ...]
+        db_path: SQLite 数据库路径，默认使用 aifinance.sqlite3
+
+    Returns:
+        {
+            'products_added': int,  # 新增产品数
+            'nav_rows_added': int,  # 新增净值记录数
+            'nav_rows_updated': int,  # 更新净值记录数
+        }
+    """
+    import sqlite3
+    from datetime import datetime
+
+    db = db_path or _SQLITE_DB
+    bank_name = _BANK_NAME_MAP.get(bank_short, bank_short)
+
+    stats = {
+        'products_added': 0,
+        'nav_rows_added': 0,
+        'nav_rows_updated': 0,
+    }
+
+    if not os.path.exists(db):
+        logger.warning(f"SQLite 数据库不存在: {db}")
+        return stats
+
+    try:
+        conn = sqlite3.connect(db, timeout=30)
+        cursor = conn.cursor()
+
+        for product in products:
+            code = product.get('product_code', '')
+            name = product.get('product_name', '')
+            nav_history = product.get('nav_history', [])
+
+            if not code:
+                continue
+
+            # 插入或更新产品信息
+            cursor.execute("""
+                INSERT INTO products (product_code, product_name, bank_name)
+                VALUES (?, ?, ?)
+                ON CONFLICT(product_code) DO UPDATE SET
+                    product_name = COALESCE(NULLIF(excluded.product_name, ''), products.product_name)
+            """, (code, name, bank_name))
+
+            if cursor.rowcount > 0:
+                stats['products_added'] += 1
+
+            # 插入净值历史
+            for nav_entry in nav_history:
+                nav_date = nav_entry.get('date', '')
+                nav_value = nav_entry.get('nav') or nav_entry.get('net_value')
+
+                if not nav_date or nav_value is None:
+                    continue
+
+                # 标准化日期格式
+                if isinstance(nav_date, str):
+                    for fmt in ['%Y-%m-%d', '%Y/%m/%d', '%Y%m%d']:
+                        try:
+                            nav_date = datetime.strptime(nav_date, fmt).strftime('%Y-%m-%d')
+                            break
+                        except ValueError:
+                            continue
+
+                try:
+                    nav_value = float(nav_value)
+                except (ValueError, TypeError):
+                    continue
+
+                # 插入或更新净值
+                cursor.execute("""
+                    INSERT INTO nav_history (product_code, date, nav)
+                    VALUES (?, ?, ?)
+                    ON CONFLICT(product_code, date) DO UPDATE SET nav = excluded.nav
+                """, (code, nav_date, nav_value))
+
+                if cursor.rowcount > 0:
+                    stats['nav_rows_added'] += 1
+
+        conn.commit()
+        conn.close()
+
+        logger.info(f"[{bank_name}] 数据库更新完成: "
+                   f"{stats['products_added']} 新产品, "
+                   f"{stats['nav_rows_added']} 净值记录")
+
+    except Exception as e:
+        logger.error(f"[{bank_name}] 数据库更新失败: {e}")
+        import traceback
+        logger.error(traceback.format_exc())
+
+    return stats
+
+
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 

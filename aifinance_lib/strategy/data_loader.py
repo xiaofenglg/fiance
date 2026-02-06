@@ -6,6 +6,7 @@ import logging
 import pandas as pd
 import sys
 import os
+from typing import List
 
 from ..database import Database
 

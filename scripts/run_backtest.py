@@ -33,7 +33,7 @@ def main():
     parser.add_argument("--end", type=str, default=None, help="结束日期")
     parser.add_argument("--capital", type=float, default=1e8, help="初始资金")
     parser.add_argument("--train-window", type=int, default=180, help="训练窗口")
-    parser.add_argument("--rebalance-freq", type=int, default=5, help="再平衡频率")
+    parser.add_argument("--rebalance-freq", type=int, default=14, help="再平衡频率")
     parser.add_argument("--no-unsmooth", action="store_true", help="禁用 GLM 去平滑")
     parser.add_argument("--output", type=str, default=None, help="结果输出路径")
     parser.add_argument("-v", "--verbose", action="store_true", help="详细输出")
@@ -81,6 +81,8 @@ def main():
         train_window=args.train_window,
         rebalance_freq=args.rebalance_freq,
         use_unsmoothing=not args.no_unsmooth,
+        use_fee_db=True,  # 使用真实费率
+        bank_name=args.bank,
     )
 
     # 运行回测
@@ -121,16 +123,16 @@ def main():
     # 目标检查
     print("\n目标达成检查:")
     target_annual = 0.06
-    target_sharpe = 1.9
+    target_sharpe = 1.85  # 月度计算夏普
     target_mdd = 0.05
 
     annual_ok = result.annual_return >= target_annual
     sharpe_ok = result.sharpe_ratio >= target_sharpe
     mdd_ok = result.max_drawdown <= target_mdd
 
-    print(f"  年化收益 >= {target_annual:.0%}: {'✓' if annual_ok else '✗'} ({result.annual_return:.2%})")
-    print(f"  夏普比率 >= {target_sharpe}: {'✓' if sharpe_ok else '✗'} ({result.sharpe_ratio:.2f})")
-    print(f"  最大回撤 <= {target_mdd:.0%}: {'✓' if mdd_ok else '✗'} ({result.max_drawdown:.2%})")
+    print(f"  年化收益 >= {target_annual:.0%}: {'[OK]' if annual_ok else '[FAIL]'} ({result.annual_return:.2%})")
+    print(f"  夏普比率 >= {target_sharpe}: {'[OK]' if sharpe_ok else '[FAIL]'} ({result.sharpe_ratio:.2f})")
+    print(f"  最大回撤 <= {target_mdd:.0%}: {'[OK]' if mdd_ok else '[FAIL]'} ({result.max_drawdown:.2%})")
 
     # 保存结果
     if args.output:

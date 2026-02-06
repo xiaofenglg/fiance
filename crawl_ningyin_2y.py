@@ -246,7 +246,7 @@ class NingyinCrawler:
 
                     all_nav.append({
                         'date': date_str,
-                        'unit_nav': nav_float,
+                        'nav': nav_float,
                     })
 
                 if page * self.NAV_PAGE_SIZE >= total_records:
@@ -298,25 +298,26 @@ def clear_checkpoint():
 # ============================================================================
 
 def import_batch_to_db(batch_data: List[Dict], batch_num: int):
-    """将一批产品数据导入净值数据库"""
+    """将一批产品数据导入净值数据库 (SQLite)"""
     if not batch_data:
-        return
+        return {}
 
-    from nav_db_excel import NAVDatabaseExcel
+    from nav_db_excel import update_nav_database
 
     logger.info(f"[批次{batch_num}] 导入 {len(batch_data)} 个产品到数据库...")
-    db = NAVDatabaseExcel()
 
-    stats = db.update_nav('宁银理财', batch_data)
-    db.save()
-
-    logger.info(
-        f"[批次{batch_num}] 完成: "
-        f"新增 {stats.get('new_products', 0)} 产品, "
-        f"新增 {len(stats.get('new_dates', []))} 日期, "
-        f"更新 {stats.get('updated_cells', 0)} 单元格"
-    )
-    return stats
+    # SQLite 数据库
+    try:
+        stats = update_nav_database('宁银', batch_data)
+        logger.info(
+            f"[批次{batch_num}] SQLite完成: "
+            f"{stats.get('products_added', 0)} 新产品, "
+            f"{stats.get('nav_rows_added', 0)} 净值记录"
+        )
+        return stats
+    except Exception as e:
+        logger.error(f"[批次{batch_num}] SQLite导入失败: {e}")
+        return {}
 
 
 # ============================================================================
