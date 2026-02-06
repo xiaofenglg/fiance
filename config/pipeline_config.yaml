@@ -1,0 +1,72 @@
+# V12 Pipeline Configuration
+# Target: Annual Return >= 6%, Sharpe >= 1.8, Max Drawdown <= 5%
+
+# Data Configuration
+data:
+  db_path: "aifinance.sqlite3"
+  qlib_data_dir: "~/.qlib/qlib_data/wmp_data"
+  bank_filter: null  # null = all banks, or specify: "中信银行"
+  min_data_days: 120
+  lookback_days: 365  # 加载1年数据 (训练窗口由train_window控制)
+  max_products: 1000  # 加载更多产品(新产品收益更高但数据少)
+
+# Alpha Factory Configuration
+alpha:
+  factors:
+    - Momentum_5
+    - Momentum_21
+    - Momentum_63
+    - Vol_20
+    - Sharpe_60
+    - Skew_20
+    - MACD
+    - BB_Width
+    - ATR_14
+    - Sortino_30
+  model: "lightgbm"
+  train_window: 120  # 120 days walk-forward
+  predict_horizon: 20  # 20 days (match BMS rebalance)
+  ic_threshold: 0.03
+
+# Backtest Configuration
+backtest:
+  engine: "native"
+  start_date: "2023-01-01"
+  end_date: null
+  rebalance_freq: "W-MON"  # Weekly Monday (WMP产品周一效应最优)
+  init_cash: 100000000  # 1亿
+  t_plus_n: 1
+
+# Optimizer Configuration
+optimizer:
+  method: "HRP"
+  max_assets: 5  # 集中持仓Top-5 (Mom5信号最优配置)
+  cov_method: "ledoit_wolf"
+  signal_weight: 0.3
+  rf_rate: 0.02
+
+# Risk Control Configuration
+risk:
+  max_drawdown: 0.05
+  stop_loss_atr: 2.0
+  profit_protection: 0.02
+  cvar_limit: 0.10
+
+# Performance Targets
+targets:
+  annual_return: 0.06
+  sharpe_ratio: 1.8
+  max_drawdown: 0.05
+
+# GLM Unsmoothing Configuration
+glm:
+  theta0_threshold: 0.10
+  strict_filter: true
+  use_rolling: true
+  window_size: 180
+
+# Logging Configuration
+logging:
+  level: "INFO"
+  file: "logs/pipeline.log"
+  console: true
