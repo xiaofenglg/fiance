@@ -6,6 +6,8 @@
 支持 per-bank 独立模式选择和 per-bank 独立停止。
 """
 
+print("[CRAWL_BRIDGE] Module loaded from:", __file__)
+
 import os
 import threading
 import logging
@@ -144,21 +146,58 @@ def stop_crawl(bank_key=None):
 # ── 数据库统计（带缓存） ──
 
 def _load_stats_background():
-    """后台加载数据库统计（含赎回费数据库信息）"""
+    """后台加载数据库统计（含赎回费数据库信息）— 直接查询SQLite"""
     global _stats_cache, _stats_loading
+    logger.info("[V3] _load_stats_background using SQLite direct query")
     try:
-        from nav_db_excel import NAVDatabaseExcel
-        db = NAVDatabaseExcel()
-        raw = db.get_stats()
-        result = []
-        for sheet_name, info in raw.items():
-            result.append({
-                'bank': sheet_name,
-                'products': info.get('products', 0),
-                'dates': info.get('dates', 0),
-                'earliest_date': info.get('earliest_date', ''),
-                'latest_date': info.get('latest_date', ''),
-            })
+        import sqlite3
+
+        # 尝试 SQLite 数据库 (aifinance.sqlite3)
+        db_path = os.path.join(BASE_DIR, 'aifinance.sqlite3')
+        logger.info(f"[V3] Checking db_path: {db_path}, exists: {os.path.exists(db_path)}")
+        if os.path.exists(db_path):
+            conn = sqlite3.connect(db_path)
+            cursor = conn.cursor()
+
+            # 获取各银行统计
+            cursor.execute("""
+                SELECT
+                    p.bank_name,
+                    COUNT(DISTINCT p.product_code) as products,
+                    COUNT(DISTINCT h.date) as dates,
+                    MIN(h.date) as earliest_date,
+                    MAX(h.date) as latest_date
+                FROM products p
+                LEFT JOIN nav_history h ON p.product_code = h.product_code
+                GROUP BY p.bank_name
+                ORDER BY p.bank_name
+            """)
+            rows = cursor.fetchall()
+            conn.close()
+
+            result = []
+            for row in rows:
+                result.append({
+                    'bank': row[0],
+                    'products': row[1] or 0,
+                    'dates': row[2] or 0,
+                    'earliest_date': row[3] or '',
+                    'latest_date': row[4] or '',
+                })
+        else:
+            # 回退到 NAVDatabaseExcel
+            from nav_db_excel import NAVDatabaseExcel
+            db = NAVDatabaseExcel()
+            raw = db.get_stats()
+            result = []
+            for sheet_name, info in raw.items():
+                result.append({
+                    'bank': sheet_name,
+                    'products': info.get('products', 0),
+                    'dates': info.get('dates', 0),
+                    'earliest_date': info.get('earliest_date', ''),
+                    'latest_date': info.get('latest_date', ''),
+                })
 
         # V13: 加载赎回费数据库统计
         fee_stats = _get_fee_db_stats()
@@ -253,6 +292,22 @@ def refresh_stats_cache():
     get_db_stats(force_refresh=True)
 
 
+def _sync_fees_to_sqlite():
+    """同步赎回费数据到SQLite — 抓取完成后自动调用"""
+    try:
+        import migrate_fees_to_sqlite
+        logger.info("[Crawl] 同步费率数据到SQLite...")
+        result = migrate_fees_to_sqlite.migrate()
+        if result == 0:
+            logger.info("[Crawl] 费率数据同步成功")
+        else:
+            logger.warning(f"[Crawl] 费率数据同步失败: return code {result}")
+    except ImportError:
+        logger.warning("[Crawl] migrate_fees_to_sqlite模块不可用")
+    except Exception as e:
+        logger.error(f"[Crawl] 费率数据同步出错: {e}")
+
+
 # ── 抓取执行（后台线程） — V13 Delta Sync Engine ──
 
 def run_crawl(banks=None, full_history=False, max_months=0, bank_modes=None):
@@ -324,6 +379,8 @@ def _run_crawl(banks, full_history, max_months=0, bank_modes=None):
             _emit(_get('progress', 0), f'已停止 — {success_count}/{total} 家银行已完成')
             _set('status', 'stopped')
             _set('finished_at', datetime.now().isoformat())
+            # 同步已采集的费率数据
+            _sync_fees_to_sqlite()
             refresh_stats_cache()
             return
 
@@ -332,6 +389,9 @@ def _run_crawl(banks, full_history, max_months=0, bank_modes=None):
         _emit(100, f'抓取完成 — {success_count}/{total} 家银行成功')
         _set('status', 'done')
         _set('finished_at', datetime.now().isoformat())
+
+        # 同步费率数据到SQLite
+        _sync_fees_to_sqlite()
 
         # 刷新统计缓存
         refresh_stats_cache()

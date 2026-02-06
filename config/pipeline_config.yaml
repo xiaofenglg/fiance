@@ -7,6 +7,7 @@ data:
   qlib_data_dir: "~/.qlib/qlib_data/wmp_data"
   bank_filter: null  # null = all banks, or specify: "中信银行"
   min_data_days: 120
+  min_records: 10  # 最少NAV记录数 (宁银等低频银行需降低, 默认60)
   lookback_days: 365  # 加载1年数据 (训练窗口由train_window控制)
   max_products: 1000  # 加载更多产品(新产品收益更高但数据少)
 

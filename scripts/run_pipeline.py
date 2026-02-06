@@ -69,6 +69,7 @@ def get_default_config() -> Dict:
             "qlib_data_dir": "~/.qlib/qlib_data/wmp_data",
             "bank_filter": None,
             "min_data_days": 180,
+            "min_records": 10,
             "lookback_days": 365,
             "max_products": 1000,
         },
@@ -490,12 +491,16 @@ def main():
         bank_name = bank_config
 
     try:
+        min_records = data_config.get("min_records", 10)
+        if min_records < 30:
+            logger.warning(f"min_records={min_records} is low — results may lack statistical significance")
         nav_matrix, returns, masks, dates, product_codes = load_nav_data(
             bank_name=bank_name,
             db_path=db_path,
             min_valid_ratio=0.05,
             lookback_days=data_config.get("lookback_days", 365),
             max_products=data_config.get("max_products", 1000),
+            min_records=min_records,
         )
         logger.info(f"Loaded NAV data: {nav_matrix.shape[0]} products, {nav_matrix.shape[1]} days")
     except Exception as e:

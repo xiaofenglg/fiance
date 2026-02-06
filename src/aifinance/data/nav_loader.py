@@ -279,6 +279,7 @@ class NavLoader:
         bank_name: Union[str, List[str]],  # 支持单个或多个银行
         lookback_days: Optional[int] = None,
         max_products: Optional[int] = None,
+        min_records: int = 60,
     ) -> pd.DataFrame:
         """从 SQLite 数据库加载数据
 
@@ -286,6 +287,7 @@ class NavLoader:
             bank_name: 银行名称 (单个银行或银行列表，如 ["华夏银行", "民生银行"])
             lookback_days: 限制加载最近N天的数据 (None = 全部)
             max_products: 限制最多加载N个产品 (None = 全部)
+            min_records: 最少NAV记录数 (默认60, 宁银等低频数据可降低)
 
         Returns:
             NAV 数据 DataFrame (宽格式)
@@ -364,7 +366,7 @@ class NavLoader:
                         FROM ProductStats
                         WHERE ((max_nav - min_nav) > 0.001  -- 只选有NAV波动的产品
                            OR max_nav > 1.01 OR min_nav < 0.99)
-                           AND cnt >= 60  -- 至少60天数据(新产品可能收益更高)
+                           AND cnt >= {min_records}  -- 最少记录数(可配置, 低频银行可降低)
                         ORDER BY cnt DESC  -- 按数据量排序，避免前瞻偏差
                         LIMIT {product_limit}
                     )
@@ -410,6 +412,7 @@ class NavLoader:
         source: str = "auto",
         lookback_days: Optional[int] = None,
         max_products: Optional[int] = None,
+        min_records: int = 60,
     ) -> pd.DataFrame:
         """加载 NAV 数据
 
@@ -418,6 +421,7 @@ class NavLoader:
             source: 数据源 ("parquet", "db", "auto")
             lookback_days: 限制加载最近N天的数据 (None = 全部)
             max_products: 限制最多加载N个产品 (None = 全部)
+            min_records: 最少NAV记录数 (默认60)
 
         Returns:
             NAV 数据 DataFrame
@@ -425,7 +429,7 @@ class NavLoader:
         if source == "parquet" or (source == "auto" and self.parquet_dir):
             return self.load_from_parquet(bank_name)
         elif source == "db" or (source == "auto" and self.db_path):
-            return self.load_from_db(bank_name, lookback_days=lookback_days, max_products=max_products)
+            return self.load_from_db(bank_name, lookback_days=lookback_days, max_products=max_products, min_records=min_records)
         else:
             raise ValueError("未指定有效的数据源")
 
@@ -553,6 +557,7 @@ def load_nav_data(
     anchor_day: str = "WED",
     lookback_days: Optional[int] = None,
     max_products: Optional[int] = None,
+    min_records: int = 60,
 ) -> Tuple[np.ndarray, np.ndarray, np.ndarray, List[str], List[str]]:
     """便捷函数: 加载并准备 NAV 数据
 
@@ -565,12 +570,13 @@ def load_nav_data(
         anchor_day: 周频锚定日 (默认 "WED")
         lookback_days: 限制加载最近N天的数据 (None = 全部, 推荐 365-730)
         max_products: 限制最多加载N个产品 (None = 全部)
+        min_records: 最少NAV记录数 (默认60, 宁银等低频银行可降低)
 
     Returns:
         (nav_matrix, returns, masks, dates, product_codes)
     """
     loader = NavLoader(db_path=db_path, parquet_dir=parquet_dir)
-    df = loader.load(bank_name, lookback_days=lookback_days, max_products=max_products)
+    df = loader.load(bank_name, lookback_days=lookback_days, max_products=max_products, min_records=min_records)
 
     if df.empty:
         raise ValueError(f"无法加载 {bank_name} 的数据")

@@ -21,17 +21,21 @@ logger = logging.getLogger(__name__)
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-# ── PyTorch 导入（允许失败） ──
+# ── PyTorch 导入（允许失败/禁用） ──
 
 _torch_available = False
 torch = None
 
-try:
-    import torch as _torch
-    torch = _torch
-    _torch_available = True
-except ImportError:
-    logger.warning("[GPU Engine] PyTorch 未安装，所有计算将使用 CPU/NumPy")
+# 环境变量可禁用 PyTorch: DISABLE_TORCH=1
+if os.environ.get('DISABLE_TORCH', '').lower() in ('1', 'true', 'yes'):
+    logger.info("[GPU Engine] PyTorch 已通过 DISABLE_TORCH 环境变量禁用")
+else:
+    try:
+        import torch as _torch
+        torch = _torch
+        _torch_available = True
+    except ImportError:
+        logger.warning("[GPU Engine] PyTorch 未安装，所有计算将使用 CPU/NumPy")
 
 
 # ══════════════════════════════════════════
@@ -138,79 +142,85 @@ def load_nav_tensors(bank_name: str = None, min_dates: int = 30) -> dict:
     date_to_idx = {d: i for i, d in enumerate(all_dates)}
     max_len = len(all_dates)
 
-    # 收集产品数据
+    # 收集产品数据 — 向量化处理
     product_keys = []
     product_names = []
-    nav_list = []
-    ret_list = []
-    mask_list = []
+    nav_chunks = []
+    mask_chunks = []
+    ret_chunks = []
 
     for sheet_name, df in sheets.items():
         bank = sheet_name
+        n_rows = len(df)
+        if n_rows == 0:
+            continue
 
-        # 获取日期列（按 date_to_idx 对齐）
+        # 获取日期列
         date_cols = [c for c in df.columns if db._is_date_column(c)]
         if not date_cols:
             continue
 
-        # 批量转换: 将整个 DataFrame 的日期列转为数值矩阵
-        # 这比逐行迭代快得多
-        date_col_indices = [(col, date_to_idx[col]) for col in date_cols if col in date_to_idx]
+        # 批量转换: 整个 DataFrame -> 数值矩阵
+        date_col_list = [col for col in date_cols if col in date_to_idx]
+        col_target_indices = np.array([date_to_idx[col] for col in date_col_list])
 
-        # 提取日期列子集并转为数值
-        sub_df = df[list(dict(date_col_indices).keys())]
-        # 强制转为 float，无效值变 NaN
-        nav_matrix = sub_df.apply(pd.to_numeric, errors='coerce').values  # (n_rows, n_date_cols)
-        col_target_indices = np.array([idx for _, idx in date_col_indices])
+        sub_df = df[date_col_list]
+        nav_matrix = sub_df.apply(pd.to_numeric, errors='coerce').values.astype(np.float64)
 
-        for row_num in range(len(df)):
-            idx = df.index[row_num]
+        # 计算每行有效数据量
+        valid_counts = np.sum(~np.isnan(nav_matrix), axis=1)
+        valid_rows = valid_counts >= min_dates
+
+        if not np.any(valid_rows):
+            continue
+
+        # 过滤有效行
+        nav_matrix = nav_matrix[valid_rows]
+        valid_row_indices = np.where(valid_rows)[0]
+        n_valid = len(valid_row_indices)
+
+        # 提取产品信息
+        for row_idx in valid_row_indices:
+            idx = df.index[row_idx]
             code = idx[0] if isinstance(idx, tuple) else str(idx)
             name = idx[1] if isinstance(idx, tuple) and len(idx) > 1 else ''
-
-            # 提取净值序列
-            nav_series = np.full(max_len, np.nan, dtype=np.float64)
-            row_vals = nav_matrix[row_num]
-
-            # 批量赋值
-            valid_mask = ~np.isnan(row_vals)
-            valid_count = int(valid_mask.sum())
-
-            if valid_count < min_dates:
-                continue
-
-            nav_series[col_target_indices[valid_mask]] = row_vals[valid_mask]
-
-            # 计算年化收益率% (与策略引擎相同的方式)
-            ret_series = np.full(max_len, 0.0, dtype=np.float64)
-            mask_series = np.zeros(max_len, dtype=np.float64)
-
-            prev_val = np.nan
-            prev_idx = -1
-            for i in range(max_len):
-                if np.isnan(nav_series[i]):
-                    continue
-                mask_series[i] = 1.0
-                if not np.isnan(prev_val) and prev_idx >= 0:
-                    gap_days = max(1, i - prev_idx)
-                    period_ret = (nav_series[i] / prev_val - 1)
-                    ann_ret = period_ret / gap_days * 365 * 100  # 年化收益率%
-                    ret_series[i] = ann_ret
-                prev_val = nav_series[i]
-                prev_idx = i
-
             product_keys.append((bank, code))
             product_names.append(name)
-            nav_list.append(nav_series)
-            ret_list.append(ret_series)
-            mask_list.append(mask_series)
+
+        # 创建整个银行的 NAV 矩阵 [n_valid, max_len]
+        bank_navs = np.full((n_valid, max_len), np.nan, dtype=np.float64)
+        bank_navs[:, col_target_indices] = nav_matrix
+
+        # Mask: 有效数据位置
+        bank_masks = (~np.isnan(bank_navs)).astype(np.float64)
+
+        # 计算年化收益率 — 向量化
+        bank_returns = np.zeros((n_valid, max_len), dtype=np.float64)
+
+        # 对于每个产品计算收益率（使用 numba 或纯 numpy）
+        # 这里使用分块处理来加速
+        for i in range(n_valid):
+            valid_idx = np.where(bank_masks[i] > 0)[0]
+            if len(valid_idx) > 1:
+                navs = bank_navs[i, valid_idx]
+                period_ret = navs[1:] / navs[:-1] - 1
+                gap_days = np.maximum(np.diff(valid_idx), 1)
+                ann_ret = period_ret / gap_days * 365 * 100
+                bank_returns[i, valid_idx[1:]] = ann_ret
+
+        nav_chunks.append(bank_navs)
+        mask_chunks.append(bank_masks)
+        ret_chunks.append(bank_returns)
+
+        logger.debug(f"[GPU Engine] 处理 {bank}: {n_valid} 产品")
 
     if not product_keys:
         return _empty_tensors()
 
-    returns_np = np.array(ret_list, dtype=np.float32)
-    navs_np = np.array(nav_list, dtype=np.float32)
-    masks_np = np.array(mask_list, dtype=np.float32)
+    # 合并所有银行的数据
+    navs_np = np.vstack(nav_chunks).astype(np.float32)
+    masks_np = np.vstack(mask_chunks).astype(np.float32)
+    returns_np = np.vstack(ret_chunks).astype(np.float32)
 
     # 转为 PyTorch 张量（如果可用）
     if _torch_available:

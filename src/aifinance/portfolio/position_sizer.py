@@ -39,10 +39,10 @@ class PositionSizer:
 
     def __init__(
         self,
-        max_single_weight: float = 0.25,
-        max_positions: int = 6,
-        min_signal_strength: float = 0.5,
-        target_vol_contribution: float = 0.01,
+        max_single_weight: float = 0.10,  # 单仓最大10%
+        max_positions: int = 50,  # 高分散
+        min_signal_strength: float = 0.10,  # 大幅降低门槛
+        target_vol_contribution: float = 0.02,  # 调整为更适合低波动产品
     ):
         """
         Args:
@@ -56,11 +56,11 @@ class PositionSizer:
         self.min_signal_strength = min_signal_strength
         self.target_vol_contribution = target_vol_contribution
 
-        # 信号强度到仓位等级的映射
+        # 信号强度到仓位等级的映射 - 针对银行理财产品降低门槛
         self.tier_config = [
-            (0.8, "TOP"),
-            (0.6, "HIGH"),
-            (0.5, "MEDIUM"),
+            (0.50, "TOP"),
+            (0.30, "HIGH"),
+            (0.15, "MEDIUM"),  # 降低门槛
         ]
 
     def _signal_to_tier(self, signal_strength: float) -> str:
@@ -76,9 +76,9 @@ class PositionSizer:
         signals: Dict[int, float],
         volatilities: Optional[Dict[int, float]] = None,
     ) -> List[PositionAllocation]:
-        """分配仓位
+        """分配仓位 (非贪婪算法)
 
-        结合 HRP 优化权重和信号强度
+        先计算所有候选产品的目标权重，再统一归一化和约束收缩。
 
         Args:
             hrp_weights: HRP 优化的权重 {product_idx: weight}
@@ -102,60 +102,84 @@ class PositionSizer:
             logger.info("[PositionSizer] 无有效信号")
             return []
 
-        # 按信号强度排序
+        # 按信号强度排序并限制持仓数量
         valid_products.sort(key=lambda x: signals.get(x, 0), reverse=True)
-
-        # 限制持仓数量
         valid_products = valid_products[: self.max_positions]
 
-        allocations = []
-        total_weight = 0.0
-
+        # === 第一步: 计算所有候选产品的原始目标权重 ===
+        raw_weights = {}
         for idx in valid_products:
             signal_strength = signals.get(idx, 0)
             hrp_weight = hrp_weights.get(idx, 0)
-            volatility = (
-                volatilities.get(idx, 0.02) if volatilities else 0.02
-            )
+            volatility = volatilities.get(idx, 0.02) if volatilities else 0.02
 
-            # 基础权重: HRP 权重
-            base_weight = hrp_weight
+            # 基础权重: HRP 权重 * 非线性信号调整
+            # 使用 signal^1.2 让中等信号也能获得较高权重
+            signal_multiplier = 0.3 + 0.7 * (signal_strength ** 1.2)  # ~0.3-1.0
+            adjusted_weight = hrp_weight * signal_multiplier
 
-            # 信号调整: 信号强度作为乘数
-            signal_multiplier = 0.5 + signal_strength * 0.5  # 0.5-1.0
-            adjusted_weight = base_weight * signal_multiplier
-
-            # 波动率约束
+            # 波动率约束 (软约束)
             if volatility > 0:
-                vol_limit_weight = self.target_vol_contribution / volatility
-                adjusted_weight = min(adjusted_weight, vol_limit_weight)
+                vol_limit = self.target_vol_contribution / volatility
+                adjusted_weight = min(adjusted_weight, vol_limit)
 
-            # 单仓上限
-            adjusted_weight = min(adjusted_weight, self.max_single_weight)
-            adjusted_weight = max(adjusted_weight, 0)
+            raw_weights[idx] = max(adjusted_weight, 0)
 
-            # 检查总权重
-            if total_weight + adjusted_weight > 1.0:
-                adjusted_weight = max(1.0 - total_weight, 0)
+        # === 第二步: 统一归一化 (确保总和为1) ===
+        total_raw = sum(raw_weights.values())
+        if total_raw > 0:
+            for idx in raw_weights:
+                raw_weights[idx] /= total_raw
 
-            if adjusted_weight > 0:
+        # === 第三步: 应用单仓上限约束 (迭代收缩) ===
+        # 超限的权重削减到上限，释放的权重按比例分配给未超限产品
+        max_iterations = 10
+        for _ in range(max_iterations):
+            excess = 0.0
+            uncapped_total = 0.0
+
+            for idx, w in raw_weights.items():
+                if w > self.max_single_weight:
+                    excess += w - self.max_single_weight
+                    raw_weights[idx] = self.max_single_weight
+                else:
+                    uncapped_total += w
+
+            if excess <= 1e-6:
+                break
+
+            # 将超出的权重按比例分配给未超限产品
+            if uncapped_total > 0:
+                for idx in raw_weights:
+                    if raw_weights[idx] < self.max_single_weight:
+                        share = raw_weights[idx] / uncapped_total
+                        raw_weights[idx] += excess * share
+
+        # === 第四步: 最终归一化 ===
+        final_total = sum(raw_weights.values())
+        if final_total > 1.0:
+            scale = 1.0 / final_total
+            for idx in raw_weights:
+                raw_weights[idx] *= scale
+
+        # === 第五步: 构建分配结果 ===
+        allocations = []
+        for idx, weight in raw_weights.items():
+            if weight > 0.001:  # 过滤极小权重
+                signal_strength = signals.get(idx, 0)
                 tier = self._signal_to_tier(signal_strength)
                 allocations.append(
                     PositionAllocation(
                         product_idx=idx,
-                        weight=adjusted_weight,
+                        weight=weight,
                         signal_strength=signal_strength,
                         tier=tier,
-                        risk_contribution=hrp_weight,  # 使用 HRP 权重作为风险贡献代理
+                        risk_contribution=hrp_weights.get(idx, 0),
                     )
                 )
-                total_weight += adjusted_weight
 
-        # 归一化 (如果总权重超过 100%)
-        if total_weight > 1.0:
-            scale = 1.0 / total_weight
-            for alloc in allocations:
-                alloc.weight *= scale
+        # 按权重排序
+        allocations.sort(key=lambda x: x.weight, reverse=True)
 
         logger.info(
             f"[PositionSizer] 分配完成: {len(allocations)} 个持仓, "

@@ -82,6 +82,50 @@ class CVaRController:
         cvar = -np.mean(tail_returns)
         return max(cvar, var)
 
+    def _batch_calculate_cvar(
+        self, returns_matrix: np.ndarray, product_indices: List[int]
+    ) -> Dict[int, float]:
+        """批量计算多个产品的 CVaR (向量化)
+
+        Args:
+            returns_matrix: [n_products, n_dates] 收益率矩阵
+            product_indices: 产品索引列表
+
+        Returns:
+            {product_idx: cvar}
+        """
+        n_products, n_dates = returns_matrix.shape
+
+        if n_dates < 5:
+            return {idx: 0.0 for idx in product_indices}
+
+        alpha = 1 - self.confidence_level
+
+        # 向量化计算 VaR: 对每行取分位数
+        # np.percentile 支持 axis 参数
+        var_values = -np.percentile(returns_matrix, alpha * 100, axis=1)
+        var_values = np.maximum(var_values, 0)
+
+        # 计算 CVaR: 尾部均值
+        # 创建掩码: returns < -var (每行独立比较)
+        var_expanded = var_values[:, np.newaxis]  # [n_products, 1]
+        tail_mask = returns_matrix < -var_expanded  # [n_products, n_dates]
+
+        # 计算每行尾部均值
+        tail_sum = np.where(tail_mask, returns_matrix, 0).sum(axis=1)
+        tail_count = tail_mask.sum(axis=1)
+
+        # 避免除零
+        with np.errstate(divide='ignore', invalid='ignore'):
+            cvar_values = np.where(
+                tail_count > 0,
+                -tail_sum / tail_count,
+                var_values
+            )
+        cvar_values = np.maximum(cvar_values, var_values)
+
+        return {idx: float(cvar_values[i]) for i, idx in enumerate(product_indices)}
+
     def calculate_portfolio_cvar(
         self,
         positions: List[Dict],
@@ -106,47 +150,37 @@ class CVaRController:
             return 0.0, {"status": "insufficient_data"}
 
         start_idx = max(0, current_idx - self.lookback_window + 1)
-        window_len = current_idx - start_idx + 1
+        
+        # 提取相关产品的收益率子矩阵
+        product_indices = [pos["product_idx"] for pos in positions if pos["product_idx"] < returns_matrix.shape[0]]
+        weights = np.array([pos["weight"] for pos in positions if pos["product_idx"] < returns_matrix.shape[0]])
+        
+        if not product_indices:
+            return 0.0, {"status": "no_valid_products"}
 
-        portfolio_returns = np.zeros(window_len)
+        # [n_selected_products, window_len]
+        sub_returns = returns_matrix[product_indices, start_idx : current_idx + 1]
+        sub_masks = masks_matrix[product_indices, start_idx : current_idx + 1]
+        
+        # 应用掩码
+        masked_returns = np.where(sub_masks > 0, sub_returns, 0)
+        
+        # 计算组合日收益率序列: weights @ masked_returns / 365 / 100
+        # [window_len]
+        portfolio_returns = (weights @ masked_returns) / 365 / 100
 
-        for pos in positions:
-            idx = pos["product_idx"]
-            weight = pos["weight"]
+        portfolio_cvar = self.calculate_cvar(portfolio_returns)
 
-            if idx >= returns_matrix.shape[0]:
-                continue
-
-            prod_ret = returns_matrix[idx, start_idx : current_idx + 1]
-            prod_mask = masks_matrix[idx, start_idx : current_idx + 1]
-
-            prod_ret = np.where(prod_mask > 0, prod_ret, 0)
-            portfolio_returns += prod_ret * weight
-
-        # 转换为日收益率
-        daily_returns = portfolio_returns / 365 / 100
-
-        portfolio_cvar = self.calculate_cvar(daily_returns)
-
-        # 单产品 CVaR
-        individual_cvars = {}
-        for pos in positions:
-            idx = pos["product_idx"]
-            if idx >= returns_matrix.shape[0]:
-                continue
-
-            prod_ret = returns_matrix[idx, start_idx : current_idx + 1]
-            prod_mask = masks_matrix[idx, start_idx : current_idx + 1]
-            prod_ret = np.where(prod_mask > 0, prod_ret, 0) / 365 / 100
-
-            individual_cvars[idx] = self.calculate_cvar(prod_ret)
+        # 单产品 CVaR (批量计算)
+        daily_sub_returns = masked_returns / 365 / 100
+        individual_cvars = self._batch_calculate_cvar(daily_sub_returns, product_indices)
 
         details = {
             "status": "ok",
             "portfolio_cvar": portfolio_cvar,
-            "var": self.calculate_var(daily_returns),
+            "var": self.calculate_var(portfolio_returns),
             "individual_cvars": individual_cvars,
-            "window_len": window_len,
+            "window_len": sub_returns.shape[1],
             "within_limit": portfolio_cvar <= self.cvar_limit,
         }
 
@@ -274,21 +308,126 @@ class StopLossLevel:
     highest_since_entry: float  # 入场后最高价
 
 
+@dataclass
+class ProfitProtectionLevel:
+    """盈利保护水平"""
+
+    entry_price: float  # 入场价
+    highest_profit_pct: float  # 历史最高盈利百分比
+    protection_line: float  # 保护线 (当前锁定的盈利比例)
+    triggered: bool  # 是否触发保护
+
+
+class ProfitProtection:
+    """盈利回吐保护器
+
+    当仓位盈利超过阈值时，设置盈利保护线。
+    若后续回吐超过保护线，则触发平仓。
+
+    特点:
+    - 盈利超过 5% 时激活保护 (针对银行理财产品提高阈值)
+    - 保护线 = 最高盈利 * 40% (保护更少，追求更高收益)
+    - 只升不降
+    """
+
+    def __init__(
+        self,
+        activation_threshold: float = 0.05,  # 激活阈值 (5%)
+        protection_ratio: float = 0.4,  # 保护比例 (保护最高盈利的40%)
+    ):
+        """
+        Args:
+            activation_threshold: 盈利超过此阈值时激活保护
+            protection_ratio: 保护线为最高盈利的多少比例
+        """
+        self.activation_threshold = activation_threshold
+        self.protection_ratio = protection_ratio
+        self._positions: Dict[int, ProfitProtectionLevel] = {}
+
+    def initialize_position(self, product_idx: int, entry_price: float) -> ProfitProtectionLevel:
+        """初始化持仓保护
+
+        Args:
+            product_idx: 产品索引
+            entry_price: 入场价
+
+        Returns:
+            保护水平
+        """
+        level = ProfitProtectionLevel(
+            entry_price=entry_price,
+            highest_profit_pct=0.0,
+            protection_line=0.0,
+            triggered=False,
+        )
+        self._positions[product_idx] = level
+        return level
+
+    def update(self, product_idx: int, current_price: float) -> Tuple[bool, float]:
+        """更新盈利保护状态
+
+        Args:
+            product_idx: 产品索引
+            current_price: 当前价格
+
+        Returns:
+            (是否触发保护平仓, 当前盈利比例)
+        """
+        if product_idx not in self._positions:
+            return False, 0.0
+
+        level = self._positions[product_idx]
+        current_profit_pct = (current_price - level.entry_price) / level.entry_price
+
+        # 更新最高盈利
+        if current_profit_pct > level.highest_profit_pct:
+            level.highest_profit_pct = current_profit_pct
+
+            # 如果超过激活阈值，更新保护线
+            if current_profit_pct >= self.activation_threshold:
+                new_protection = current_profit_pct * self.protection_ratio
+                level.protection_line = max(level.protection_line, new_protection)
+                logger.debug(
+                    f"[ProfitProtection] 产品{product_idx}: "
+                    f"最高盈利={current_profit_pct:.2%}, 保护线={level.protection_line:.2%}"
+                )
+
+        # 检查是否触发保护
+        if level.protection_line > 0 and current_profit_pct < level.protection_line:
+            level.triggered = True
+            logger.info(
+                f"[ProfitProtection] 产品{product_idx}: 触发盈利保护! "
+                f"当前盈利={current_profit_pct:.2%} < 保护线={level.protection_line:.2%}"
+            )
+            return True, current_profit_pct
+
+        return False, current_profit_pct
+
+    def remove_position(self, product_idx: int) -> None:
+        """移除持仓追踪"""
+        if product_idx in self._positions:
+            del self._positions[product_idx]
+
+    def get_all_protections(self) -> Dict[int, ProfitProtectionLevel]:
+        """获取所有保护水平"""
+        return self._positions.copy()
+
+
 class ATRStopLoss:
     """ATR 动态止损管理器
 
     特点:
-    - 止损位 = 入场价 - 2×ATR
+    - 止损位 = 入场价 - 5×ATR (针对银行理财产品大幅放宽)
     - 追踪止损: 只上移不下移
     - 支持日内更新
     """
 
     def __init__(
         self,
-        atr_multiplier: float = 2.0,
-        atr_window: int = 14,
+        atr_multiplier: float = 5.0,  # 大幅放宽止损位，银行理财波动小
+        atr_window: int = 20,  # 增加ATR窗口
         use_trailing: bool = True,
-        trailing_activation: float = 0.02,
+        trailing_activation: float = 0.03,  # 追踪激活门槛3%
     ):
         """
         Args:

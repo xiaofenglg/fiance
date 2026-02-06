@@ -52,14 +52,14 @@ class LightGBMSignal:
         masks: np.ndarray,
         start_idx: int,
         horizon: int = PRED_HORIZON,
-        target_pos_rate: float = 0.20,
+        target_pos_rate: float = 0.30,  # 增加正样本比例
     ) -> Tuple[np.ndarray, np.ndarray]:
-        """创建相对强度标签
+        """创建相对强度标签 - V2 优化版
 
-        标签逻辑:
-        1. 绝对底线过滤: 年化收益 > 1.5%
-        2. 综合评分: 70% 收益排名 + 30% 稳定性排名
-        3. 分位数截断: 取评分 Top 20% 作为正样本
+        标签逻辑 (针对银行理财产品优化):
+        1. 绝对底线过滤: 年化收益 > 0.5% (降低阈值)
+        2. 综合评分: 50% 收益排名 + 30% 稳定性排名 + 20% 动量
+        3. 分位数截断: 取评分 Top 30% 作为正样本 (扩大正样本池)
 
         Args:
             returns: [n_products, n_dates] 年化收益率矩阵 (%)
@@ -93,17 +93,30 @@ class LightGBMSignal:
         std_yield = np.nanstd(np.where(fut_mask > 0, fut_ret, np.nan), axis=1)
         std_yield = np.nan_to_num(std_yield, nan=10.0)
 
-        # 绝对底线过滤
-        min_valid_ratio = 0.5
-        abs_yield_floor = 1.5
+        # 计算动量 (过去表现的延续性)
+        if start_idx >= 5:
+            past_ret = returns[:, start_idx - 5:start_idx]
+            past_mask = masks[:, start_idx - 5:start_idx]
+            past_cnt = past_mask.sum(axis=1)
+            momentum = np.where(
+                past_cnt > 0,
+                (past_ret * past_mask).sum(axis=1) / np.maximum(past_cnt, 1),
+                0,
+            )
+        else:
+            momentum = np.zeros(n_p)
+
+        # 绝对底线过滤 - 针对银行理财产品降低阈值
+        min_valid_ratio = 0.3  # 降低数据完整度要求
+        abs_yield_floor = 0.5  # 降低收益门槛到0.5%
         valid_mask = (valid_cnt >= horizon * min_valid_ratio) & (
             avg_yield > abs_yield_floor
         )
 
         if valid_mask.sum() < 10:
-            valid_mask = valid_cnt >= 3
+            valid_mask = valid_cnt >= 2
 
-        # 计算排名得分
+        # 计算排名得分 - 收益排名
         yield_rank = np.zeros(n_p)
         valid_yields = avg_yield[valid_mask]
         if len(valid_yields) > 0:
@@ -114,20 +127,32 @@ class LightGBMSignal:
             )
             yield_rank[valid_mask] = ranks
 
+        # 稳定性排名 (低波动更好)
         risk_rank = np.zeros(n_p)
         valid_stds = std_yield[valid_mask]
         if len(valid_stds) > 0:
-            sorted_idx = np.argsort(valid_stds)[::-1]
+            sorted_idx = np.argsort(valid_stds)[::-1]  # 波动率低的排名高
             ranks = np.zeros(len(valid_stds))
             ranks[sorted_idx] = np.arange(len(valid_stds)) / max(
                 len(valid_stds) - 1, 1
             )
             risk_rank[valid_mask] = ranks
 
-        # 综合评分
-        composite_score = 0.7 * yield_rank + 0.3 * risk_rank
+        # 动量排名
+        momentum_rank = np.zeros(n_p)
+        valid_momentum = momentum[valid_mask]
+        if len(valid_momentum) > 0:
+            sorted_idx = np.argsort(valid_momentum)
+            ranks = np.zeros(len(valid_momentum))
+            ranks[sorted_idx] = np.arange(len(valid_momentum)) / max(
+                len(valid_momentum) - 1, 1
+            )
+            momentum_rank[valid_mask] = ranks
 
-        # 分位数截断
+        # 综合评分: 50% 收益 + 30% 稳定性 + 20% 动量
+        composite_score = 0.50 * yield_rank + 0.30 * risk_rank + 0.20 * momentum_rank
+
+        # 分位数截断 - 扩大正样本池
         valid_scores = composite_score[valid_mask]
         if len(valid_scores) > 0:
             cutoff_quantile = 1.0 - target_pos_rate
@@ -138,7 +163,7 @@ class LightGBMSignal:
         # 生成标签
         y_cls = (valid_mask & (composite_score >= score_threshold)).astype(np.float32)
 
-        # 回归标签: 超额收益
+        # 回归标签: 超额收益 (相对市场中位数)
         market_median = np.median(avg_yield[valid_mask]) if valid_mask.sum() > 0 else 0
         y_reg = (avg_yield - market_median).astype(np.float32)
 
@@ -242,6 +267,17 @@ class LightGBMSignal:
         y_cls_train, y_cls_val = y_cls[train_idx], y_cls[val_idx]
         y_reg_train, y_reg_val = y_reg[train_idx], y_reg[val_idx]
 
+        # 处理 NaN 值 - 移除包含 NaN 的样本
+        train_valid = ~(np.isnan(X_train).any(axis=1) | np.isnan(y_cls_train) | np.isnan(y_reg_train))
+        val_valid = ~(np.isnan(X_val).any(axis=1) | np.isnan(y_cls_val) | np.isnan(y_reg_val))
+
+        if train_valid.sum() < 100 or val_valid.sum() < 10:
+            logger.warning(f"[LightGBM] 过滤 NaN 后数据不足: train={train_valid.sum()}, val={val_valid.sum()}")
+            return {"status": "insufficient_data_after_nan_filter"}
+
+        X_train, y_cls_train, y_reg_train = X_train[train_valid], y_cls_train[train_valid], y_reg_train[train_valid]
+        X_val, y_cls_val, y_reg_val = X_val[val_valid], y_cls_val[val_valid], y_reg_val[val_valid]
+
         pos_rate = y_cls_train.mean()
         scale_pos_weight = min((1 - pos_rate) / max(pos_rate, 0.05), 10.0)
 
@@ -308,9 +344,20 @@ class LightGBMSignal:
         try:
             from sklearn.metrics import mean_absolute_error, roc_auc_score
 
-            val_auc = roc_auc_score(y_cls_val, val_pred_cls)
-            val_mae = mean_absolute_error(y_reg_val, val_pred_reg)
-        except ImportError:
+            # 过滤可能的 NaN 值
+            valid_mask = ~(np.isnan(y_reg_val) | np.isnan(val_pred_reg))
+            if valid_mask.sum() > 0:
+                val_mae = mean_absolute_error(y_reg_val[valid_mask], val_pred_reg[valid_mask])
+            else:
+                val_mae = 1.0
+
+            cls_valid = ~(np.isnan(y_cls_val) | np.isnan(val_pred_cls))
+            if cls_valid.sum() > 0 and len(np.unique(y_cls_val[cls_valid])) > 1:
+                val_auc = roc_auc_score(y_cls_val[cls_valid], val_pred_cls[cls_valid])
+            else:
+                val_auc = 0.5
+        except (ImportError, ValueError) as e:
+            logger.warning(f"[LightGBM] 验证指标计算失败: {e}")
             val_auc = 0.5
             val_mae = 1.0
 
