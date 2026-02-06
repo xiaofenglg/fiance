@@ -1,17 +1,55 @@
 # -*- coding: utf-8 -*-
 """
-回测系统适配层 — 连接 Flask API 与 backtest_pattern_v4.py 引擎
+回测系统适配层 V12 — 连接 Flask API 与 V12 VBTPortfolioSimulator 引擎
+
+数据流: load_nav_data → prices_df → Mom5信号 → VBTPortfolioSimulator → SimulationResult → 前端JSON
 
 线程安全地执行回测、缓存结果供 API 返回。
 """
 
+import os
 import threading
 import logging
 import traceback
-import copy
 from datetime import datetime
 
+import numpy as np
+import pandas as pd
+
 logger = logging.getLogger(__name__)
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+# ── V12 模块导入 ──
+from src.aifinance.data.nav_loader import load_nav_data
+from src.aifinance.backtest.vbt_simulator import VBTPortfolioSimulator
+
+# ── 银行名称映射 (crawler key → DB bank_name) ──
+BANK_KEY_MAP = {
+    'minsheng': '民生银行',
+    'huaxia': '华夏银行',
+    'citic': '中信银行',
+    'spdb': '浦银理财',
+    'ningyin': '宁银理财',
+    'psbc': '中邮理财',
+}
+BANK_KEY_MAP_REVERSE = {v: k for k, v in BANK_KEY_MAP.items()}
+
+
+def _load_config():
+    """加载 pipeline_config.yaml 配置"""
+    config_path = os.path.join(BASE_DIR, 'config', 'pipeline_config.yaml')
+    if not os.path.exists(config_path):
+        logger.warning(f"配置文件不存在: {config_path}, 使用默认配置")
+        return {}
+    try:
+        import yaml
+        with open(config_path, 'r', encoding='utf-8') as f:
+            return yaml.safe_load(f) or {}
+    except Exception as e:
+        logger.error(f"加载配置失败: {e}")
+        return {}
+
 
 # ── 全局状态 ──
 _lock = threading.Lock()
@@ -23,7 +61,6 @@ _state = {
     'started_at': None,
     'finished_at': None,
     # 缓存的结果
-    'engine': None,          # BacktestEngine 实例
     'summary': {},
     'nav_series': [],
     'trades': [],
@@ -81,75 +118,102 @@ def run_backtest(params=None):
 
 
 def _run_backtest(params):
+    """V12 回测核心: load_nav_data → Mom5 → VBTPortfolioSimulator"""
     try:
-        import backtest_pattern_v4 as bt
-        import numpy as np
-        import pandas as pd
-        from collections import defaultdict
+        _emit(5, '初始化 V12 Quantitative Pipeline...')
 
-        _emit(5, '初始化回测引擎 (Pattern V4)...')
+        # ── Step 1: 加载配置 ──
+        config = _load_config()
+        data_config = config.get('data', {})
+        bt_config = config.get('backtest', {})
+        opt_config = config.get('optimizer', {})
 
-        # 覆盖参数（如果有）
+        db_path = os.path.join(BASE_DIR, data_config.get('db_path', 'aifinance.sqlite3'))
+        rebalance_freq = bt_config.get('rebalance_freq', 'W-MON')
+        init_cash = bt_config.get('init_cash', 100_000_000)
+        t_plus_n = bt_config.get('t_plus_n', 1)
+        max_assets = opt_config.get('max_assets', 5)
+        lookback_days = data_config.get('lookback_days', 365)
+        max_products = data_config.get('max_products', 1000)
+        min_records = data_config.get('min_records', 10)
+
+        # ── Step 2: 确定银行 ──
+        bank_name = '华夏银行'  # 默认
         if params:
-            if 'buy_threshold' in params:
-                bt.信号阈值_买入 = float(params['buy_threshold'])
-            if 'sell_threshold' in params:
-                bt.信号阈值_卖出 = float(params['sell_threshold'])
+            if 'bank' in params:
+                raw = params['bank']
+                bank_name = BANK_KEY_MAP.get(raw, raw)
             if 'max_positions' in params:
-                bt.最大持仓数 = int(params['max_positions'])
-            if 'max_hold_days' in params:
-                bt.最大持有交易日 = int(params['max_hold_days'])
+                max_assets = int(params['max_positions'])
+            if 'rebalance_freq' in params:
+                rebalance_freq = params['rebalance_freq']
 
-        engine = bt.PatternBacktestEngine()
+        _emit(10, f'加载 {bank_name} 净值数据...')
 
-        _emit(10, '加载净值数据库...')
-        engine.load_data()
+        # ── Step 3: 加载 NAV 数据 ──
+        nav_matrix, returns, masks, dates, product_codes = load_nav_data(
+            bank_name=bank_name,
+            db_path=db_path,
+            min_valid_ratio=0.05,
+            lookback_days=lookback_days,
+            max_products=max_products,
+            min_records=min_records,
+        )
 
-        _emit(30, f'数据加载完成，{len(engine.products)}个产品，运行 Mode B 回测...')
+        n_products = nav_matrix.shape[0]
+        n_dates = nav_matrix.shape[1]
+        _emit(30, f'数据加载完成: {n_products} 产品, {n_dates} 天')
 
-        # 运行 Mode B (优选模式)
-        result = engine.run_single_mode('B')
+        # ── Step 4: 构建 prices_df ──
+        prices_df = pd.DataFrame(
+            nav_matrix.T,
+            index=pd.to_datetime(dates),
+            columns=product_codes,
+        )
+        # 清洗: 0 → NaN, 前向填充
+        prices_df = prices_df.replace(0.0, np.nan)
+        prices_df = prices_df.ffill()
 
-        _emit(92, '计算绩效指标...')
+        _emit(40, '生成 Mom5 动量信号...')
 
-        # 存储引擎引用（供 get_patterns_snapshot 使用）
-        _set('engine', engine)
+        # ── Step 5: Mom5 信号 (复用 run_pipeline.py 逻辑) ──
+        cum_ret_5 = prices_df / prices_df.shift(5) - 1
+        mom5_rank = cum_ret_5.rank(axis=1, pct=True)
+        signals_df = mom5_rank.replace([np.inf, -np.inf], np.nan)
 
-        # 存储释放规律快照
-        _set('patterns_snapshot', result.get('patterns_snapshot', {}))
+        _emit(50, f'V12 回测运行中 ({rebalance_freq}, Top-{max_assets})...')
 
-        # 构建摘要 — 直接从 result dict
-        summary = _build_summary(result, bt, engine)
+        # ── Step 6: VBTPortfolioSimulator 回测 ──
+        simulator = VBTPortfolioSimulator(
+            prices=prices_df,
+            signals=signals_df,
+            t_plus_n=t_plus_n,
+            db_path=db_path,
+            bank_name=bank_name,
+        )
+        sim_result = simulator.run_backtest(
+            rebalance_freq=rebalance_freq,
+            max_positions=max_assets,
+            init_cash=init_cash,
+            use_vbt=False,  # 使用 native simulator (hisensho 审计合规)
+        )
+
+        _emit(85, '计算绩效指标...')
+
+        # ── Step 7: 转换结果为前端格式 ──
+        summary = _build_summary_v12(sim_result, init_cash, bank_name)
         _set('summary', summary)
 
-        # 构建 NAV 序列 — 从 result['daily_values']
-        nav_series = [{'date': d, 'value': round(v / 1e4, 2), 'cash': round(c / 1e4, 2),
-                        'position': round(pv / 1e4, 2)}
-                       for d, v, c, pv in result['daily_values']]
+        nav_series = _build_nav_series(sim_result)
         _set('nav_series', nav_series)
 
-        # 构建交易明细 — 从 result['trade_log']
-        trades = []
-        for t in result['trade_log']:
-            trades.append({
-                'date': t['date'],
-                'action': t['action'],
-                'bank': t['bank'],
-                'code': t['code'],
-                'name': t['name'][:25] if t['name'] else '',
-                'nav': round(t['nav'], 6) if t['nav'] else 0,
-                'amount': round(t['amount'] / 1e4, 2) if t['amount'] else 0,
-                'pnl': round(t['pnl'] / 1e4, 2),
-                'hold_days': t.get('hold_days', 0),
-                'reason': t['reason'],
-            })
+        trades = _build_trades_v12(sim_result, bank_name)
         _set('trades', trades)
 
-        # 月度收益 — 从 daily_values 手动计算
-        monthly = _calc_monthly_returns(result['daily_values'])
+        monthly = _calc_monthly_returns_v12(sim_result.equity_curve)
         _set('monthly_returns', monthly)
 
-        _emit(100, f'回测完成 — 年化{summary.get("ann_return", 0):.2f}%  夏普{summary.get("sharpe", 0):.2f}')
+        _emit(100, f'V12 回测完成 — 年化{summary.get("ann_return", 0):.2f}%  夏普{summary.get("sharpe", 0):.2f}')
         _set('status', 'done')
         _set('finished_at', datetime.now().isoformat())
 
@@ -160,130 +224,144 @@ def _run_backtest(params):
         _set('finished_at', datetime.now().isoformat())
 
 
-def _calc_monthly_returns(daily_values):
-    """从 daily_values [(date, total, cash, pos_val), ...] 计算月度收益"""
-    if len(daily_values) < 2:
-        return []
-    monthly = {}
-    for d, v, _, _ in daily_values:
-        ym = d[:7]  # 'YYYY-MM'
-        if ym not in monthly:
-            monthly[ym] = {'first': v, 'last': v}
-        monthly[ym]['last'] = v
-    result = []
-    prev_last = None
-    for ym in sorted(monthly.keys()):
-        base = prev_last if prev_last is not None else monthly[ym]['first']
-        if base > 0:
-            ret = (monthly[ym]['last'] / base - 1) * 100
-            result.append({'month': ym, 'return_pct': round(ret, 4)})
-        prev_last = monthly[ym]['last']
-    return result
+# ── V12 结果转换函数 ──
 
+def _build_summary_v12(sim_result, init_cash, bank_name):
+    """SimulationResult.metrics → 前端 summary dict"""
+    m = sim_result.metrics
+    equity = sim_result.equity_curve
 
-def _build_summary(result, bt, engine):
-    import numpy as np
-    import pandas as pd
+    fv = float(equity.iloc[-1])
+    total_ret = (fv / init_cash - 1) * 100
+    ann_ret = m.get('annual_return', 0) * 100
+    sharpe = m.get('sharpe_ratio', 0)
+    max_dd = m.get('max_drawdown', 0) * 100
 
-    daily_values = result.get('daily_values', [])
-    closed_trades = result.get('closed_trades', [])
+    # 回测期间
+    dates = equity.index
+    period = f"{dates[0].strftime('%Y-%m-%d')} ~ {dates[-1].strftime('%Y-%m-%d')}"
+    n_days = len(dates)
+    yrs = n_days / 252
 
-    if not daily_values:
-        return {}
+    # 基准 (2.5% 年化存款利率)
+    bm_ret = 2.5 * yrs
+    excess = total_ret - bm_ret
 
-    initial = bt.初始资金
-    fv = daily_values[-1][1]
-    total_ret = (fv / initial - 1) * 100
-    t0 = pd.Timestamp(engine.all_sim_dates[0])
-    t1 = pd.Timestamp(engine.all_sim_dates[-1])
-    yrs = (t1 - t0).days / 365
-    ann_ret = ((fv / initial) ** (1 / yrs) - 1) * 100 if yrs > 0 else 0
-
-    peak = initial
-    max_dd = 0
+    # 最大回撤日期
+    cummax = equity.cummax()
+    drawdown = (equity - cummax) / cummax
     dd_date = ''
-    for d, v, _, _ in daily_values:
-        if v > peak:
-            peak = v
-        dd = (peak - v) / peak * 100
-        if dd > max_dd:
-            max_dd = dd
-            dd_date = d
+    if len(drawdown) > 0:
+        dd_idx = drawdown.idxmin()
+        dd_date = dd_idx.strftime('%Y-%m-%d') if hasattr(dd_idx, 'strftime') else str(dd_idx)
 
-    nt = len(closed_trades)
-    nw = sum(1 for t in closed_trades if t.pnl > 0)
-    nl = nt - nw
-    wr = nw / nt * 100 if nt else 0
-    total_pnl = sum(t.pnl for t in closed_trades)
-
-    hold_days_list = [engine._td_held(t.confirm_date, t.sell_date)
-                      for t in closed_trades if t.sell_date]
-    avg_hold = float(np.mean(hold_days_list)) if hold_days_list else 0
-
-    avg_win = float(np.mean([t.pnl for t in closed_trades if t.pnl > 0])) if nw else 0
-    avg_loss = float(np.mean([t.pnl for t in closed_trades if t.pnl <= 0])) if nl else 0
-
-    gp = sum(t.pnl for t in closed_trades if t.pnl > 0)
-    gl = abs(sum(t.pnl for t in closed_trades if t.pnl <= 0))
-    pf = gp / gl if gl > 0 else 0
-
-    daily_rets = []
-    for i in range(1, len(daily_values)):
-        pv = daily_values[i - 1][1]
-        cv = daily_values[i][1]
-        if pv > 0:
-            daily_rets.append(cv / pv - 1)
-    sharpe = 0
-    if daily_rets:
-        rf = 0.025 / 252
-        excess = np.array(daily_rets) - rf
-        if np.std(excess) > 0:
-            sharpe = float(np.mean(excess) / np.std(excess) * np.sqrt(252))
-
-    bm_val = initial * (1 + 0.025 * yrs)
-    bm_ret = (bm_val / initial - 1) * 100
-
-    # 按银行统计
-    from collections import defaultdict
-    bank_stats = defaultdict(lambda: {'trades': 0, 'pnl': 0, 'wins': 0})
-    for t in closed_trades:
-        b = engine.products[t.product_key].bank
-        bank_stats[b]['trades'] += 1
-        bank_stats[b]['pnl'] += t.pnl
-        if t.pnl > 0:
-            bank_stats[b]['wins'] += 1
-
-    bank_summary = {}
-    for b, s in bank_stats.items():
-        bank_summary[b] = {
-            'trades': s['trades'],
-            'pnl': round(s['pnl'] / 1e4, 2),
-            'win_rate': round(s['wins'] / s['trades'] * 100, 1) if s['trades'] else 0,
-        }
+    # 交易统计
+    trades = sim_result.trades
+    buy_trades = [t for t in trades if t.get('action') in ('buy', 'deferred_buy', 'partial_deferred_buy')]
+    sell_trades = [t for t in trades if t.get('action') == 'sell']
 
     return {
-        'period': f"{engine.all_sim_dates[0]} ~ {engine.all_sim_dates[-1]}",
-        'trading_days': len(engine.all_sim_dates),
-        'initial_capital': round(initial / 1e4, 0),
+        'period': period,
+        'trading_days': n_days,
+        'initial_capital': round(init_cash / 1e4, 0),
         'final_value': round(fv / 1e4, 0),
         'total_return': round(total_ret, 4),
         'ann_return': round(ann_ret, 4),
-        'total_pnl': round(total_pnl / 1e4, 2),
+        'total_pnl': round((fv - init_cash) / 1e4, 2),
         'benchmark_return': round(bm_ret, 4),
-        'excess_return': round(total_ret - bm_ret, 4),
+        'excess_return': round(excess, 4),
         'max_drawdown': round(max_dd, 4),
         'max_dd_date': dd_date,
-        'sharpe': round(sharpe, 4),
-        'profit_factor': round(pf, 2),
-        'total_trades': nt,
-        'wins': nw,
-        'losses': nl,
-        'win_rate': round(wr, 1),
-        'avg_hold_days': round(avg_hold, 1),
-        'avg_win': round(avg_win / 1e4, 2),
-        'avg_loss': round(avg_loss / 1e4, 2),
-        'bank_stats': bank_summary,
+        'sharpe': round(float(sharpe), 4),
+        'profit_factor': 0,  # V12 不计算 profit_factor
+        'total_trades': len(buy_trades) + len(sell_trades),
+        'wins': 0,
+        'losses': 0,
+        'win_rate': 0,
+        'avg_hold_days': 0,
+        'avg_win': 0,
+        'avg_loss': 0,
+        'bank_stats': {bank_name: {'trades': len(trades), 'pnl': round((fv - init_cash) / 1e4, 2)}},
     }
+
+
+def _build_nav_series(sim_result):
+    """equity_curve + cash_history → [{date, value(万), cash(万), position(万)}]"""
+    equity = sim_result.equity_curve
+    cash = sim_result.cash_history
+
+    result = []
+    for i, date in enumerate(equity.index):
+        eq_val = float(equity.iloc[i])
+        cash_val = float(cash.iloc[i]) if cash is not None and i < len(cash) else 0
+        pos_val = eq_val - cash_val
+        result.append({
+            'date': date.strftime('%Y-%m-%d') if hasattr(date, 'strftime') else str(date),
+            'value': round(eq_val / 1e4, 2),
+            'cash': round(cash_val / 1e4, 2),
+            'position': round(pos_val / 1e4, 2),
+        })
+    return result
+
+
+def _build_trades_v12(sim_result, bank_name):
+    """SimulationResult.trades → 前端交易明细列表"""
+    result = []
+    for t in sim_result.trades:
+        date = t.get('date', '')
+        if hasattr(date, 'strftime'):
+            date = date.strftime('%Y-%m-%d')
+        elif hasattr(date, 'isoformat'):
+            date = date.isoformat()[:10]
+        else:
+            date = str(date)[:10]
+
+        action = t.get('action', '')
+        product = t.get('product', '')
+        nav = t.get('nav', 0)
+        amount = t.get('amount', 0)
+        units = t.get('units', 0)
+
+        # 用 amount 或 units*nav 计算金额
+        if amount:
+            trade_amount = float(amount)
+        elif units and nav:
+            trade_amount = float(units) * float(nav)
+        else:
+            trade_amount = 0
+
+        result.append({
+            'date': date,
+            'action': '买入' if 'buy' in action else '卖出',
+            'bank': bank_name,
+            'code': product,
+            'name': '',
+            'nav': round(float(nav), 6) if nav else 0,
+            'amount': round(trade_amount / 1e4, 2),
+            'pnl': 0,
+            'hold_days': 0,
+            'reason': f'V12 Mom5 {action}',
+        })
+    return result
+
+
+def _calc_monthly_returns_v12(equity_curve):
+    """从 equity_curve Series 计算月度收益"""
+    if len(equity_curve) < 2:
+        return []
+    monthly_equity = equity_curve.resample('ME').last().dropna()
+    if len(monthly_equity) < 2:
+        return []
+
+    result = []
+    for i in range(1, len(monthly_equity)):
+        prev = monthly_equity.iloc[i - 1]
+        curr = monthly_equity.iloc[i]
+        if prev > 0:
+            ret = (curr / prev - 1) * 100
+            ym = monthly_equity.index[i].strftime('%Y-%m')
+            result.append({'month': ym, 'return_pct': round(float(ret), 4)})
+    return result
 
 
 # ── 数据访问 ──
@@ -310,17 +388,21 @@ def get_sweep():
     if not summary:
         return []
     return [{
-        'buy_threshold': 3.5,
-        'sell_threshold': 2.0,
+        'rebalance_freq': 'W-MON',
+        'max_assets': 5,
         'ann_return': summary.get('ann_return', 0),
         'sharpe': summary.get('sharpe', 0),
         'max_drawdown': summary.get('max_drawdown', 0),
-        'win_rate': summary.get('win_rate', 0),
     }]
 
 
+def get_patterns_snapshot():
+    """V12 不使用 pattern 机制，返回空列表"""
+    return []
+
+
 # ══════════════════════════════════════════
-# GPU 参数寻优
+# GPU 参数寻优 (保留原有功能)
 # ══════════════════════════════════════════
 
 _sweep_lock = threading.Lock()
@@ -405,36 +487,3 @@ def _run_param_sweep(param_grid):
 def get_sweep_results():
     """获取寻优结果"""
     return _sweep_get('results', {})
-
-
-def get_patterns_snapshot():
-    """从回测结果中提取释放规律快照"""
-    summary = _get('summary', {})
-    if not summary:
-        return []
-    # patterns_snapshot 在 _run_backtest 中额外存储
-    snap = _get('patterns_snapshot', {})
-    if not snap:
-        return []
-    engine = _get('engine')
-    result = []
-    for key, info in snap.items():
-        p = engine.products.get(key) if engine else None
-        bank = p.bank if p else str(key[0]) if isinstance(key, tuple) else ''
-        code = p.code if p else str(key[1]) if isinstance(key, tuple) else ''
-        name = (p.name[:25] if p else '')
-        result.append({
-            'bank': bank,
-            'code': code,
-            'name': name,
-            'confidence': info.get('confidence', 0),
-            'period_days': info.get('period_days', 0),
-            'period_cv': info.get('period_cv', 1.0),
-            'has_period': info.get('has_period', False),
-            'top_phase': info.get('top_phase', 0),
-            'phase_pvalue': info.get('phase_pvalue', 1.0),
-            'n_events': info.get('n_events', 0),
-            'alpha': info.get('confidence', 0),  # 用 confidence 作排序依据
-        })
-    result.sort(key=lambda x: -x['alpha'])
-    return result

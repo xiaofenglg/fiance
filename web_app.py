@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-银行理财策略 Web Dashboard — Flask 服务器 V2
+银行理财策略 Web Dashboard — Flask 服务器 V12
 
 启动:  python web_app.py
-访问:  http://localhost:5000
+访问:  http://localhost:8080
 """
 
 import os
@@ -519,7 +519,7 @@ def api_gpu_correlation_run():
 
 if __name__ == '__main__':
     print("=" * 60)
-    print("  千将资本-银行理财智能决策平台 V8.1 Sharpe Hunter")
+    print("  千将资本-银行理财智能决策平台 V12 Quantitative Pipeline")
     print(f"  Python {sys.version}")
     print(f"  Flask  {__import__('importlib').metadata.version('flask')}")
     print("  访问  http://localhost:5000")
